@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
+import { createTheme } from '@mui/material';
+
 //firestore testing
 import { collection, addDoc, getDocs } from 'firebase/firestore';
 import { db, auth, provider, storage, imageref, images } from './FireBase';
@@ -20,13 +22,13 @@ export const useValue = () => {
   return useContext(GlobalContext);
 };
 
-var post1 = {
-  firstn: 'Ada',
-  lastn: 'Lovelace',
-  content:
-    'Images formed and reformed: a flickering montage of the Sprawl’s towers and ragged Fuller domes, dim figures moving toward him in the center of his closed left eyelid. They were dropping, losing altitude in a canyon of rainbow foliage, a lurid communal mural that completely covered the hull of the blowers and the amplified breathing of the fighters. He woke and found her stretched beside him in the tunnel’s ceiling. Her cheekbones flaring scarlet as Wizard’s Castle burned, forehead drenched with azure when Munich fell to the Tank War, mouth touched with hot gold as a paid killer in the tunnel’s ceiling. Still it was a long strange way home over the black water and the amplified breathing of the previous century. They floated in the dark, curled in his devotion to esoteric forms of tailor-worship. Then a mist closed over the black water and the amplified breathing of the arcade showed him broken lengths of damp chipboard and the drifting shoals of waste. Case had never seen him wear the same suit twice, although his wardrobe seemed to consist entirely of meticulous reconstruction’s of garments of the car’s floor. The two surviving Founders of Zion were old men, old with the movement of the train, their high heels like polished hooves against the gray metal of the blowers and the amplified breathing of the fighters.',
-  img: img,
-};
+// var post1 = {
+//   firstn: 'Ada',
+//   lastn: 'Lovelace',
+//   content:
+//     'Images formed and reformed: a flickering montage of the Sprawl’s towers and ragged Fuller domes, dim figures moving toward him in the center of his closed left eyelid. They were dropping, losing altitude in a canyon of rainbow foliage, a lurid communal mural that completely covered the hull of the blowers and the amplified breathing of the fighters. He woke and found her stretched beside him in the tunnel’s ceiling. Her cheekbones flaring scarlet as Wizard’s Castle burned, forehead drenched with azure when Munich fell to the Tank War, mouth touched with hot gold as a paid killer in the tunnel’s ceiling. Still it was a long strange way home over the black water and the amplified breathing of the previous century. They floated in the dark, curled in his devotion to esoteric forms of tailor-worship. Then a mist closed over the black water and the amplified breathing of the arcade showed him broken lengths of damp chipboard and the drifting shoals of waste. Case had never seen him wear the same suit twice, although his wardrobe seemed to consist entirely of meticulous reconstruction’s of garments of the car’s floor. The two surviving Founders of Zion were old men, old with the movement of the train, their high heels like polished hooves against the gray metal of the blowers and the amplified breathing of the fighters.',
+//   img: img,
+// };
 
 // addDoc(collection(db, 'posts'), post)
 //   .then((docRef) => console.log('Document written with ID: ', docRef.id))
@@ -77,27 +79,32 @@ export function ScrollTop(props) {
   );
 }
 
-export const ContextProvider = ({ children, theme, toggleColorMode, login, setLogin, toggleLogin }) => {
-  const [blogs, setBlogs] = useState([
-    {
-      id: 2,
-      text: 'Leilas party',
-      day: 'Nov 5th at 5pm',
-      reminder: true,
+export const ContextProvider = ({ children }) => {
+  const [blogs, setBlogs] = useState([]);
+  const [user, setUser] = useState({});
+  const [mode, setMode] = useState('dark');
+  const [login, setLogin] = useState(false);
+  var theme = createTheme({
+    breakpoints: {
+      values: { xs: 0, sm: 576, md: 768, lg: 992, xl: 1400 },
     },
-    {
-      id: 4,
-      text: 'Leilas bday party',
-      day: 'Nov 5th at 5pm',
-      reminder: true,
+    palette: {
+      primary: {
+        main: '#004c98',
+      },
+      secondary: {
+        main: '#f44336',
+      },
+      mode: mode,
     },
-    {
-      id: 5,
-      text: 'Food Shopping',
-      day: 'Dec 3rd at 10am',
-      reminder: true,
+    typography: {
+      fontFamily: 'Quicksand, Roboto',
+      fontWeightLight: 400,
+      fontWeightRegular: 500,
+      fontWeightMedium: 600,
+      fontWeightBold: 700,
     },
-  ]);
+  });
 
   const imglib = [
     'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader8.jpeg?alt=media&token=a1f8999d-3a8e-4e92-ac46-40c7298fe80a',
@@ -110,8 +117,6 @@ export const ContextProvider = ({ children, theme, toggleColorMode, login, setLo
     'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fscc-beach-sunrise.jpeg?alt=media&token=9bc45d92-b866-4905-b199-7f751f8b5175',
   ];
 
-  const [user, setUser] = useState({});
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
       setUser(currentuser);
@@ -122,6 +127,14 @@ export const ContextProvider = ({ children, theme, toggleColorMode, login, setLo
       unsubscribe();
     };
   }, []);
+
+  const toggleLogin = () => {
+    setLogin(!login);
+  };
+
+  const toggleColorMode = () => {
+    setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+  };
 
   const signInGoogle = () => {
     return new Promise(async (resolve, reject) => {
@@ -134,26 +147,6 @@ export const ContextProvider = ({ children, theme, toggleColorMode, login, setLo
         console.log('signin', error);
         reject(error);
       }
-      // signInWithPopup(auth, provider)
-      //   .then((result) => {
-      //     // setLogin(true);
-      //     // setUserobj(result);
-      //     localStorage.setItem('login', true);
-      //     console.log('signin', result);
-      //     // const user = result.user;
-      //     // navigate('/');
-      //     res(result);
-      //   })
-      //   .catch((error) => {
-      //     const errorCode = error.code;
-      //     const errorMessage = error.message;
-      //     // The email of the user's account used.
-      //     const email = error.customData.email;
-      //     // The AuthCredential type that was used.
-      //     // const credential = provider.credentialFromError(error);
-      //     console.log(error);
-      //     rej(error);
-      //   });
     });
   };
 
