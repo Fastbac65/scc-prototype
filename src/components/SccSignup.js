@@ -1,4 +1,4 @@
-import { Box, Paper, Button, Card, CardHeader, CardMedia, Grid, TextField, Stack } from '@mui/material';
+import { Box, Paper, Button, Card, CardHeader, CardMedia, Grid, TextField, Stack, Container } from '@mui/material';
 import { useState, useContext } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import scc2 from '../static/imgs/scc-pool-waves.jpeg';
@@ -42,11 +42,11 @@ const SccSignup = () => {
   };
 
   return (
-    <Paper>
+    <>
       <Grid container>
         <Grid item xs={12} sm={6}>
           <form noValidate autoComplete='off' onSubmit={handleSubmit}>
-            <Card sx={{ boxShadow: 0, height: '100%' }}>
+            <Card sx={{ height: 1013 }}>
               <CardHeader
                 title='Members Access'
                 action={
@@ -87,7 +87,7 @@ const SccSignup = () => {
           <CardMedia sx={{ opacity: 0.6 }} component='img' src={scc2} alt='scc-ocean' />
         </Grid>
       </Grid>
-    </Paper>
+    </>
   );
 };
 

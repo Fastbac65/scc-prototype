@@ -13,7 +13,6 @@ import { Button } from '@mui/material';
 const PathTracker = () => {
   const location = useLocation();
   const { user, login, toggleLogin, theme, toggleColorMode } = useContext(GlobalContext);
-
   return (
     <>
       {/* <Paper sx={{ borderRadius: 0 }}> */}

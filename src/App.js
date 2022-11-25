@@ -12,6 +12,7 @@ import SccSignup from './components/SccSignup';
 import History from './components/History';
 import Training from './components/Training';
 import { useValue } from './components/context/ContextProvider';
+import ScrollRouteTop from './components/ScrollRouteTop';
 
 function App() {
   const { login, theme } = useValue();
@@ -20,19 +21,18 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Router>
-          <PathTrack />
-          <ResponsiveAppBar />
-          <Routes>
-            <Route exact path='/blog' element={<Blog />}></Route>
-            <Route exact path='/history' element={<History />}></Route>
-            {login && <Route exact path='/training' element={<Training />}></Route>}
-            <Route exact path='/login' element={login ? <Home /> : <SccLogin />}></Route>
-            <Route exact path='/signup' element={<SccSignup />}></Route>
-            <Route exact path='/' element={<Home />}></Route>
-            <Route path='*' element={<Home />}></Route>
-          </Routes>
-        </Router>
+        <ScrollRouteTop />
+        <PathTrack />
+        <ResponsiveAppBar />
+        <Routes>
+          <Route exact path='/blog' element={<Blog />}></Route>
+          <Route exact path='/history' element={<History />}></Route>
+          {login && <Route exact path='/training' element={<Training />}></Route>}
+          <Route exact path='/login' element={login ? <Home /> : <SccLogin />}></Route>
+          <Route exact path='/signup' element={<SccSignup />}></Route>
+          <Route exact path='/' element={<Home />}></Route>
+          <Route path='*' element={<Home />}></Route>
+        </Routes>
       </ThemeProvider>
     </>
   );

@@ -84,6 +84,9 @@ export const ContextProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [mode, setMode] = useState('dark');
   const [login, setLogin] = useState(false);
+
+  const navigate = useNavigate();
+
   var theme = createTheme({
     breakpoints: {
       values: { xs: 0, sm: 576, md: 768, lg: 992, xl: 1400 },
