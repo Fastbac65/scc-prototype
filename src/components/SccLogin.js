@@ -52,7 +52,7 @@ const SccLogin = () => {
   const useGoogle = async () => {
     try {
       await signInGoogle();
-      navigate('/');
+      navigate(-1);
       dispatch({
         type: 'UPDATE_ALERT',
         payload: { ...alert, open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 3000 },

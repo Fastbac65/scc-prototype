@@ -14,7 +14,7 @@ import Training from './components/Training';
 import { useValue } from './components/context/ContextProvider';
 import ScrollRouteTop from './components/ScrollRouteTop';
 import Notification from './components/Notification';
-import Loading from './components/Loading';
+import Test from './components/Test';
 
 function App() {
   const { login, theme } = useValue();
@@ -30,10 +30,11 @@ function App() {
         <Routes>
           <Route exact path='/blog' element={<Blog />}></Route>
           <Route exact path='/history' element={<History />}></Route>
+          <Route exact path='/events' element={<Test />}></Route>
           {login && <Route exact path='/training' element={<Training />}></Route>}
-          <Route exact path='/login' element={login ? <Home /> : <SccLogin />}></Route>
-          <Route exact path='/signup' element={<SccSignup />}></Route>
-          <Route exact path='/test' element={<Loading />}></Route>
+          {!login && <Route exact path='/login' element={<SccLogin />}></Route>}
+          {!login && <Route exact path='/signup' element={<SccSignup />}></Route>}
+          <Route exact path='/test' element={<Test />}></Route>
           <Route exact path='/' element={<Home />}></Route>
           <Route path='*' element={<Home />}></Route>
         </Routes>

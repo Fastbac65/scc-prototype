@@ -83,6 +83,7 @@ export const ContextProvider = ({ children }) => {
   const initialstate = {
     alert: { open: false, severity: 'info', message: '', duration: 1000 },
     loading: false,
+    lightbox: false,
   };
   const [state, dispatch] = useReducer(reducer, initialstate);
 
@@ -132,7 +133,7 @@ export const ContextProvider = ({ children }) => {
     return () => {
       unsubscribe();
     };
-  });
+  }, []);
 
   const toggleLogin = () => {
     setLogin(!login);

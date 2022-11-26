@@ -25,6 +25,7 @@ import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
+import profile from '../static/imgs/fastbac-sq.png';
 
 function ResponsiveAppBar() {
   const { login, theme, toggleColorMode, signOutUser } = useContext(GlobalContext);
@@ -103,7 +104,7 @@ function ResponsiveAppBar() {
 
   const handleCloseUserMenu = () => {
     signOutUser().then(() => {
-      navigate('/login');
+      // navigate('/login');
     });
     setAnchorElUser(null);
   };
@@ -112,6 +113,7 @@ function ResponsiveAppBar() {
     <AppBar sx={{ background: '#004c98' }} enableColorOnDark position='sticky'>
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
+          {/* nav menu small screens */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'none' } }}>
             <IconButton
               size='large'
@@ -152,6 +154,7 @@ function ResponsiveAppBar() {
               )}
             </Menu>
           </Box>
+          {/* logo large screen */}
           <Box component={RouterLink} to='/'>
             <Box
               ml={-3}
@@ -161,6 +164,7 @@ function ResponsiveAppBar() {
               sx={{ height: 70, display: { xs: 'none', sm: 'flex' } }}
             ></Box>
           </Box>
+          {/* logo small screen */}
           <Box flexGrow={1} component={RouterLink} to='/'>
             <Box mr={1} component='img' src={logo} sx={{ height: 70, display: { xs: 'flex', sm: 'none' } }}></Box>
           </Box>
@@ -209,7 +213,7 @@ function ResponsiveAppBar() {
                   p: 0,
                 }}
               >
-                <Avatar alt='Terry Sharp' src='/static/images/avatar/2.jpg' />
+                <Avatar alt='Terry' src={profile} />
               </IconButton>
             </Tooltip>
             <Menu
