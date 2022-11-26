@@ -67,18 +67,26 @@ const images = [
 ];
 
 const CoolLightbox = () => {
-  const { lightbox } = useValue();
+  const {
+    state: { lightbox },
+    dispatch,
+  } = useValue();
   const [currentImageIndex, setCurrentIndex] = useState(0);
   const gotoPrevious = () => currentImageIndex > 0 && setCurrentIndex(currentImageIndex - 1);
   const gotoNext = () => currentImageIndex + 1 < images.length && setCurrentIndex(currentImageIndex + 1);
 
+  const handleClose = () => {
+    dispatch({ type: 'CLOSE_LIGHTBOX', payload: { lightbox: false } });
+  };
   return (
     <Lightbox
-      isOpen={false}
+      isOpen={lightbox}
       onPrev={gotoPrevious}
       onNext={gotoNext}
       images={images}
       currentIndex={currentImageIndex}
+      onClose={handleClose}
+
       /* Add your own UI */
       // renderHeader={() => (<CustomHeader />)}
       // renderFooter={() => (<CustomFooter />)}

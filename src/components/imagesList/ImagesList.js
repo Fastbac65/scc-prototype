@@ -14,7 +14,15 @@ function srcset(image, size, rows = 1, cols = 1) {
 }
 //sx={{ width: 500, height: 450 }}
 export default function ImagesList() {
-  const { login } = useValue();
+  const {
+    login,
+    state: { lightbox },
+    dispatch,
+  } = useValue();
+
+  const handleClick = () => {
+    dispatch({ type: 'OPEN_LIGHTBOX', payload: { lightbox: false } });
+  };
 
   return (
     <>
@@ -24,6 +32,7 @@ export default function ImagesList() {
             key={item.img}
             cols={item.cols || 1}
             rows={item.rows || 1}
+            onClick={handleClick}
             sx={{
               opacity: '0.8',
               transition: 'opacity 0.3s linear',
