@@ -1,5 +1,5 @@
-import { Box, Paper, Button, Card, CardHeader, CardMedia, Grid, TextField, Stack } from '@mui/material';
-import { useRef, useState, useContext, useEffect, useLayoutEffect } from 'react';
+import { Box, Button, Card, CardHeader, CardMedia, Grid, TextField, Stack } from '@mui/material';
+import { useRef, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import scc2 from '../static/imgs/scc-pool-waves.jpeg';
 import LoginIcon from '@mui/icons-material/Login';
@@ -55,7 +55,7 @@ const SccLogin = () => {
       navigate('/');
       dispatch({
         type: 'UPDATE_ALERT',
-        payload: { open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 3000 },
+        payload: { ...alert, open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 3000 },
       });
     } catch (error) {
       console.log(error);

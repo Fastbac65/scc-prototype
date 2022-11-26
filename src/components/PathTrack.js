@@ -1,8 +1,8 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import GlobalContext from './context/ContextProvider';
 import { useLocation } from 'react-router-dom';
-import { Box, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 

@@ -1,6 +1,6 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@emotion/react';
-import { CssBaseline, responsiveFontSizes } from '@mui/material';
+import { CssBaseline } from '@mui/material';
 
 import PathTrack from './components/PathTrack';
 import ResponsiveAppBar from './components/ResponsiveAppBar';

@@ -7,7 +7,7 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { styled } from '@mui/material/styles';
 import { FacebookLoginButton, GoogleLoginButton, InstagramLoginButton } from 'react-social-login-buttons';
 import { useValue } from './context/ContextProvider';
-import { async } from '@firebase/util';
+// import { async } from '@firebase/util';
 
 const RButton = styled(Button)(({ theme }) => ({
   borderRadius: 25,
@@ -51,7 +51,13 @@ const SccSignup = () => {
     if (!fname || !email || !password || !confirmPassword) {
       dispatch({
         type: 'UPDATE_ALERT',
-        payload: { open: true, severity: 'error', message: 'Please fill in all required fields', duration: 3000 },
+        payload: {
+          ...alert,
+          open: true,
+          severity: 'error',
+          message: 'Please fill in all required fields',
+          duration: 3000,
+        },
       });
     }
   };

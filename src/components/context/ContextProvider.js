@@ -7,14 +7,13 @@ import useScrollTrigger from '@mui/material/useScrollTrigger';
 import { createTheme } from '@mui/material';
 
 //firestore testing
-import { collection, addDoc, getDocs } from 'firebase/firestore';
-import { db, auth, provider, storage, imageref, images } from './FireBase';
+// import { collection, addDoc, getDocs } from 'firebase/firestore';
+import { auth, provider, imageref } from './FireBase';
+// import { db,  storage } from './FireBase';
 import { signInWithPopup, onAuthStateChanged, signOut } from 'firebase/auth';
-import { getDownloadURL, ref } from 'firebase/storage';
+// import { getDownloadURL, ref } from 'firebase/storage';
 
-import img from '../../static/imgs/paella.jpg';
-import { useNavigate } from 'react-router-dom';
-import { async } from '@firebase/util';
+// import { async } from '@firebase/util';
 import reducer from './reducer';
 
 export const GlobalContext = createContext();
@@ -87,11 +86,9 @@ export const ContextProvider = ({ children }) => {
   };
   const [state, dispatch] = useReducer(reducer, initialstate);
 
-  const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState({});
   const [mode, setMode] = useState('dark');
   const [login, setLogin] = useState(false);
-  const navigate = useNavigate();
 
   var theme = createTheme({
     breakpoints: {
@@ -135,7 +132,7 @@ export const ContextProvider = ({ children }) => {
     return () => {
       unsubscribe();
     };
-  }, []);
+  });
 
   const toggleLogin = () => {
     setLogin(!login);

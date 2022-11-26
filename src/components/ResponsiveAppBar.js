@@ -16,8 +16,6 @@ import MenuItem from '@mui/material/MenuItem';
 import logo from '../static/imgs/scc-logo-blue-sm2.png';
 import { ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import GlobalContext from './context/ContextProvider';
-import { auth } from './context/FireBase';
-import { signOut } from 'firebase/auth';
 
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
@@ -29,7 +27,7 @@ import NewspaperIcon from '@mui/icons-material/Newspaper';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 
 function ResponsiveAppBar() {
-  const { login, setLogin, theme, toggleColorMode, signOutUser } = useContext(GlobalContext);
+  const { login, theme, toggleColorMode, signOutUser } = useContext(GlobalContext);
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
