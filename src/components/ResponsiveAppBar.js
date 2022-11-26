@@ -186,7 +186,11 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title={theme.palette.mode === 'dark' ? 'Light Mode' : 'Dark Mode'} arrow placement='bottom-end'>
               <IconButton sx={{ mr: 2, p: 0 }} onClick={toggleColorMode} color='inherit'>
-                {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <DarkModeOutlinedIcon />}
+                {theme.palette.mode === 'dark' ? (
+                  <Brightness7Icon sx={{ color: '#f9de00' }} />
+                ) : (
+                  <DarkModeOutlinedIcon />
+                )}
               </IconButton>
             </Tooltip>
 

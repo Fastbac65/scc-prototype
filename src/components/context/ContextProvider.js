@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useReducer } from 'react';
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
@@ -15,6 +15,7 @@ import { getDownloadURL, ref } from 'firebase/storage';
 import img from '../../static/imgs/paella.jpg';
 import { useNavigate } from 'react-router-dom';
 import { async } from '@firebase/util';
+import reducer from './reducer';
 
 export const GlobalContext = createContext();
 
@@ -80,11 +81,16 @@ export function ScrollTop(props) {
 }
 
 export const ContextProvider = ({ children }) => {
+  const initialstate = {
+    alert: { open: false, severity: 'info', message: '', duration: 1000 },
+    loading: false,
+  };
+  const [state, dispatch] = useReducer(reducer, initialstate);
+
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState({});
   const [mode, setMode] = useState('dark');
   const [login, setLogin] = useState(false);
-
   const navigate = useNavigate();
 
   var theme = createTheme({
@@ -165,7 +171,8 @@ export const ContextProvider = ({ children }) => {
   return (
     <GlobalContext.Provider
       value={{
-        blogs,
+        state,
+        dispatch,
         theme,
         toggleColorMode,
         login,

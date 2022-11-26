@@ -6,7 +6,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { styled } from '@mui/material/styles';
 import { FacebookLoginButton, GoogleLoginButton, InstagramLoginButton } from 'react-social-login-buttons';
-import GlobalContext from './context/ContextProvider';
+import { useValue } from './context/ContextProvider';
 import Content2Cards from './Content2Cards';
 
 const RButton = styled(Button)(({ theme }) => ({
@@ -14,20 +14,38 @@ const RButton = styled(Button)(({ theme }) => ({
 }));
 
 const SccLogin = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+  const {
+    state: { alert },
+    dispatch,
+    signInGoogle,
+  } = useValue();
+
+  const emailRef = useRef('');
+  const passwordRef = useRef('');
+
   const [emailErr, setEmailErr] = useState(false);
   const [passwordErr, setPasswordErr] = useState(false);
-  const { signInGoogle } = useContext(GlobalContext);
+  // const { signInGoogle } = useContext(GlobalContext);
+  const [height, setHeight] = useState(0);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
     setEmailErr(false);
     setPasswordErr(false);
-    if (email && password) console.log(email, password);
 
     !email && setEmailErr(true);
     !password && setPasswordErr(true);
+
+    if (!email || !password) {
+      dispatch({
+        type: 'UPDATE_ALERT',
+        payload: { open: true, severity: 'error', message: 'Please fill in all required fields', duration: 3000 },
+      });
+    }
   };
   const navigate = useNavigate();
 
@@ -35,87 +53,60 @@ const SccLogin = () => {
     try {
       await signInGoogle();
       navigate('/');
+      dispatch({
+        type: 'UPDATE_ALERT',
+        payload: { open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 3000 },
+      });
     } catch (error) {
       console.log(error);
     }
     // signInGoogle().then(navigate('/'));
   };
-  const ref = useRef(null);
-  const [height, setHeight] = useState(0);
-  // let picheight = document.querySelector('.login').offsetHeight;
-  // useLayoutEffect(() => {
-  //   if (ref && ref.current && ref.current.clientHeight) {
-  //     console.log('called');
-  //     setHeight(ref.current.offsetHeight);
-  //   }
-  //   console.log('useEffect', {
-  //     ref,
-  //     current: ref.current,
-  //     clientHeight: ref.current.clientHeight,
-  //   });
-  // }, [ref]);
-
-  // setWidth(ref.current.clientWidth);
 
   const handleOnload = (e) => {
     setHeight(e.target.offsetHeight);
-    console.log('image height', height);
+    console.log('image height', e.target.offsetHeight);
   };
 
   return (
     <>
-      <Box className='login'>
-        <Grid container>
-          <Grid item xs={12} sm={6}>
-            <form noValidate autoComplete='off' onSubmit={handleSubmit}>
-              <Card sx={{ height: !height ? '100%' : { height } }}>
-                <CardHeader
-                  title='Members Login'
-                  action={
-                    <RButton component={RouterLink} to='/signup' startIcon={<AppRegistrationIcon />}>
-                      Sign Up
-                    </RButton>
-                  }
-                />
-
-                <Stack spacing={4} py={4} sx={{ width: '80%', ml: 5 }}>
-                  <TextField label='Email' required error={emailErr} onChange={(e) => setEmail(e.target.value)} />
-                  <TextField
-                    label='Password'
-                    type='password'
-                    required
-                    error={passwordErr}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </Stack>
-
-                <Box sx={{ pb: 3, display: 'flex', justifyContent: 'center' }}>
-                  <RButton type='submit' variant='contained' startIcon={<LoginIcon />}>
-                    Sign In
+      <Grid container>
+        <Grid item xs={12} sm={6}>
+          <form noValidate autoComplete='off' onSubmit={handleSubmit}>
+            <Card sx={{ height: { height }, minHeight: 660 }}>
+              <CardHeader
+                title='Members Login'
+                action={
+                  <RButton component={RouterLink} to='/signup' startIcon={<AppRegistrationIcon />}>
+                    Sign Up
                   </RButton>
-                </Box>
-                <Box sx={{ pb: 3, display: 'flex', justifyContent: 'center' }}>
-                  <Stack sx={{ pb: 4, width: '40%' }}>
-                    <FacebookLoginButton style={{ fontSize: '14px' }} align='center' size='40px' />
-                    <GoogleLoginButton style={{ fontSize: '14px' }} align='center' size='40px' onClick={useGoogle} />
-                    <InstagramLoginButton style={{ fontSize: '14px' }} align='center' size='40px' />
-                  </Stack>
-                </Box>
-              </Card>
-            </form>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <CardMedia
-              onLoad={handleOnload}
-              ref={ref}
-              sx={{ opacity: 0.6 }}
-              component='img'
-              src={scc2}
-              alt='scc-ocean'
-            />
-          </Grid>
+                }
+              />
+
+              <Stack spacing={4} py={4} sx={{ width: '80%', ml: 5 }}>
+                <TextField label='Email' required error={emailErr} inputRef={emailRef} />
+                <TextField label='Password' type='password' required error={passwordErr} inputRef={passwordRef} />
+              </Stack>
+
+              <Box sx={{ pb: 3, display: 'flex', justifyContent: 'center' }}>
+                <RButton type='submit' variant='contained' startIcon={<LoginIcon />}>
+                  Sign In
+                </RButton>
+              </Box>
+              <Box sx={{ py: 3, display: 'flex', justifyContent: 'center' }}>
+                <Stack sx={{ pb: 4, width: '56%' }}>
+                  <FacebookLoginButton style={{ fontSize: '14px' }} align='center' size='40px' />
+                  <GoogleLoginButton style={{ fontSize: '14px' }} align='center' size='40px' onClick={useGoogle} />
+                  <InstagramLoginButton style={{ fontSize: '14px' }} align='center' size='40px' />
+                </Stack>
+              </Box>
+            </Card>
+          </form>
         </Grid>
-      </Box>
+        <Grid item xs={12} sm={6}>
+          <CardMedia onLoad={handleOnload} sx={{ opacity: 0.6 }} component='img' src={scc2} alt='scc-ocean' />
+        </Grid>
+      </Grid>
       <Content2Cards />
     </>
   );

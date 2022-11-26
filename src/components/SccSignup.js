@@ -1,12 +1,12 @@
-import { Box, Paper, Button, Card, CardHeader, CardMedia, Grid, TextField, Stack, Container } from '@mui/material';
-import { useState, useContext } from 'react';
+import { Box, Button, Card, CardHeader, CardMedia, Grid, TextField, Stack } from '@mui/material';
+import { useState, useRef } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import scc2 from '../static/imgs/scc-pool-waves.jpeg';
 import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { styled } from '@mui/material/styles';
 import { FacebookLoginButton, GoogleLoginButton, InstagramLoginButton } from 'react-social-login-buttons';
-import GlobalContext from './context/ContextProvider';
+import { useValue } from './context/ContextProvider';
 import { async } from '@firebase/util';
 
 const RButton = styled(Button)(({ theme }) => ({
@@ -14,31 +14,62 @@ const RButton = styled(Button)(({ theme }) => ({
 }));
 
 const SccSignup = () => {
-  const [fname, setFname] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const fnameRef = useRef('');
+  const emailRef = useRef('');
+  const passwordRef = useRef('');
+  const confirmPasswordRef = useRef('');
   const [fnameErr, setFnameErr] = useState(false);
   const [emailErr, setEmailErr] = useState(false);
   const [passwordErr, setPasswordErr] = useState(false);
-  const { signInGoogle } = useContext(GlobalContext);
-  const navigate = useNavigate();
+  const [confirmPasswordErr, setConfirmPasswordErr] = useState(false);
+  const [height, setHeight] = useState(0);
+  const {
+    state: { alert },
+    dispatch,
+    signInGoogle,
+  } = useValue();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const email = emailRef.current.value;
+    const fname = fnameRef.current.value;
+    const password = passwordRef.current.value;
+    const confirmPassword = confirmPasswordRef.current.value;
     setFnameErr(false);
     setEmailErr(false);
     setPasswordErr(false);
+    setConfirmPasswordErr(false);
+
     if (email && password) console.log(email, password);
 
     !fname && setFnameErr(true);
     !email && setEmailErr(true);
     !password && setPasswordErr(true);
+    !confirmPassword && setConfirmPasswordErr(true);
+
+    if (!fname || !email || !password || !confirmPassword) {
+      dispatch({
+        type: 'UPDATE_ALERT',
+        payload: { open: true, severity: 'error', message: 'Please fill in all required fields', duration: 3000 },
+      });
+    }
   };
 
   const useGoogle = () => {
     signInGoogle()
-      .then((res) => navigate('/'))
+      .then((res) => {
+        navigate('/');
+        dispatch({
+          type: 'UPDATE_ALERT',
+          payload: { open: true, severity: 'success', message: 'Login Successful!!', duration: 6000 },
+        });
+      })
       .catch((error) => console.log(error));
+  };
+  // get the size of the image to the right of login
+  const handleOnload = (e) => {
+    setHeight(e.target.offsetHeight);
   };
 
   return (
@@ -46,7 +77,7 @@ const SccSignup = () => {
       <Grid container>
         <Grid item xs={12} sm={6}>
           <form noValidate autoComplete='off' onSubmit={handleSubmit}>
-            <Card sx={{ height: 1013 }}>
+            <Card sx={{ height: { height }, minHeight: 660 }}>
               <CardHeader
                 title='Members Access'
                 action={
@@ -57,14 +88,15 @@ const SccSignup = () => {
               />
 
               <Stack spacing={2} py={4} sx={{ width: '80%', ml: 5 }}>
-                <TextField label='Full Name' required error={fnameErr} onChange={(e) => setFname(e.target.value)} />
-                <TextField label='Email' required error={emailErr} onChange={(e) => setEmail(e.target.value)} />
+                <TextField label='Full Name' required error={fnameErr} inputRef={fnameRef} />
+                <TextField label='Email' required error={emailErr} inputRef={emailRef} />
+                <TextField label='Password' type='password' required error={passwordErr} inputRef={passwordRef} />
                 <TextField
-                  label='Password'
+                  label='Confirm Password'
                   type='password'
                   required
-                  error={passwordErr}
-                  onChange={(e) => setPassword(e.target.value)}
+                  error={confirmPasswordErr}
+                  inputRef={confirmPasswordRef}
                 />
               </Stack>
 
@@ -84,7 +116,7 @@ const SccSignup = () => {
           </form>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <CardMedia sx={{ opacity: 0.6 }} component='img' src={scc2} alt='scc-ocean' />
+          <CardMedia onLoad={handleOnload} sx={{ opacity: 0.6 }} component='img' src={scc2} alt='scc-ocean' />
         </Grid>
       </Grid>
     </>
