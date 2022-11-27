@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { Backdrop, Box } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import Lightbox from 'react-spring-lightbox';
 import { useValue } from '../context/ContextProvider';
 
@@ -72,21 +73,25 @@ const CoolLightbox = () => {
     dispatch,
   } = useValue();
   const [currentImageIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    setCurrentIndex(lightbox.currentIndx);
+  }, [lightbox.currentIndx]);
+
   const gotoPrevious = () => currentImageIndex > 0 && setCurrentIndex(currentImageIndex - 1);
   const gotoNext = () => currentImageIndex + 1 < images.length && setCurrentIndex(currentImageIndex + 1);
 
   const handleClose = () => {
-    dispatch({ type: 'CLOSE_LIGHTBOX', payload: { lightbox: false } });
+    dispatch({ type: 'CLOSE_LIGHTBOX', payload: { ...lightbox, open: false } });
   };
   return (
     <Lightbox
-      isOpen={lightbox}
+      isOpen={lightbox.open}
       onPrev={gotoPrevious}
       onNext={gotoNext}
       images={images}
       currentIndex={currentImageIndex}
       onClose={handleClose}
-
       /* Add your own UI */
       // renderHeader={() => (<CustomHeader />)}
       // renderFooter={() => (<CustomFooter />)}
@@ -97,6 +102,8 @@ const CoolLightbox = () => {
       /* Add styling */
       // className="cool-class"
       // style={{ background: "grey" }}
+      style={{ zIndex: 2000, background: 'rgb(0,0,0,.8)', width: '100%' }}
+      //sx={{ zIndex: (theme) => theme.zIndex.drawer + 1}}
 
       /* Handle closing */
       // onClose={handleClose}
@@ -105,12 +112,12 @@ const CoolLightbox = () => {
       // singleClickToZoom
 
       /* react-spring config for open/close animation */
-      // pageTransitionConfig={{
-      //   from: { transform: "scale(0.75)", opacity: 0 },
-      //   enter: { transform: "scale(1)", opacity: 1 },
-      //   leave: { transform: "scale(0.75)", opacity: 0 },
-      //   config: { mass: 1, tension: 320, friction: 32 }
-      // }}
+      pageTransitionConfig={{
+        from: { transform: 'scale(0.3)', opacity: 0.5 },
+        enter: { transform: 'scale(1)', opacity: 1 },
+        leave: { transform: 'scale(0.3)', opacity: 0 },
+        config: { mass: 1, tension: 320, friction: 32 },
+      }}
     />
   );
 };

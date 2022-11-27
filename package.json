@@ -19,6 +19,7 @@
     "react-scripts": "5.0.1",
     "react-social-login-buttons": "^3.6.1",
     "react-spring-lightbox": "^1.7.1",
+    "styled-components": "^5.3.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

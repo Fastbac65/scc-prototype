@@ -7,9 +7,9 @@ const reducer = (state, action) => {
     case 'END_LOADING':
       return { ...state, loading: false };
     case 'OPEN_LIGHTBOX':
-      return { ...state, lightbox: true };
+      return { ...state, lightbox: action.payload };
     case 'CLOSE_LIGHTBOX':
-      return { ...state, lightbox: false };
+      return { ...state, lightbox: action.payload };
 
     default:
       throw new Error('no action');

@@ -42,7 +42,7 @@ function Options() {
               color: 'white',
             }}
           >
-            <MoreVert />
+            <MoreVert fontSize='large' />
           </IconButton>
         </Tooltip>
         <Menu

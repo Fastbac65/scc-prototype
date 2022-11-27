@@ -83,7 +83,7 @@ export const ContextProvider = ({ children }) => {
   const initialstate = {
     alert: { open: false, severity: 'info', message: '', duration: 1000 },
     loading: false,
-    lightbox: false,
+    lightbox: { open: false, currentIndx: 0, image: 10 },
   };
   const [state, dispatch] = useReducer(reducer, initialstate);
 

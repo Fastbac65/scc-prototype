@@ -12,27 +12,33 @@ function srcset(image, size, rows = 1, cols = 1) {
     srcSet: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format&dpr=2 2x`,
   };
 }
-//sx={{ width: 500, height: 450 }}
 export default function ImagesList() {
   const {
-    login,
     state: { lightbox },
     dispatch,
+    login,
   } = useValue();
 
-  const handleClick = () => {
-    dispatch({ type: 'OPEN_LIGHTBOX', payload: { lightbox: false } });
+  const handleImgClick = (e) => {
+    const src = e.target.src.split('?')[0];
+    let indx = 0;
+    while (src !== images[indx].img) indx++;
+
+    dispatch({
+      type: 'OPEN_LIGHTBOX',
+      payload: { ...lightbox, open: true, currentIndx: indx },
+    });
+    console.log(src, lightbox.currentIndx, lightbox.open, indx);
   };
 
   return (
     <>
       <ImageList variant='quilted' cols={4} rowHeight={150}>
-        {itemData.map((item) => (
+        {images.map((item) => (
           <ImageListItem
             key={item.img}
             cols={item.cols || 1}
             rows={item.rows || 1}
-            onClick={handleClick}
             sx={{
               opacity: '0.8',
               transition: 'opacity 0.3s linear',
@@ -40,7 +46,12 @@ export default function ImagesList() {
               '&:hover': { opacity: 1 },
             }}
           >
-            <img {...srcset(item.img, 150, item.rows, item.cols)} alt={item.title} loading='lazy' />
+            <img
+              {...srcset(item.img, 150, item.rows, item.cols)}
+              alt={item.title}
+              onClick={handleImgClick}
+              loading='lazy'
+            />
             <Typography
               variant='body2'
               component='span'
@@ -75,7 +86,7 @@ export default function ImagesList() {
       </ImageList>
       {/* <Box sx={{ width: 500, height: 450, overflowY: 'scroll' }}> */}
       {/* <ImageList cols={3} gap={4}>
-        {itemData.map((item) => (
+        {images.map((item) => (
           <ImageListItem key={item.img}>
             <img
               src={`${item.img}?w=248&h=160&fit=crop&auto=format`}
@@ -91,7 +102,7 @@ export default function ImagesList() {
   );
 }
 
-const itemData = [
+const images = [
   {
     img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
     title: 'Breakfast',
@@ -152,7 +163,7 @@ const itemData = [
   },
 ];
 
-const itemData2 = [
+const images2 = [
   {
     img: 'https://images.unsplash.com/photo-1549388604-817d15aa0110',
     title: 'Bed',
