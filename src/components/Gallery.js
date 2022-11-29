@@ -8,10 +8,9 @@ import Form from './upload/Form';
 import ProgressList from './upload/progresslist/ProgressList';
 import Upload from './upload/Upload';
 
-const Test = () => {
+const Gallery = () => {
   return (
     <Container maxWidth='lg' sx={{ textAlign: 'center', justifyContent: 'center' }}>
-      ************ Component Test Page *****************
       <Loading />
       <Upload />
       <ImagesList />
@@ -20,4 +19,4 @@ const Test = () => {
   );
 };
 
-export default Test;
+export default Gallery;

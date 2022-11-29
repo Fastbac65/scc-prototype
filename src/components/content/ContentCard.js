@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import CmplxReviewCard from './CmplxReviewCard';
 import MediaCard from './MediaCard';
-import { ScrollTop } from './context/ContextProvider';
+import { ScrollTop } from '../context/ContextProvider';
 import { Fab } from '@mui/material';
 import { KeyboardArrowUp } from '@mui/icons-material';
 

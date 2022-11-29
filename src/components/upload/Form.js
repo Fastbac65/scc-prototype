@@ -2,33 +2,32 @@ import { Add } from '@mui/icons-material';
 import { Fab, Input } from '@mui/material';
 import React, { useRef } from 'react';
 
-const Form = () => {
+const Form = ({ setFiles }) => {
+  // const Form = ({ setFiles }) => {
+  // const [files, setFiles] = useState([]);
   const fileRef = useRef();
-  // const input = document.querySelector('input');
-  // if (input) input.style.display = 'none';
 
-  const handleClick = async () => {
+  const handleClick = () => {
     fileRef.current.click();
-    console.log(fileRef.current.value);
+
+    console.log('form:', fileRef.current.value);
+  };
+
+  const handleChange = (e) => {
+    setFiles([...e.target.files]);
+    console.log('form change:', e.target.files);
+    fileRef.current.value = null; //allows the same file to be uploaded twice
   };
 
   return (
     <form>
-      <input
-        className='imgup'
+      <Input
         type='file'
-        multiple
-        ref={fileRef}
-        accept='.jpg, .png'
-        // inputProps={{ accept: 'image/jpg, image/png', multiple: '' }}
+        inputRef={fileRef}
+        sx={{ display: 'flex' }}
+        inputProps={{ accept: 'image/jpg, image/png', multiple: true }}
+        onChange={handleChange}
       />
-      {/* <Input
-        type='file'
-        multiple
-        // inputRef={fileRef}
-        // sx={{ display: 'none' }}
-        // inputProps={{ accept: 'image/jpg, image/png', multiple: '' }}
-      /> */}
       <Fab color='primary' aria-label='add' onClick={handleClick}>
         <Add fontSize='large' />
       </Fab>

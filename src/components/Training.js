@@ -1,5 +1,5 @@
-import ContentCard from './ContentCard';
-import Content2Cards from './Content2Cards';
+import ContentCard from './content/ContentCard';
+import Content2Cards from './content/Content2Cards';
 
 const Training = () => {
   return (

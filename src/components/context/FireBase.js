@@ -22,5 +22,3 @@ export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
 export const db = getFirestore();
 export const storage = getStorage();
-export const images = ref(storage, 'images');
-export const imageref = ref(storage, 'images/BattleOfTheDitch-1-1-1024x598.jpeg');

@@ -15,7 +15,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import InboxIcon from '@mui/icons-material/Inbox';
 import DraftsIcon from '@mui/icons-material/Drafts';
-import ContentCardMasonry from './ContentCardMasonry';
+import ContentCardMasonry from './content/ContentCardMasonry';
 
 // ListItemLink Component
 function ListItemLink(props) {

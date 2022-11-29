@@ -12,9 +12,10 @@ import SccSignup from './components/SccSignup';
 import History from './components/History';
 import Training from './components/Training';
 import { useValue } from './components/context/ContextProvider';
-import ScrollRouteTop from './components/ScrollRouteTop';
+import ScrollRouteTop from './components/utils/ScrollRouteTop';
 import Notification from './components/Notification';
 import Test from './components/Test';
+import Gallery from './components/Gallery';
 
 function App() {
   const { login, theme } = useValue();
@@ -30,7 +31,7 @@ function App() {
         <Routes>
           <Route exact path='/blog' element={<Blog />}></Route>
           <Route exact path='/history' element={<History />}></Route>
-          <Route exact path='/events' element={<Test />}></Route>
+          <Route exact path='/events' element={<Gallery />}></Route>
           {login && <Route exact path='/training' element={<Training />}></Route>}
           {!login && <Route exact path='/login' element={<SccLogin />}></Route>}
           {!login && <Route exact path='/signup' element={<SccSignup />}></Route>}

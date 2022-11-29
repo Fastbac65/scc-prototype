@@ -1,5 +1,5 @@
-import ContentCardMasonry from './ContentCardMasonry';
-import Content2Cards from './Content2Cards';
+import ContentCardMasonry from './content/ContentCardMasonry';
+import Content2Cards from './content/Content2Cards';
 
 const History = () => {
   return (

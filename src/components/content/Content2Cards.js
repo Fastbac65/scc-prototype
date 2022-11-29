@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import ThreeDRotation from '@mui/icons-material/ThreeDRotation';
 import Api from '@mui/icons-material/Api';
-import IconBloc from './IconBloc';
+import IconBloc from '../utils/IconBloc';
 import { Button } from '@mui/material';
 import CmplxReviewCard from './CmplxReviewCard';
 import MediaCardHist from './MediaCardHist';

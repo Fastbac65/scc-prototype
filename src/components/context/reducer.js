@@ -9,7 +9,13 @@ const reducer = (state, action) => {
     case 'OPEN_LIGHTBOX':
       return { ...state, lightbox: action.payload };
     case 'CLOSE_LIGHTBOX':
-      return { ...state, lightbox: action.payload };
+      return { ...state, lightbox: { ...state.lightbox, open: false } };
+
+    case 'LIGHTBOX+1':
+      // state.lightbox.image += 1;
+      return { ...state, lightbox: { ...state.lightbox, currentIndx: state.lightbox.currentIndx + 1 } };
+    case 'LIGHTBOX-1':
+      return { ...state, lightbox: { ...state.lightbox, currentIndx: state.lightbox.currentIndx - 1 } };
 
     default:
       throw new Error('no action');

@@ -1,5 +1,5 @@
-import ContentCardMasonryHome from './ContentCardMasonryHome';
-import Content2Cards from './Content2Cards';
+import ContentCardMasonryHome from './content/ContentCardMasonryHome';
+import Content2Cards from './content/Content2Cards';
 
 // const Item = styled(Paper)(({ theme }) => ({
 //   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#f0f0f0',

@@ -15,10 +15,9 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-import scc1 from '../static/imgs/scc-beach-sunrise.jpeg';
 import Fade from '@mui/material/Fade';
 
-import GlobalContext from './context/ContextProvider';
+import GlobalContext from '../context/ContextProvider';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -46,7 +45,7 @@ export default function CmplxReviewCard() {
   useEffect(() => {
     const indx = Math.floor(Math.random() * 8);
     setUrl(imglib[indx]);
-  }, []);
+  }, [imglib]);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -67,7 +66,7 @@ export default function CmplxReviewCard() {
             </IconButton>
           }
           title='Profiencies and 2022 Update'
-          subheader='September 14, 2022'
+          subheader='September 18, 2022'
         />
         <CardMedia component='img' height='150' src={url} alt='scc-ocean' />
         <CardContent>

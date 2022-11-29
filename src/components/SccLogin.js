@@ -7,7 +7,7 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { styled } from '@mui/material/styles';
 import { FacebookLoginButton, GoogleLoginButton, InstagramLoginButton } from 'react-social-login-buttons';
 import { useValue } from './context/ContextProvider';
-import Content2Cards from './Content2Cards';
+import Content2Cards from './content/Content2Cards';
 
 const RButton = styled(Button)(({ theme }) => ({
   borderRadius: 25,

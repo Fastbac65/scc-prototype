@@ -196,12 +196,10 @@ function ResponsiveAppBar() {
               </IconButton>
             </Tooltip>
 
-            <Tooltip title='Sign In' arrow placement='bottom-end'>
-              <>
-                <IconButton sx={{ p: 0 }} component={RouterLink} to='/login' color='inherit'>
-                  {!login ? <LoginIcon /> : null}
-                </IconButton>
-              </>
+            <Tooltip title='Sign In' arrow placement='bottom-start'>
+              <IconButton sx={{ p: 0 }} component={RouterLink} to='/login' color='inherit'>
+                {!login ? <LoginIcon /> : null}
+              </IconButton>
             </Tooltip>
 
             <Tooltip title='Settings' arrow placement='bottom-end'>

@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 
 import CmplxReviewCard from './CmplxReviewCard';
-import MediaCard from './MediaCard';
+import MediaCard from '../../MediaCard';
 
 const CardGrid = () => {
   return (

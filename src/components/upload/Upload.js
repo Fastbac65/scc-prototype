@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Form from './Form';
+import ProgressList from './progresslist/ProgressList';
 
 const Upload = () => {
+  const [files, setFiles] = useState([]);
+
   return (
     <div>
-      <Form />
-      Adding Images
+      <Form setFiles={setFiles} />
+      <ProgressList files={files} />
     </div>
   );
 };

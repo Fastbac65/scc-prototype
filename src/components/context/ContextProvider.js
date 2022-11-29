@@ -83,7 +83,7 @@ export const ContextProvider = ({ children }) => {
   const initialstate = {
     alert: { open: false, severity: 'info', message: '', duration: 1000 },
     loading: false,
-    lightbox: { open: false, currentIndx: 0, image: 10 },
+    lightbox: { open: false, currentIndx: 0 },
   };
   const [state, dispatch] = useReducer(reducer, initialstate);
 
@@ -128,7 +128,6 @@ export const ContextProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
       setUser(currentuser);
       currentuser ? setLogin(true) : setLogin(false);
-      console.log('useState', user, currentuser);
     });
     return () => {
       unsubscribe();
@@ -180,7 +179,6 @@ export const ContextProvider = ({ children }) => {
         setUser,
         signOutUser,
         signInGoogle,
-        imageref,
         imglib,
       }}
     >

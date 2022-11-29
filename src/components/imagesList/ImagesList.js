@@ -28,30 +28,48 @@ export default function ImagesList() {
       type: 'OPEN_LIGHTBOX',
       payload: { ...lightbox, open: true, currentIndx: indx },
     });
-    console.log(src, lightbox.currentIndx, lightbox.open, indx);
   };
+
+  const pattern = [
+    { rows: 2, cols: 2 },
+    { rows: 1, cols: 1 },
+    { rows: 1, cols: 1 },
+    { rows: 1, cols: 2 },
+    { rows: 1, cols: 2 },
+    { rows: 2, cols: 2 },
+    { rows: 1, cols: 1 },
+    { rows: 1, cols: 1 },
+  ];
 
   return (
     <>
       <ImageList variant='quilted' cols={4} rowHeight={150}>
-        {images.map((item) => (
+        {images.map((item, indx) => (
           <ImageListItem
             key={item.img}
-            cols={item.cols || 1}
-            rows={item.rows || 1}
+            // cols={item.cols || 1}
+            // rows={item.rows || 1}
+            rows={pattern[indx - 8 * Math.floor(indx / 8)].rows || 1}
+            cols={pattern[indx - 8 * Math.floor(indx / 8)].cols || 1}
             sx={{
-              opacity: '0.8',
+              opacity: '0.9',
               transition: 'opacity 0.3s linear',
               cursor: 'pointer',
               '&:hover': { opacity: 1 },
             }}
           >
             <img
-              {...srcset(item.img, 150, item.rows, item.cols)}
+              {...srcset(
+                item.img,
+                150,
+                pattern[indx - 8 * Math.floor(indx / 8)].rows,
+                pattern[indx - 8 * Math.floor(indx / 8)].cols
+              )}
               alt={item.title}
               onClick={handleImgClick}
               loading='lazy'
             />
+            {/* bottom date label */}
             <Typography
               variant='body2'
               component='span'
@@ -67,6 +85,7 @@ export default function ImagesList() {
             >
               {moment(new Date() - Math.random() * 50000 * 3600).fromNow()}
             </Typography>
+            {/* avatar */}
             {login && (
               <Tooltip title='TezD' placement='top'>
                 <Avatar
@@ -80,24 +99,11 @@ export default function ImagesList() {
                 />
               </Tooltip>
             )}
+            {/* menu top right*/}
             <Options />
           </ImageListItem>
         ))}
       </ImageList>
-      {/* <Box sx={{ width: 500, height: 450, overflowY: 'scroll' }}> */}
-      {/* <ImageList cols={3} gap={4}>
-        {images.map((item) => (
-          <ImageListItem key={item.img}>
-            <img
-              src={`${item.img}?w=248&h=160&fit=crop&auto=format`}
-              // srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-              alt={item.title}
-              loading='lazy'
-            />
-          </ImageListItem>
-        ))}
-      </ImageList> */}
-      {/* </Box> */}
     </>
   );
 }
