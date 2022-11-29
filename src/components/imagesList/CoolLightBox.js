@@ -6,8 +6,10 @@ import { useValue } from '../context/ContextProvider';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
+import { doc } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
 
-const images = [
+const test = [
   {
     src: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
     loading: 'lazy',
@@ -71,17 +73,22 @@ const images = [
   },
 ];
 
-const CoolLightbox = () => {
+const CoolLightbox = ({ documents }) => {
   const {
     state: { lightbox },
     dispatch,
     theme,
   } = useValue();
-  // const [currentImageIndex, setCurrentIndex] = useState(0);
-
-  // useEffect(() => {
-  //   setCurrentIndex(lightbox.currentIndx);
-  // }, [lightbox.currentIndx]);
+  const [images, setImages] = useState([]);
+  // initialise the images array to pass into lightbox
+  useEffect(() => {
+    var imageArray = [];
+    documents.map((doc) => {
+      imageArray.push({ src: doc.data.imageURL, alt: doc.data.uName, loading: 'lazy' });
+      setImages(imageArray);
+    });
+    console.log(images);
+  }, [documents]);
 
   const gotoPrevious = () => {
     // currentImageIndex > 0 && setCurrentIndex(currentImageIndex - 1);

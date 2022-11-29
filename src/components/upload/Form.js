@@ -24,7 +24,7 @@ const Form = ({ setFiles }) => {
       <Input
         type='file'
         inputRef={fileRef}
-        sx={{ display: 'flex' }}
+        sx={{ display: 'none' }}
         inputProps={{ accept: 'image/jpg, image/png', multiple: true }}
         onChange={handleChange}
       />

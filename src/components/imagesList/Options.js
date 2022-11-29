@@ -9,10 +9,12 @@ import { ListItemIcon, ListItemText } from '@mui/material';
 import GlobalContext from '../context/ContextProvider';
 
 import { Delete, Edit, MoreVert } from '@mui/icons-material';
+import deleteDocument from '../context/deleteDocument';
+import deleteFile from '../context/deleteFile';
 
-function Options() {
+function Options({ collectionName, imageId }) {
   const { login, theme } = useContext(GlobalContext);
-
+  const currentUser = { uid: 'td' };
   const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenUserMenu = (event) => {
@@ -22,8 +24,17 @@ function Options() {
     setAnchorElUser(null);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     //delete
+    try {
+      const filePath = collectionName.toLowerCase() + '/' + currentUser.uid + '/' + imageId;
+      console.log(filePath);
+      await deleteDocument(collectionName, imageId);
+
+      await deleteFile(filePath);
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (
@@ -67,7 +78,7 @@ function Options() {
             </ListItemIcon>
             <ListItemText>Delete</ListItemText>
           </MenuItem>
-          <MenuItem onClick={handleDelete}>
+          <MenuItem /*onClick={handleDelete}*/>
             <ListItemIcon>
               <Edit />
             </ListItemIcon>
