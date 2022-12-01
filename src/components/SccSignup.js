@@ -7,6 +7,10 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { styled } from '@mui/material/styles';
 import { FacebookLoginButton, GoogleLoginButton, InstagramLoginButton } from 'react-social-login-buttons';
 import { useValue } from './context/ContextProvider';
+import PasswordField from './user/PasswordField';
+import { updateProfile } from 'firebase/auth';
+import { auth } from './context/FireBase';
+
 // import { async } from '@firebase/util';
 
 const RButton = styled(Button)(({ theme }) => ({
@@ -16,6 +20,7 @@ const RButton = styled(Button)(({ theme }) => ({
 const SccSignup = () => {
   const navigate = useNavigate();
   const fnameRef = useRef('');
+  const mobileRef = useRef('');
   const emailRef = useRef('');
   const passwordRef = useRef('');
   const confirmPasswordRef = useRef('');
@@ -28,12 +33,14 @@ const SccSignup = () => {
     state: { alert },
     dispatch,
     signInGoogle,
+    signUpEmail,
   } = useValue();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const email = emailRef.current.value;
     const fname = fnameRef.current.value;
+    const mobile = mobileRef.current.value;
     const password = passwordRef.current.value;
     const confirmPassword = confirmPasswordRef.current.value;
     setFnameErr(false);
@@ -41,31 +48,68 @@ const SccSignup = () => {
     setPasswordErr(false);
     setConfirmPasswordErr(false);
 
-    if (email && password) console.log(email, password);
-
+    // if (email && password) console.log(email, password);
+    //user feedback on empty fields - can be enhanced later to test password strength for example
     !fname && setFnameErr(true);
     !email && setEmailErr(true);
     !password && setPasswordErr(true);
+    password.length < 6 && setPasswordErr(true);
     !confirmPassword && setConfirmPasswordErr(true);
+    confirmPassword.length < 6 && setConfirmPasswordErr(true);
 
-    if (!fname || !email || !password || !confirmPassword) {
-      dispatch({
-        type: 'UPDATE_ALERT',
-        payload: {
-          ...alert,
-          open: true,
-          severity: 'error',
-          message: 'Please fill in all required fields',
-          duration: 3000,
-        },
-      });
+    try {
+      //check for empty fields
+      if (!fname || !email || !password || !confirmPassword || password.length < 6) {
+        dispatch({
+          type: 'UPDATE_ALERT',
+          payload: {
+            ...alert,
+            open: true,
+            severity: 'error',
+            message: 'Please fill in all required fields',
+            duration: 3000,
+          },
+        });
+        //check passwords match
+      } else if (password !== confirmPassword) {
+        dispatch({
+          type: 'UPDATE_ALERT',
+          payload: {
+            ...alert,
+            open: true,
+            severity: 'error',
+            message: 'Passwords do not match!!',
+            duration: 3000,
+          },
+        });
+        //sign up
+      } else {
+        dispatch({ type: 'START_LOADING' });
+        await signUpEmail(email, password);
+        const randomAvatar = 'https://i.pravatar.cc/250?u=' + email;
+        await updateProfile(auth.currentUser, {
+          displayName: fname,
+          phoneNumber: mobile,
+          photoURL: randomAvatar,
+        });
+        dispatch({ type: 'END_LOADING' });
+
+        navigate(-1);
+        dispatch({
+          type: 'UPDATE_ALERT',
+          payload: { open: true, severity: 'success', message: 'Registration Successful', duration: 6000 },
+        });
+      }
+    } catch (error) {
+      dispatch({ type: 'END_LOADING', loading: false });
+      console.log(error.message);
     }
   };
 
   const useGoogle = () => {
     signInGoogle()
       .then((res) => {
-        navigate('/');
+        navigate(-1);
         dispatch({
           type: 'UPDATE_ALERT',
           payload: { open: true, severity: 'success', message: 'Login Successful!!', duration: 6000 },
@@ -92,19 +136,42 @@ const SccSignup = () => {
                   </RButton>
                 }
               />
+              <Box sx={{ pb: 1, display: 'flex', justifyContent: 'center' }}>
+                <Stack spacing={2} py={1} sx={{ width: '80%' }}>
+                  <Box spacing={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <TextField size='small' label='Full Name' required error={fnameErr} inputRef={fnameRef} />
+                    <TextField size='small' label='Mobile Number' inputRef={mobileRef} />
+                  </Box>
 
-              <Stack spacing={2} py={4} sx={{ width: '80%', ml: 5 }}>
-                <TextField label='Full Name' required error={fnameErr} inputRef={fnameRef} />
-                <TextField label='Email' required error={emailErr} inputRef={emailRef} />
-                <TextField label='Password' type='password' required error={passwordErr} inputRef={passwordRef} />
-                <TextField
+                  <TextField size='small' label='Email' required error={emailErr} inputRef={emailRef} />
+                  {/* <TextField label='Password' type='password' required error={passwordErr} inputRef={passwordRef} /> */}
+                  <PasswordField
+                    size='small'
+                    label='Password'
+                    type='password'
+                    required
+                    error={passwordErr}
+                    inputRef={passwordRef}
+                  />
+                  <PasswordField
+                    size='small'
+                    label='Confirm Password'
+                    type='password'
+                    required
+                    error={confirmPasswordErr}
+                    inputRef={confirmPasswordRef}
+                    helperText={'minmum 6 characters'}
+                  />
+
+                  {/* <TextField
                   label='Confirm Password'
                   type='password'
                   required
                   error={confirmPasswordErr}
                   inputRef={confirmPasswordRef}
-                />
-              </Stack>
+                /> */}
+                </Stack>
+              </Box>
 
               <Box sx={{ pb: 3, display: 'flex', justifyContent: 'center' }}>
                 <RButton type='submit' variant='contained' startIcon={<AppRegistrationIcon />}>

@@ -1,0 +1,59 @@
+{
+  "uid": "VmtyL73rdCWojwKSxKmU9QifRJB3",
+  "email": "tezdzet@gmail.com",
+  "emailVerified": true,
+  "displayName": "Tez D",
+  "isAnonymous": false,
+  "photoURL": "https://lh3.googleusercontent.com/a/ALm5wu0Th4dUUG6IcwwzKLi9jKcRMoDv7BzAjKnyuG02=s96-c",
+  "providerData": [
+    {
+      "providerId": "google.com",
+      "uid": "115215385705441594699",
+      "displayName": "Tez D",
+      "email": "tezdzet@gmail.com",
+      "phoneNumber": null,
+      "photoURL": "https://lh3.googleusercontent.com/a/ALm5wu021MHzHbsAci8qyb49Nf-V9kY5wITG-8ppHz_TGpA=s96-c"
+    }
+  ],
+  "stsTokenManager": {
+    "refreshToken": "AOkPPWQV-DpmnmUR-5kiWCI22-xXGRhn-QX58VMKxs-DIyMUpPbDlfWjq7_AIWkCZSzAWtYORGyBhExJg5AmPH0ziDgB008oXyIF_mqnoBs53qYJiDWpMLHAqLhXJMkUb1KlHI3LOAWoMc1t5PWb07tz0TuvphafiIGqYhO2-zL9-lFHzPPx42gtewbR_otgW74tgTwDRT7UAj9acA1ZPZTUKBDmj1mzw2gtr2PbEynwzSCyJ35uC1ppBewrvZ02Os0QwrZd5UERJyG6H--43JEVm89S-ndi_G5T7Sv5ao6KWJIIw0K9bleDwGbApMTNk07vKOt06CTUi3mveT4jVPZNOI1HV6-LlpfaJQpMv_BziJSr1VEkcjZY7dlkHcKRhCLMKEYSiZUnD7Edoc6sE7zIDl52q3wa5w",
+    "accessToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImE5NmFkY2U5OTk5YmJmNWNkMzBmMjlmNDljZDM3ZjRjNWU2NDI3NDAiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiVGV6IEQiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUxtNXd1MFRoNGRVVUc2SWN3d3pLTGk5aktjUk1vRHY3QnpBaktueXVHMDI9czk2LWMiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2NjLXByb3RvIiwiYXVkIjoic2NjLXByb3RvIiwiYXV0aF90aW1lIjoxNjY5NzkyNzk4LCJ1c2VyX2lkIjoiVm10eUw3M3JkQ1dvandLU3hLbVU5UWlmUkpCMyIsInN1YiI6IlZtdHlMNzNyZENXb2p3S1N4S21VOVFpZlJKQjMiLCJpYXQiOjE2Njk3OTI3OTgsImV4cCI6MTY2OTc5NjM5OCwiZW1haWwiOiJ0ZXpkemV0QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7Imdvb2dsZS5jb20iOlsiMTE1MjE1Mzg1NzA1NDQxNTk0Njk5Il0sImVtYWlsIjpbInRlemR6ZXRAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.To3E9J0_Xw0dIyLLoBA6t7EWtxGn4tUptdB9E0R7BgpIqBlw_wYhFR86uHVUu4Sm200oP8hX3UtfcZWnr7UO2wWoGAg62dzyfB_OzYcG7Id5HFLyjfTHZs6UTxtWxiP03tMHcggd4_PeZeBwRbwi663nCUF4ojbQvVkjeyOjGZWQPDqcNQWMwXnrBmz_XS_GclMWCQYLmY-1qrj3GkHWVjvX47nvQCvacX8RK9RoCgwktg5Q70-GRBfO9SEJkyZsJMqKV46XcQTox53AY51IBKUF_YahpaGrMtqKYiZl4duvncWbzMeyEbyg_7rQCLP-tsmfCAs2RLjXvLPeSbH7fw",
+    "expirationTime": 1669796398202
+  },
+  "createdAt": "1669079743445",
+  "lastLoginAt": "1669792798254",
+  "apiKey": "AIzaSyBz4ew-AmtQGL0h6DNYJKhniipIK7eFBUM",
+  "appName": "[DEFAULT]"
+}
+{
+    "apiKey": "AIzaSyBz4ew-AmtQGL0h6DNYJKhniipIK7eFBUM",
+    "authDomain": "scc-proto.firebaseapp.com",
+    "appName": "[DEFAULT]",
+    "currentUser": {
+        "uid": "VmtyL73rdCWojwKSxKmU9QifRJB3",
+        "email": "tezdzet@gmail.com",
+        "emailVerified": true,
+        "displayName": "Tez D",
+        "isAnonymous": false,
+        "photoURL": "https://lh3.googleusercontent.com/a/ALm5wu0Th4dUUG6IcwwzKLi9jKcRMoDv7BzAjKnyuG02=s96-c",
+        "providerData": [
+            {
+                "providerId": "google.com",
+                "uid": "115215385705441594699",
+                "displayName": "Tez D",
+                "email": "tezdzet@gmail.com",
+                "phoneNumber": null,
+                "photoURL": "https://lh3.googleusercontent.com/a/ALm5wu021MHzHbsAci8qyb49Nf-V9kY5wITG-8ppHz_TGpA=s96-c"
+            }
+        ],
+        "stsTokenManager": {
+            "refreshToken": "AOkPPWQV-DpmnmUR-5kiWCI22-xXGRhn-QX58VMKxs-DIyMUpPbDlfWjq7_AIWkCZSzAWtYORGyBhExJg5AmPH0ziDgB008oXyIF_mqnoBs53qYJiDWpMLHAqLhXJMkUb1KlHI3LOAWoMc1t5PWb07tz0TuvphafiIGqYhO2-zL9-lFHzPPx42gtewbR_otgW74tgTwDRT7UAj9acA1ZPZTUKBDmj1mzw2gtr2PbEynwzSCyJ35uC1ppBewrvZ02Os0QwrZd5UERJyG6H--43JEVm89S-ndi_G5T7Sv5ao6KWJIIw0K9bleDwGbApMTNk07vKOt06CTUi3mveT4jVPZNOI1HV6-LlpfaJQpMv_BziJSr1VEkcjZY7dlkHcKRhCLMKEYSiZUnD7Edoc6sE7zIDl52q3wa5w",
+            "accessToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6ImE5NmFkY2U5OTk5YmJmNWNkMzBmMjlmNDljZDM3ZjRjNWU2NDI3NDAiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiVGV6IEQiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUxtNXd1MFRoNGRVVUc2SWN3d3pLTGk5aktjUk1vRHY3QnpBaktueXVHMDI9czk2LWMiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc2NjLXByb3RvIiwiYXVkIjoic2NjLXByb3RvIiwiYXV0aF90aW1lIjoxNjY5NzkyNzk4LCJ1c2VyX2lkIjoiVm10eUw3M3JkQ1dvandLU3hLbVU5UWlmUkpCMyIsInN1YiI6IlZtdHlMNzNyZENXb2p3S1N4S21VOVFpZlJKQjMiLCJpYXQiOjE2Njk3OTI3OTgsImV4cCI6MTY2OTc5NjM5OCwiZW1haWwiOiJ0ZXpkemV0QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7Imdvb2dsZS5jb20iOlsiMTE1MjE1Mzg1NzA1NDQxNTk0Njk5Il0sImVtYWlsIjpbInRlemR6ZXRAZ21haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.To3E9J0_Xw0dIyLLoBA6t7EWtxGn4tUptdB9E0R7BgpIqBlw_wYhFR86uHVUu4Sm200oP8hX3UtfcZWnr7UO2wWoGAg62dzyfB_OzYcG7Id5HFLyjfTHZs6UTxtWxiP03tMHcggd4_PeZeBwRbwi663nCUF4ojbQvVkjeyOjGZWQPDqcNQWMwXnrBmz_XS_GclMWCQYLmY-1qrj3GkHWVjvX47nvQCvacX8RK9RoCgwktg5Q70-GRBfO9SEJkyZsJMqKV46XcQTox53AY51IBKUF_YahpaGrMtqKYiZl4duvncWbzMeyEbyg_7rQCLP-tsmfCAs2RLjXvLPeSbH7fw",
+            "expirationTime": 1669796398202
+        },
+        "createdAt": "1669079743445",
+        "lastLoginAt": "1669792798254",
+        "apiKey": "AIzaSyBz4ew-AmtQGL0h6DNYJKhniipIK7eFBUM",
+        "appName": "[DEFAULT]"
+    }
+}

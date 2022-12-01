@@ -5,6 +5,8 @@ import moment from 'moment';
 import profile from '../../static/imgs/fastbac-sq.png';
 import Options from './Options';
 import { useValue } from '../context/ContextProvider';
+import { updateCurrentUser } from 'firebase/auth';
+import CloseLightBox from './CloseLightBox';
 
 function srcset(image, size, rows = 1, cols = 1) {
   return {
@@ -17,6 +19,7 @@ export default function ImagesList({ documents, collectionName }) {
     state: { lightbox },
     dispatch,
     login,
+    currentUser,
   } = useValue();
 
   const handleImgClick = (e) => {
@@ -32,6 +35,10 @@ export default function ImagesList({ documents, collectionName }) {
 
   return (
     <>
+      <Typography sx={{ pt: 1 }} variant='h4'>
+        {' '}
+        South Curl Curl Gallery
+      </Typography>
       <ImageList variant='quilted' cols={4} rowHeight={150}>
         {documents.map((doc, indx) => (
           <ImageListItem
@@ -59,7 +66,7 @@ export default function ImagesList({ documents, collectionName }) {
             />
             {/* bottom date label */}
             <Typography
-              variant='body2'
+              variant='caption'
               component='span'
               sx={{
                 position: 'absolute',
@@ -78,18 +85,26 @@ export default function ImagesList({ documents, collectionName }) {
               <Tooltip title={doc?.data?.uName || doc?.data?.uEmail} placement='top'>
                 <Avatar
                   sx={{
+                    width: 30,
+                    height: 30,
                     position: 'absolute',
                     bottom: '3px',
                     right: '3px',
+                    background: 'rgb(0,0,0,0.2)',
+                    color: 'white',
                   }}
-                  //TODO change avatar src to doc.data.avatar
-                  src={profile}
+                  //TODO change avatar src to doc.data.uAvatar
+                  src={doc?.data?.uAvatar}
                   alt={doc?.data?.uName || doc?.data?.uEmail}
-                />
+                >
+                  {doc?.data?.uName.charAt(0)}{' '}
+                </Avatar>
               </Tooltip>
             )}
             {/* menu top right*/}
-            <Options imageId={doc?.id} collectionName={collectionName} />
+            {currentUser?.displayName === doc?.data?.uName && (
+              <Options imageName={doc?.id} collectionName={collectionName} />
+            )}
           </ImageListItem>
         ))}
       </ImageList>

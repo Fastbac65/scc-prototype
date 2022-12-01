@@ -8,29 +8,28 @@ import { styled } from '@mui/material/styles';
 import { FacebookLoginButton, GoogleLoginButton, InstagramLoginButton } from 'react-social-login-buttons';
 import { useValue } from './context/ContextProvider';
 import Content2Cards from './content/Content2Cards';
+import PasswordField from './user/PasswordField';
 
 const RButton = styled(Button)(({ theme }) => ({
   borderRadius: 25,
 }));
 
 const SccLogin = () => {
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
   const {
     state: { alert },
     dispatch,
     signInGoogle,
+    signInEmail,
   } = useValue();
+  const navigate = useNavigate();
 
   const emailRef = useRef('');
   const passwordRef = useRef('');
-
   const [emailErr, setEmailErr] = useState(false);
   const [passwordErr, setPasswordErr] = useState(false);
-  // const { signInGoogle } = useContext(GlobalContext);
   const [height, setHeight] = useState(0);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
@@ -39,15 +38,29 @@ const SccLogin = () => {
 
     !email && setEmailErr(true);
     !password && setPasswordErr(true);
+    password.length < 6 && setPasswordErr(true);
 
-    if (!email || !password) {
+    try {
+      if (emailErr || passwordErr || password.length < 6) {
+        dispatch({
+          type: 'UPDATE_ALERT',
+          payload: { open: true, severity: 'error', message: 'Please check all required fields', duration: 3000 },
+        });
+      } else {
+        await signInEmail(email, password);
+        navigate(-1);
+        dispatch({
+          type: 'UPDATE_ALERT',
+          payload: { open: true, severity: 'success', message: 'Login Successful', duration: 6000 },
+        });
+      }
+    } catch (error) {
       dispatch({
         type: 'UPDATE_ALERT',
-        payload: { open: true, severity: 'error', message: 'Please fill in all required fields', duration: 3000 },
+        payload: { open: true, severity: 'error', message: error.message, duration: 6000 },
       });
     }
   };
-  const navigate = useNavigate();
 
   const useGoogle = async () => {
     try {
@@ -73,7 +86,7 @@ const SccLogin = () => {
       <Grid container>
         <Grid item xs={12} sm={6}>
           <form noValidate autoComplete='off' onSubmit={handleSubmit}>
-            <Card sx={{ height: { height }, minHeight: 660 }}>
+            <Card sx={{ height: { height }, minHeight: 540 }}>
               <CardHeader
                 title='Members Login'
                 action={
@@ -82,13 +95,16 @@ const SccLogin = () => {
                   </RButton>
                 }
               />
+              <Box sx={{ py: 1, display: 'flex', justifyContent: 'center' }}>
+                <Stack spacing={2} py={1} sx={{ width: '80%' }}>
+                  <TextField label='Email' required error={emailErr} inputRef={emailRef} />
+                  <PasswordField label='Password' type='password' error={passwordErr} inputRef={passwordRef} />
+                  {/* <TextField label='Password' type='password' required error={passwordErr} inputRef={passwordRef} /> */}
+                </Stack>
+              </Box>
 
-              <Stack spacing={4} py={4} sx={{ width: '80%', ml: 5 }}>
-                <TextField label='Email' required error={emailErr} inputRef={emailRef} />
-                <TextField label='Password' type='password' required error={passwordErr} inputRef={passwordRef} />
-              </Stack>
-
-              <Box sx={{ pb: 3, display: 'flex', justifyContent: 'center' }}>
+              <Box sx={{ pb: 3, display: 'flex', justifyContent: 'space-around' }}>
+                <RButton>Forgot Password</RButton>
                 <RButton type='submit' variant='contained' startIcon={<LoginIcon />}>
                   Sign In
                 </RButton>

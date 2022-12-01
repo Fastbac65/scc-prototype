@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
@@ -15,7 +15,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import logo from '../static/imgs/scc-logo-blue-sm2.png';
 import { ListItem, ListItemIcon, ListItemText } from '@mui/material';
-import GlobalContext from './context/ContextProvider';
+import { useValue } from './context/ContextProvider';
 
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
@@ -26,12 +26,25 @@ import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 import profile from '../static/imgs/fastbac-sq.png';
+import Profile from './user/Profile';
 
 function ResponsiveAppBar() {
-  const { login, theme, toggleColorMode, signOutUser } = useContext(GlobalContext);
+  const {
+    currentUser,
+    login,
+    theme,
+    toggleColorMode,
+    signOutUser,
+    state: { modal },
+    dispatch,
+  } = useValue();
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+
+  const editProfile = () => {
+    dispatch({ type: 'MODAL', payload: { ...modal, open: true, title: 'Update Profile', content: <Profile /> } });
+  };
 
   const pages = [
     {
@@ -40,16 +53,17 @@ function ResponsiveAppBar() {
       to: '/hire',
       members: true,
     },
-    {
-      primary: 'Events',
-      icon: <LocalActivityIcon />,
-      to: '/events',
-      members: true,
-    },
+
     {
       primary: 'Posts',
       icon: <NewspaperIcon />,
       to: '/blog',
+      members: true,
+    },
+    {
+      primary: 'Gallery',
+      icon: <LocalActivityIcon />,
+      to: '/gallery',
       members: true,
     },
     {
@@ -65,7 +79,7 @@ function ResponsiveAppBar() {
       members: login,
     },
   ];
-  const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
   const navigate = useNavigate();
 
   // ListItemLink Component
@@ -103,9 +117,6 @@ function ResponsiveAppBar() {
   };
 
   const handleCloseUserMenu = () => {
-    signOutUser().then(() => {
-      // navigate('/login');
-    });
     setAnchorElUser(null);
   };
 
@@ -211,7 +222,14 @@ function ResponsiveAppBar() {
                   p: 0,
                 }}
               >
-                <Avatar alt='Terry' src={profile} />
+                <Avatar
+                  sx={{ bgcolor: '#f9de00' }}
+                  src={currentUser?.photoURL}
+                  alt={currentUser?.displayName}
+                  aria-label='recipe'
+                >
+                  {currentUser?.displayName?.charAt(0)}
+                </Avatar>
               </IconButton>
             </Tooltip>
             <Menu
@@ -228,13 +246,17 @@ function ResponsiveAppBar() {
                 horizontal: 'right',
               }}
               open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
+              onClick={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign='left'>{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={editProfile}>
+                <Typography textAlign='left'>Profile</Typography>
+              </MenuItem>
+              <MenuItem component={RouterLink} to='/dashboard'>
+                <Typography textAlign='left'>Dashboard</Typography>
+              </MenuItem>
+              <MenuItem onClick={signOutUser}>
+                <Typography textAlign='left'>Logout</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

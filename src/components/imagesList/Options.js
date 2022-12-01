@@ -6,15 +6,19 @@ import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { ListItemIcon, ListItemText } from '@mui/material';
-import GlobalContext from '../context/ContextProvider';
+import GlobalContext, { useValue } from '../context/ContextProvider';
 
 import { Delete, Edit, MoreVert } from '@mui/icons-material';
 import deleteDocument from '../context/deleteDocument';
 import deleteFile from '../context/deleteFile';
 
-function Options({ collectionName, imageId }) {
-  const { login, theme } = useContext(GlobalContext);
-  const currentUser = { uid: 'td' };
+function Options({ collectionName, imageName }) {
+  const {
+    login,
+    currentUser,
+    state: { alert },
+    dispatch,
+  } = useValue();
   const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenUserMenu = (event) => {
@@ -27,13 +31,15 @@ function Options({ collectionName, imageId }) {
   const handleDelete = async () => {
     //delete
     try {
-      const filePath = collectionName.toLowerCase() + '/' + currentUser.uid + '/' + imageId;
+      const filePath = collectionName.toLowerCase() + '/' + currentUser.uid + '/' + imageName;
       console.log(filePath);
-      await deleteDocument(collectionName, imageId);
-
       await deleteFile(filePath);
+      await deleteDocument(collectionName, imageName);
     } catch (error) {
-      alert(error);
+      dispatch({
+        type: 'UPDATE_ALERT',
+        payload: { open: true, severity: 'error', message: error.message, duration: 6000 },
+      });
     }
   };
 

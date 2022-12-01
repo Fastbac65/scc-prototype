@@ -13,7 +13,7 @@ import { Button } from '@mui/material';
 //breadcrumb path
 const PathTracker = () => {
   const location = useLocation();
-  const { user, login, toggleLogin, theme, toggleColorMode } = useContext(GlobalContext);
+  const { currentUser, login, toggleLogin, theme, toggleColorMode } = useContext(GlobalContext);
   return (
     <>
       <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
@@ -36,7 +36,7 @@ const PathTracker = () => {
           <Button sx={{ ml: 4 }} size='small' variant='contained' component={RouterLink} to='/test'>
             Test
           </Button>
-          {user ? ` - ${user.displayName} ${user.email}` : null}
+          {currentUser ? ` - ${currentUser.displayName} ${currentUser.email}` : null}
         </Typography>
       </Box>
     </>

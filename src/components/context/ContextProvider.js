@@ -6,14 +6,15 @@ import Fade from '@mui/material/Fade';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import { createTheme } from '@mui/material';
 
-//firestore testing
-// import { collection, addDoc, getDocs } from 'firebase/firestore';
-import { auth, provider, imageref } from './FireBase';
-// import { db,  storage } from './FireBase';
-import { signInWithPopup, onAuthStateChanged, signOut } from 'firebase/auth';
-// import { getDownloadURL, ref } from 'firebase/storage';
+import { auth, provider } from './FireBase';
+import {
+  signInWithPopup,
+  onAuthStateChanged,
+  signOut,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from 'firebase/auth';
 
-// import { async } from '@firebase/util';
 import reducer from './reducer';
 
 export const GlobalContext = createContext();
@@ -21,26 +22,6 @@ export const GlobalContext = createContext();
 export const useValue = () => {
   return useContext(GlobalContext);
 };
-
-// var post1 = {
-//   firstn: 'Ada',
-//   lastn: 'Lovelace',
-//   content:
-//     'Images formed and reformed: a flickering montage of the Sprawl’s towers and ragged Fuller domes, dim figures moving toward him in the center of his closed left eyelid. They were dropping, losing altitude in a canyon of rainbow foliage, a lurid communal mural that completely covered the hull of the blowers and the amplified breathing of the fighters. He woke and found her stretched beside him in the tunnel’s ceiling. Her cheekbones flaring scarlet as Wizard’s Castle burned, forehead drenched with azure when Munich fell to the Tank War, mouth touched with hot gold as a paid killer in the tunnel’s ceiling. Still it was a long strange way home over the black water and the amplified breathing of the previous century. They floated in the dark, curled in his devotion to esoteric forms of tailor-worship. Then a mist closed over the black water and the amplified breathing of the arcade showed him broken lengths of damp chipboard and the drifting shoals of waste. Case had never seen him wear the same suit twice, although his wardrobe seemed to consist entirely of meticulous reconstruction’s of garments of the car’s floor. The two surviving Founders of Zion were old men, old with the movement of the train, their high heels like polished hooves against the gray metal of the blowers and the amplified breathing of the fighters.',
-//   img: img,
-// };
-
-// addDoc(collection(db, 'posts'), post)
-//   .then((docRef) => console.log('Document written with ID: ', docRef.id))
-//   .catch((e) => console.error('Error adding document: ', e));
-
-// const query = getDocs(collection(db, 'posts')).then((query) => {
-//   query.forEach((post) => {
-//     let x = post.data();
-//     // console.log(`${post.id} => `, post.data());
-//     // console.log(`${post.id} => ${x.firstn} and ${post1}`);
-//   });
-// });
 
 export function ScrollTop(props) {
   const { children, window } = props;
@@ -82,12 +63,13 @@ export function ScrollTop(props) {
 export const ContextProvider = ({ children }) => {
   const initialstate = {
     alert: { open: false, severity: 'info', message: '', duration: 1000 },
+    modal: { open: false, title: '', content: '' },
     loading: false,
     lightbox: { open: false, currentIndx: 0 },
   };
   const [state, dispatch] = useReducer(reducer, initialstate);
 
-  const [user, setUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({});
   const [mode, setMode] = useState('dark');
   const [login, setLogin] = useState(false);
 
@@ -100,7 +82,8 @@ export const ContextProvider = ({ children }) => {
         main: '#004c98',
       },
       secondary: {
-        main: '#f44336',
+        // main: '#f44336',
+        main: '#336fac',
       },
       mode: mode,
     },
@@ -124,10 +107,12 @@ export const ContextProvider = ({ children }) => {
     'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fscc-beach-sunrise.jpeg?alt=media&token=9bc45d92-b866-4905-b199-7f751f8b5175',
   ];
 
+  //sets the currentUser global object when authentication changes In(full user object from auth provider) or Out(null)
+  //sets the login global true when logged in. Used for routing and conditional rendering - its Boolean
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
-      setUser(currentuser);
-      currentuser ? setLogin(true) : setLogin(false);
+    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+      setCurrentUser(authUser);
+      authUser ? setLogin(true) : setLogin(false);
     });
     return () => {
       unsubscribe();
@@ -140,6 +125,14 @@ export const ContextProvider = ({ children }) => {
 
   const toggleColorMode = () => {
     setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+  };
+
+  const signUpEmail = (email, password) => {
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
+
+  const signInEmail = (email, password) => {
+    return signInWithEmailAndPassword(auth, email, password);
   };
 
   const signInGoogle = () => {
@@ -161,7 +154,7 @@ export const ContextProvider = ({ children }) => {
       localStorage.clear();
       // setLogin(false);
       // navigate('/login');
-      console.log('logged out ', user);
+      console.log('logged out ', currentUser);
     });
   };
 
@@ -175,10 +168,11 @@ export const ContextProvider = ({ children }) => {
         login,
         setLogin,
         toggleLogin,
-        user,
-        setUser,
-        signOutUser,
+        currentUser,
+        signInEmail,
+        signUpEmail,
         signInGoogle,
+        signOutUser,
         imglib,
       }}
     >

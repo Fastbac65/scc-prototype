@@ -16,6 +16,8 @@ import ScrollRouteTop from './components/utils/ScrollRouteTop';
 import Notification from './components/Notification';
 import Test from './components/Test';
 import Gallery from './components/Gallery';
+import Loading from './components/Loading';
+import Modal from './components/Modal';
 
 function App() {
   const { login, theme } = useValue();
@@ -25,13 +27,15 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <ScrollRouteTop />
+        <Loading />
+        <Modal />
         <Notification />
         <PathTrack />
         <ResponsiveAppBar />
         <Routes>
           <Route exact path='/blog' element={<Blog />}></Route>
           <Route exact path='/history' element={<History />}></Route>
-          <Route exact path='/events' element={<Gallery />}></Route>
+          <Route exact path='/gallery' element={<Gallery />}></Route>
           {login && <Route exact path='/training' element={<Training />}></Route>}
           {!login && <Route exact path='/login' element={<SccLogin />}></Route>}
           {!login && <Route exact path='/signup' element={<SccSignup />}></Route>}

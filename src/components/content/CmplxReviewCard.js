@@ -7,6 +7,7 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
+import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
@@ -17,7 +18,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import Fade from '@mui/material/Fade';
 
-import GlobalContext from '../context/ContextProvider';
+import GlobalContext, { useValue } from '../context/ContextProvider';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -32,7 +33,7 @@ const ExpandMore = styled((props) => {
 
 export default function CmplxReviewCard() {
   const [expanded, setExpanded] = useState(false);
-  const { imglib } = useContext(GlobalContext);
+  const { imglib, currentUser } = useValue();
 
   const [url, setUrl] = useState(
     ''
@@ -56,9 +57,16 @@ export default function CmplxReviewCard() {
       <Card sx={{ maxWidth: 345 }}>
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label='recipe'>
-              R
-            </Avatar>
+            <Tooltip placement='top' title={currentUser?.displayName}>
+              <Avatar
+                sx={{ bgcolor: red[500] }}
+                src={currentUser?.photoURL}
+                alt={currentUser?.displayName}
+                aria-label='recipe'
+              >
+                {currentUser?.displayName?.charAt(0)}
+              </Avatar>
+            </Tooltip>
           }
           action={
             <IconButton aria-label='settings'>
