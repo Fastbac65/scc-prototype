@@ -3,8 +3,9 @@ import { updateProfile } from 'firebase/auth';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useValue } from '../context/ContextProvider';
-import { auth } from '../context/FireBase';
 import uploadFile from '../context/uploadFile';
+import deleteFile from '../context/deleteFile';
+import updateUserRecords from '../context/updateUserRecords';
 
 const Profile = () => {
   const {
@@ -29,14 +30,29 @@ const Profile = () => {
     e.preventDefault();
     dispatch({ type: 'MODAL', payload: { ...modal, open: false } });
     dispatch({ type: 'START_LOADING' });
-    let currentUserObj = { displayName: name, photoURL: photoURL };
+    let currentUserObj = { displayName: name, photoURL: photoURL, phoneNumber: '0407945789' };
     let imagesObj = { uName: name, uAvatar: photoURL };
     try {
       if (file) {
         const imageName = file.name.split('.')[0] + '_' + uuidv4() + '.' + file.name.split('.').pop();
-        const url = await uploadFile(file, `profile/${currentUser?.displayName}/${imageName}`);
+        const url = await uploadFile(file, `profile/${currentUser?.uid}/${imageName}`);
+        const prevURL = currentUser?.photoURL;
 
-        if (currentUser?.photoURL) currentUserObj.photoURL = url;
+        if (prevURL) {
+          const prevProfilePath = `profile/${currentUser?.uid}/${prevURL?.split('%2F')[2]?.split('?')[0]}`;
+          // grabs the filename minus ? afters
+          if (prevProfilePath) {
+            try {
+              await deleteFile(prevProfilePath);
+            } catch (error) {
+              // this will throw an error if you logged in with google for example.. as we dont have an image stored
+              console.log(error.message);
+            }
+          }
+        }
+        //firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/profile %2F M6pujkdevmSNNIowQpFPWtAbcPx2 %2F paella_8e96633c-9fb2-4de9-8a84-40bd73993f3e.jpg?alt=media&token=4d303da6-8bab-434b-bc02-f4468aa8563a
+
+        currentUserObj.photoURL = url;
         imagesObj.uAvatar = url;
       }
     } catch (error) {
@@ -44,16 +60,11 @@ const Profile = () => {
         type: 'UPDATE_ALERT',
         payload: { ...alert, severity: 'error', open: true, message: error.message, duration: 3000 },
       });
-    }
-    try {
-      await updateProfile(auth.currentUser, currentUserObj);
-    } catch (error) {
-      dispatch({
-        type: 'UPDATE_ALERT',
-        payload: { ...alert, severity: 'error', open: true, message: error.message, duration: 3000 },
-      });
       console.log(error.message);
     }
+
+    await updateProfile(currentUser, currentUserObj);
+    await updateUserRecords('Gallery', currentUser?.uid, imagesObj);
 
     dispatch({ type: 'END_LOADING' });
     dispatch({

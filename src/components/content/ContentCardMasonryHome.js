@@ -4,37 +4,38 @@ import { Button, Box } from '@mui/material';
 import CmplxReviewCard from './CmplxReviewCard';
 import MediaCard from './MediaCard';
 import Masonry from '@mui/lab/Masonry';
+import SimpleActionCard from './SimpleActionCard';
 
 const ContentCardMasonryHome = () => {
   return (
-    <Box component='section' mx={1} mr={3} py={{ xs: 1, md: 1 }}>
+    <Box component='section' mx={1}>
       <Grid container>
-        <Grid item xs={12} sx={{ borderRadius: 1, boxShadow: '2' }}>
+        <Grid item xs={12} sx={{ borderRadius: 1, boxShadow: 0 }}>
           <Typography variant='h4' pt={1} m={2}>
             South Curl Curl Surf Life Saving Club
           </Typography>
           <Typography variant='body1' color='text' m={2} mb={4}>
-            Summer is here, Nippers are off and running and the sand is back!!
+            Summer is here, Nippers are on and the sand is back on our beautiful beach!!
           </Typography>
-          <Box py={{ xs: 1, md: 1 }}>
+          <Box pr={{ xs: 0, sm: 2, md: 3 }} sx={{ display: 'flex', justifyContent: 'center' }}>
             <Masonry
               // sx={{ border: '1px dotted red' }}
               columns={{ xs: 1, sm: 2, md: 3, lg: 4 }}
               spacing={{ xs: 1 }}
             >
               <MediaCard />
+              <SimpleActionCard />
+              <CmplxReviewCard />
+              <MediaCard />
+              <SimpleActionCard />
               <CmplxReviewCard />
               <MediaCard />
               <CmplxReviewCard />
-              <MediaCard />
-              <CmplxReviewCard />
+              <SimpleActionCard />
               <MediaCard />
               <CmplxReviewCard />
             </Masonry>
           </Box>
-          <Button href='#' sx={{ m: 2 }} size='small'>
-            Learn More
-          </Button>
         </Grid>
       </Grid>
     </Box>

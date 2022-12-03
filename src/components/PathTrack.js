@@ -14,6 +14,7 @@ import { Button } from '@mui/material';
 const PathTracker = () => {
   const location = useLocation();
   const { currentUser, login, toggleLogin, theme, toggleColorMode } = useContext(GlobalContext);
+  console.log('path', currentUser);
   return (
     <>
       <Box sx={{ display: { xs: 'none', sm: 'block' } }}>

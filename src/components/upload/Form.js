@@ -29,7 +29,7 @@ const Form = ({ setFiles }) => {
           inputProps={{ accept: 'image/jpg, image/png', multiple: true }}
           onChange={handleChange}
         />
-        <Fab color='primary' aria-label='add' onClick={handleClick}>
+        <Fab size='small' color='primary' aria-label='add' onClick={handleClick}>
           <Add fontSize='large' />
         </Fab>
       </form>

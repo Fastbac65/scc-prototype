@@ -6,7 +6,7 @@ import PathTrack from './components/PathTrack';
 import ResponsiveAppBar from './components/ResponsiveAppBar';
 // import HeaderTabs from './components/HeaderTabs';
 import Home from './components/Home';
-import Blog from './components/Blog';
+import Posts from './components/Posts';
 import SccLogin from './components/SccLogin';
 import SccSignup from './components/SccSignup';
 import History from './components/History';
@@ -30,10 +30,11 @@ function App() {
         <Loading />
         <Modal />
         <Notification />
-        <PathTrack />
         <ResponsiveAppBar />
+        {/* <PathTrack /> */}
+
         <Routes>
-          <Route exact path='/blog' element={<Blog />}></Route>
+          <Route exact path='/posts' element={<Posts />}></Route>
           <Route exact path='/history' element={<History />}></Route>
           <Route exact path='/gallery' element={<Gallery />}></Route>
           {login && <Route exact path='/training' element={<Training />}></Route>}

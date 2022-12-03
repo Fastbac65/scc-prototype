@@ -13,8 +13,9 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import logo from '../static/imgs/scc-logo-blue-sm2.png';
 import { ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
 import { useValue } from './context/ContextProvider';
 
 import Brightness7Icon from '@mui/icons-material/Brightness7';
@@ -25,7 +26,8 @@ import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
-import profile from '../static/imgs/fastbac-sq.png';
+import logo from '../static/imgs/scc-logo-blue-sm2.png';
+
 import Profile from './user/Profile';
 
 function ResponsiveAppBar() {
@@ -57,7 +59,7 @@ function ResponsiveAppBar() {
     {
       primary: 'Posts',
       icon: <NewspaperIcon />,
-      to: '/blog',
+      to: '/posts',
       members: true,
     },
     {
@@ -119,149 +121,152 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
+  const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
   return (
-    <AppBar sx={{ background: '#004c98' }} enableColorOnDark position='sticky'>
-      <Container maxWidth='xl'>
-        <Toolbar disableGutters>
-          {/* nav menu small screens */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'none' } }}>
-            <IconButton
-              size='large'
-              aria-label='account of current user'
-              aria-controls='menu-appbar'
-              aria-haspopup='true'
-              onClick={handleOpenNavMenu}
-              color='inherit'
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id='menu-appbar'
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', sm: 'none' },
-              }}
-            >
+    <>
+      <AppBar sx={{ background: '#004c98' }} enableColorOnDark>
+        <Container maxWidth='xl'>
+          <Toolbar disableGutters>
+            {/* nav menu small screens */}
+            <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'none' } }}>
+              <IconButton
+                size='large'
+                aria-label='account of current user'
+                aria-controls='menu-appbar'
+                aria-haspopup='true'
+                onClick={handleOpenNavMenu}
+                color='inherit'
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id='menu-appbar'
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: 'block', sm: 'none' },
+                }}
+              >
+                {pages.map(
+                  (page) =>
+                    page.members && (
+                      <MenuItem key={page.primary} onClick={handleCloseNavMenu}>
+                        <ListItemLink primary={page.primary} to={page.to} icon={page.icon} />
+                        {/* <Typography textAlign='center'>{page.primary}</Typography> */}
+                      </MenuItem>
+                    )
+                )}
+              </Menu>
+            </Box>
+            {/* logo large screen */}
+            <Box component={RouterLink} to='/'>
+              <Box
+                ml={-3}
+                mr={1}
+                component='img'
+                src={logo}
+                sx={{ height: 70, display: { xs: 'none', sm: 'flex' } }}
+              ></Box>
+            </Box>
+            {/* logo small screen */}
+            <Box flexGrow={1} component={RouterLink} to='/'>
+              <Box mr={1} component='img' src={logo} sx={{ height: 70, display: { xs: 'flex', sm: 'none' } }}></Box>
+            </Box>
+            {/* main menu large screen */}
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'flex' } }}>
               {pages.map(
                 (page) =>
                   page.members && (
-                    <MenuItem key={page.primary} onClick={handleCloseNavMenu}>
-                      <ListItemLink primary={page.primary} to={page.to} icon={page.icon} />
-                      {/* <Typography textAlign='center'>{page.primary}</Typography> */}
-                    </MenuItem>
+                    <Button
+                      key={page.primary}
+                      component={RouterLink}
+                      to={page.to}
+                      onClick={handleCloseNavMenu}
+                      sx={{ my: 2, color: 'white', display: 'block' }}
+                    >
+                      {page.primary}
+                    </Button>
                   )
               )}
-            </Menu>
-          </Box>
-          {/* logo large screen */}
-          <Box component={RouterLink} to='/'>
-            <Box
-              ml={-3}
-              mr={1}
-              component='img'
-              src={logo}
-              sx={{ height: 70, display: { xs: 'none', sm: 'flex' } }}
-            ></Box>
-          </Box>
-          {/* logo small screen */}
-          <Box flexGrow={1} component={RouterLink} to='/'>
-            <Box mr={1} component='img' src={logo} sx={{ height: 70, display: { xs: 'flex', sm: 'none' } }}></Box>
-          </Box>
-          {/* main menu large screen */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'flex' } }}>
-            {pages.map(
-              (page) =>
-                page.members && (
-                  <Button
-                    key={page.primary}
-                    component={RouterLink}
-                    to={page.to}
-                    onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: 'white', display: 'block' }}
-                  >
-                    {page.primary}
-                  </Button>
-                )
-            )}
-          </Box>
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title={theme.palette.mode === 'dark' ? 'Light Mode' : 'Dark Mode'} arrow placement='bottom-end'>
-              <IconButton sx={{ mr: 2, p: 0 }} onClick={toggleColorMode} color='inherit'>
-                {theme.palette.mode === 'dark' ? (
-                  <Brightness7Icon sx={{ color: '#f9de00' }} />
-                ) : (
-                  <DarkModeOutlinedIcon />
-                )}
-              </IconButton>
-            </Tooltip>
+            </Box>
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title={theme.palette.mode === 'dark' ? 'Light Mode' : 'Dark Mode'} arrow placement='bottom-end'>
+                <IconButton sx={{ mr: 2, p: 0 }} onClick={toggleColorMode} color='inherit'>
+                  {theme.palette.mode === 'dark' ? (
+                    <Brightness7Icon sx={{ color: '#f9de00' }} />
+                  ) : (
+                    <DarkModeOutlinedIcon />
+                  )}
+                </IconButton>
+              </Tooltip>
 
-            <Tooltip title='Sign In' arrow placement='bottom-start'>
-              <IconButton sx={{ p: 0 }} component={RouterLink} to='/login' color='inherit'>
-                {!login ? <LoginIcon /> : null}
-              </IconButton>
-            </Tooltip>
+              <Tooltip title='Sign In' arrow placement='bottom-start'>
+                <IconButton sx={{ p: 0 }} component={RouterLink} to='/login' color='inherit'>
+                  {!login ? <LoginIcon /> : null}
+                </IconButton>
+              </Tooltip>
 
-            <Tooltip title='Settings' arrow placement='bottom-end'>
-              <IconButton
-                size='small'
-                onClick={handleOpenUserMenu}
-                sx={{
-                  display: login ? 'in-line' : 'none',
-                  p: 0,
-                }}
-              >
-                <Avatar
-                  sx={{ bgcolor: '#f9de00' }}
-                  src={currentUser?.photoURL}
-                  alt={currentUser?.displayName}
-                  aria-label='recipe'
+              <Tooltip title='Settings' arrow placement='bottom-end'>
+                <IconButton
+                  size='small'
+                  onClick={handleOpenUserMenu}
+                  sx={{
+                    display: login ? 'in-line' : 'none',
+                    p: 0,
+                  }}
                 >
-                  {currentUser?.displayName?.charAt(0)}
-                </Avatar>
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id='menu-appbar'
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClick={handleCloseUserMenu}
-            >
-              <MenuItem onClick={editProfile}>
-                <Typography textAlign='left'>Profile</Typography>
-              </MenuItem>
-              <MenuItem component={RouterLink} to='/dashboard'>
-                <Typography textAlign='left'>Dashboard</Typography>
-              </MenuItem>
-              <MenuItem onClick={signOutUser}>
-                <Typography textAlign='left'>Logout</Typography>
-              </MenuItem>
-            </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+                  <Avatar
+                    sx={{ bgcolor: '#f9de00' }}
+                    src={currentUser?.photoURL}
+                    alt={currentUser?.displayName}
+                    aria-label='recipe'
+                  >
+                    {currentUser?.displayName?.charAt(0)}
+                  </Avatar>
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id='menu-appbar'
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClick={handleCloseUserMenu}
+              >
+                <MenuItem onClick={editProfile}>
+                  <Typography textAlign='left'>Profile</Typography>
+                </MenuItem>
+                <MenuItem component={RouterLink} to='/dashboard'>
+                  <Typography textAlign='left'>Dashboard</Typography>
+                </MenuItem>
+                <MenuItem onClick={signOutUser}>
+                  <Typography textAlign='left'>Logout</Typography>
+                </MenuItem>
+              </Menu>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+      <Offset />
+    </>
   );
 }
 export default ResponsiveAppBar;

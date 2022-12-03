@@ -82,3 +82,18 @@ const Item = styled(Paper)(({ theme }) => ({
     <MediaCard />
   </Grid>
 </Grid>;
+
+<Box sx={{ width: 360 }}>
+  <br></br>
+  <Paper elevation={4}>
+    <List aria-label='main mailbox folders'>
+      <ListItemLink to='/' primary='Home' icon={<InboxIcon />} />
+      <ListItemLink to='/training' primary='Training' icon={<DraftsIcon />} />
+    </List>
+    <Divider />
+    <List aria-label='secondary mailbox folders'>
+      <ListItemLink to='/booking' primary='Venue Hire' />
+      <ListItemLink to='/history' primary='History' />
+    </List>
+  </Paper>
+</Box>;

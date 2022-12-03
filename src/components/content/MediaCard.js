@@ -45,7 +45,7 @@ export default function MediaCard() {
           <CardMedia id='gimg' component='img' height='140' image={url} alt='rowing' />
           <CardContent>
             <Typography gutterBottom variant='h5' component='div'>
-              North Curlie Carnival
+              North Curly Carnival
             </Typography>
             <Typography variant='body2' color='text.secondary'>
               Amazin performances across the board as our under 19's and masters killed it. Our champion lifesavers also

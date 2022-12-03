@@ -8,9 +8,11 @@ import { ScrollTop } from '../context/ContextProvider';
 import { Fab } from '@mui/material';
 import { KeyboardArrowUp } from '@mui/icons-material';
 
-const ContentCard = () => {
+const ContentCardTraining = () => {
   return (
-    <div id='back-to-top-anchor'>
+    <div>
+      <div id='back-to-top-anchor'></div>
+
       <Box component='section'>
         <Grid container>
           <Grid item xs={12} sx={{ border: 0, borderRadius: 1, boxShadow: '4' }}>
@@ -53,7 +55,7 @@ const ContentCard = () => {
             </Button>
           </Grid>
         </Grid>
-        <ScrollTop>
+        <ScrollTop id='#back-to-top-anchor'>
           <Fab size='small' aria-label='scroll back to top'>
             <KeyboardArrowUp />
           </Fab>
@@ -63,4 +65,4 @@ const ContentCard = () => {
   );
 };
 
-export default ContentCard;
+export default ContentCardTraining;

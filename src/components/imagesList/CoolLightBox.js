@@ -38,6 +38,8 @@ const CoolLightbox = ({ documents }) => {
           color='primary'
           onClick={gotoPrevious}
           sx={{
+            // border: 1,
+            // borderColor: 'red',
             display: lightbox.currentIndx === 0 ? 'none' : 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -53,7 +55,7 @@ const CoolLightbox = ({ documents }) => {
             },
           }}
         >
-          <ArrowBackIosRoundedIcon fontSize='large' />
+          <ArrowBackIosRoundedIcon fontSize='medium' />
         </Fab>
       </>
     );
@@ -80,7 +82,7 @@ const CoolLightbox = ({ documents }) => {
             },
           }}
         >
-          <ArrowForwardIosRoundedIcon fontSize='large' />
+          <ArrowForwardIosRoundedIcon fontSize='medium' />
         </Fab>
       </>
     );
@@ -102,8 +104,7 @@ const CoolLightbox = ({ documents }) => {
         renderFooter={() => <CloseLightBox />}
         renderPrevButton={() => <Prev />}
         renderNextButton={() => <Next />}
-        // renderImageOverlay={() => (<ImageOverlayComponent >)}
-
+        // renderImageOverlay={() => <CloseLightBox />}
         /* Add styling */
         // className="cool-class"
         // style={{ background: "grey" }}
@@ -115,12 +116,12 @@ const CoolLightbox = ({ documents }) => {
         /* Use single or double click to zoom */
         singleClickToZoom
         /* react-spring config for open/close animation */
-        // pageTransitionConfig={{
-        //   from: { transform: 'scale(0.3)', opacity: 0.5 },
-        //   enter: { transform: 'scale(1)', opacity: 1 },
-        //   leave: { transform: 'scale(0.3)', opacity: 0 },
-        //   config: { mass: 1, tension: 320, friction: 32 },
-        // }}
+        pageTransitionConfig={{
+          from: { transform: 'scale(0.3)', opacity: 0.5 },
+          enter: { transform: 'scale(1)', opacity: 1 },
+          leave: { transform: 'scale(0.3)', opacity: 0 },
+          config: { mass: 1, tension: 320, friction: 32 },
+        }}
       ></Lightbox>
     </>
   );
