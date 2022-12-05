@@ -1,6 +1,6 @@
 import ContentCard from './ContentCard';
 import Content2Cards from './Content2Cards';
-import SccLogin from './SccLogin';
+import SccLogin from './user/SccLogin';
 
 const Login = () => {
   return (

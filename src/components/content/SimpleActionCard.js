@@ -15,7 +15,7 @@ export default function SimpleActionCard() {
             RockBox ~ 28th Jan 2023
           </Typography>
           <Typography variant='body2' color='text.secondary'>
-            Due the to the popularity iof the recent RockBox event we are hosting another night of anthems!!
+            Due to the popularity of the recent RockBox event we are hosting another night of anthems!!
           </Typography>
         </CardContent>
       </CardActionArea>

@@ -71,7 +71,7 @@ export const ContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialstate);
 
   const [currentUser, setCurrentUser] = useState({});
-  const [mode, setMode] = useState('dark');
+  const [mode, setMode] = useState('light');
   const [login, setLogin] = useState(false);
 
   var theme = createTheme({

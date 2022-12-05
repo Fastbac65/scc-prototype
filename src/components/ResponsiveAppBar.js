@@ -29,6 +29,7 @@ import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 import logo from '../static/imgs/scc-logo-blue-sm2.png';
 
 import Profile from './user/Profile';
+import AccountSettings from './user/AccountSettings';
 
 function ResponsiveAppBar() {
   const {
@@ -46,6 +47,13 @@ function ResponsiveAppBar() {
 
   const editProfile = () => {
     dispatch({ type: 'MODAL', payload: { ...modal, open: true, title: 'Update Profile', content: <Profile /> } });
+  };
+
+  const accountSettings = () => {
+    dispatch({
+      type: 'MODAL',
+      payload: { ...modal, open: true, title: 'Update Account', content: <AccountSettings /> },
+    });
   };
 
   const pages = [
@@ -254,8 +262,8 @@ function ResponsiveAppBar() {
                 <MenuItem onClick={editProfile}>
                   <Typography textAlign='left'>Profile</Typography>
                 </MenuItem>
-                <MenuItem component={RouterLink} to='/dashboard'>
-                  <Typography textAlign='left'>Dashboard</Typography>
+                <MenuItem onClick={accountSettings}>
+                  <Typography textAlign='left'>Account</Typography>
                 </MenuItem>
                 <MenuItem onClick={signOutUser}>
                   <Typography textAlign='left'>Logout</Typography>

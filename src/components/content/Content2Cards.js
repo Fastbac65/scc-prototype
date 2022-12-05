@@ -10,6 +10,7 @@ import { Button } from '@mui/material';
 import CmplxReviewCard from './CmplxReviewCard';
 import MediaCardHist from './MediaCardHist';
 import { useValue } from '../context/ContextProvider';
+import CmplxReviewCardHist from './CmplxReviewCardHist';
 
 const Content2Cards = () => {
   const { theme } = useValue();
@@ -35,7 +36,7 @@ const Content2Cards = () => {
             the Tank War.
           </Typography>
           <Box sx={{ border: 0, display: 'flex', justifyContent: 'center' }}>
-            <CmplxReviewCard />
+            <CmplxReviewCardHist />
           </Box>
           <Button href='#' sx={{ m: 2 }} size='small'>
             Learn More
@@ -68,7 +69,7 @@ const Content2Cards = () => {
               <Typography variant='body2' color='text.secondary'>
                 Patrolling the beach is critical on busy weekends
                 <br />
-                South Curlie is beautiful but often quite dangerous.
+                South Curly is beautiful but often quite dangerous.
               </Typography>
             </Grid>
           </Grid>

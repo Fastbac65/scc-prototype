@@ -1,15 +1,15 @@
 import { Box, Button, Card, CardHeader, CardMedia, Grid, TextField, Stack } from '@mui/material';
 import { useState, useRef } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import scc2 from '../static/imgs/scc-pool-waves.jpeg';
+import scc2 from '../../static/imgs/scc-pool-waves.jpeg';
 import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { styled } from '@mui/material/styles';
 import { FacebookLoginButton, GoogleLoginButton, InstagramLoginButton } from 'react-social-login-buttons';
-import { useValue } from './context/ContextProvider';
-import PasswordField from './user/PasswordField';
+import { useValue } from '../context/ContextProvider';
+import PasswordField from './PasswordField';
 import { updateProfile } from 'firebase/auth';
-import { auth } from './context/FireBase';
+import { auth } from '../context/FireBase';
 
 // import { async } from '@firebase/util';
 
@@ -97,7 +97,7 @@ const SccSignup = () => {
         navigate(-1);
         dispatch({
           type: 'UPDATE_ALERT',
-          payload: { open: true, severity: 'success', message: 'Registration Successful', duration: 6000 },
+          payload: { ...alert, open: true, severity: 'success', message: 'Registration Successful', duration: 6000 },
         });
       }
     } catch (error) {
@@ -112,7 +112,7 @@ const SccSignup = () => {
         navigate(-1);
         dispatch({
           type: 'UPDATE_ALERT',
-          payload: { open: true, severity: 'success', message: 'Login Successful!!', duration: 6000 },
+          payload: { ...alert, open: true, severity: 'success', message: 'Login Successful!!', duration: 6000 },
         });
       })
       .catch((error) => console.log(error));
@@ -127,7 +127,7 @@ const SccSignup = () => {
       <Grid container>
         <Grid item xs={12} sm={6}>
           <form noValidate autoComplete='off' onSubmit={handleSubmit}>
-            <Card sx={{ height: { height }, minHeight: 660 }}>
+            <Card sx={{ height: { height }, minHeight: 560 }}>
               <CardHeader
                 title='Members Access'
                 action={
@@ -137,7 +137,7 @@ const SccSignup = () => {
                 }
               />
               <Box sx={{ pb: 1, display: 'flex', justifyContent: 'center' }}>
-                <Stack spacing={2} py={1} sx={{ width: '80%' }}>
+                <Stack spacing={2} py={1} sx={{ width: '90%' }}>
                   <Box spacing={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <TextField size='small' label='Full Name' required error={fnameErr} inputRef={fnameRef} />
                     <TextField size='small' label='Mobile Number' inputRef={mobileRef} />
@@ -160,7 +160,7 @@ const SccSignup = () => {
                     required
                     error={confirmPasswordErr}
                     inputRef={confirmPasswordRef}
-                    helperText={'minmum 6 characters'}
+                    helperText={'minimum 6 characters'}
                   />
 
                   {/* <TextField
@@ -173,16 +173,22 @@ const SccSignup = () => {
                 </Stack>
               </Box>
 
-              <Box sx={{ pb: 3, display: 'flex', justifyContent: 'center' }}>
+              <Box sx={{ pb: 2, display: 'flex', justifyContent: 'center' }}>
                 <RButton type='submit' variant='contained' startIcon={<AppRegistrationIcon />}>
                   Sign Up with Email
                 </RButton>
               </Box>
-              <Box sx={{ pb: 3, display: 'flex', justifyContent: 'center' }}>
-                <Stack sx={{ pb: 4, width: '40%' }}>
-                  <FacebookLoginButton style={{ fontSize: '14px' }} align='center' size='40px' />
-                  <GoogleLoginButton style={{ fontSize: '14px' }} align='center' size='40px' onClick={useGoogle} />
-                  <InstagramLoginButton style={{ fontSize: '14px' }} align='center' size='40px' />
+              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Stack sx={{ pb: 4, width: '60%' }}>
+                  <FacebookLoginButton style={{ fontSize: '14px' }} align='center' size='40px'>
+                    Sign up with Facebook
+                  </FacebookLoginButton>
+                  <GoogleLoginButton style={{ fontSize: '14px' }} align='center' size='40px' onClick={useGoogle}>
+                    Sign up with Google
+                  </GoogleLoginButton>
+                  <InstagramLoginButton style={{ fontSize: '14px' }} align='center' size='40px'>
+                    Sign up with Instagram
+                  </InstagramLoginButton>
                 </Stack>
               </Box>
             </Card>

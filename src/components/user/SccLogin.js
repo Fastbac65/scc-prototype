@@ -1,14 +1,14 @@
 import { Box, Button, Card, CardHeader, CardMedia, Grid, TextField, Stack } from '@mui/material';
 import { useRef, useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import scc2 from '../static/imgs/scc-pool-waves.jpeg';
+import scc2 from '../../static/imgs/scc-pool-waves.jpeg';
 import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { styled } from '@mui/material/styles';
 import { FacebookLoginButton, GoogleLoginButton, InstagramLoginButton } from 'react-social-login-buttons';
-import { useValue } from './context/ContextProvider';
-import Content2Cards from './content/Content2Cards';
-import PasswordField from './user/PasswordField';
+import { useValue } from '../context/ContextProvider';
+import Content2Cards from '../content/Content2Cards';
+import PasswordField from './PasswordField';
 
 const RButton = styled(Button)(({ theme }) => ({
   borderRadius: 25,
@@ -44,20 +44,26 @@ const SccLogin = () => {
       if (emailErr || passwordErr || password.length < 6) {
         dispatch({
           type: 'UPDATE_ALERT',
-          payload: { open: true, severity: 'error', message: 'Please check all required fields', duration: 3000 },
+          payload: {
+            ...alert,
+            open: true,
+            severity: 'error',
+            message: 'Please check all required fields',
+            duration: 3000,
+          },
         });
       } else {
         await signInEmail(email, password);
         navigate(-1);
         dispatch({
           type: 'UPDATE_ALERT',
-          payload: { open: true, severity: 'success', message: 'Login Successful', duration: 6000 },
+          payload: { ...alert, open: true, severity: 'success', message: 'Login Successful', duration: 6000 },
         });
       }
     } catch (error) {
       dispatch({
         type: 'UPDATE_ALERT',
-        payload: { open: true, severity: 'error', message: error.message, duration: 6000 },
+        payload: { ...alert, open: true, severity: 'error', message: error.message, duration: 6000 },
       });
     }
   };
@@ -86,7 +92,7 @@ const SccLogin = () => {
       <Grid container>
         <Grid item xs={12} sm={6}>
           <form noValidate autoComplete='off' onSubmit={handleSubmit}>
-            <Card sx={{ height: { height }, minHeight: 540 }}>
+            <Card sx={{ height: { height }, minHeight: 500 }}>
               <CardHeader
                 title='Members Login'
                 action={
@@ -95,7 +101,7 @@ const SccLogin = () => {
                   </RButton>
                 }
               />
-              <Box sx={{ py: 1, display: 'flex', justifyContent: 'center' }}>
+              <Box sx={{ py: 3, display: 'flex', justifyContent: 'center' }}>
                 <Stack spacing={2} py={1} sx={{ width: '80%' }}>
                   <TextField label='Email' required error={emailErr} inputRef={emailRef} />
                   <PasswordField label='Password' type='password' error={passwordErr} inputRef={passwordRef} />

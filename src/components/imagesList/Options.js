@@ -38,7 +38,7 @@ function Options({ collectionName, imageName }) {
     } catch (error) {
       dispatch({
         type: 'UPDATE_ALERT',
-        payload: { open: true, severity: 'error', message: error.message, duration: 6000 },
+        payload: { ...alert, open: true, severity: 'error', message: error.message, duration: 6000 },
       });
     }
   };
