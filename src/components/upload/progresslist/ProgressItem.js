@@ -25,9 +25,10 @@ const ProgressItem = ({ file, collectionName }) => {
       // ** THIS IS HOW WE ADD / DELETE SAME FILE / IMAGE AND DATABASE DOC REFERENCE **
       //create unique image and doc names by inserting uuid
       const imageName = file.name.split('.')[0] + '_' + uuidv4() + '.' + file.name.split('.').pop();
+      const storageFilePath = `gallery/${currentUser.uid}/` + imageName;
       try {
         //upload the file to storage
-        const url = await uploadFileProgress(file, `gallery/${currentUser.uid}`, imageName, setProgress);
+        const url = await uploadFileProgress(file, storageFilePath, setProgress);
         console.log(url);
         //use the url from storage update to populate the imageURL field along with currentUser (or sccUser *future) info
         const databaseDoc = {
