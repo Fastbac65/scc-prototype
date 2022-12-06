@@ -26,7 +26,6 @@ export default function ImagesList({ documents, collectionName }) {
     const src = e.target.src.split('?')[0];
     let indx = 0;
     while (src !== documents[indx].data.imageURL.split('?')[0]) indx++;
-
     dispatch({
       type: 'OPEN_LIGHTBOX',
       payload: { ...lightbox, open: true, currentIndx: indx },
@@ -61,6 +60,7 @@ export default function ImagesList({ documents, collectionName }) {
                 pattern[indx - 8 * Math.floor(indx / 8)].cols
               )}
               alt={doc?.data?.uName || doc?.data?.uEmail}
+              // onClick={dispatch({ type: 'OPEN_LIGHTBOX', payload: { ...lightbox, open: true, currentIndx: indx } })}
               onClick={handleImgClick}
               loading='lazy'
             />

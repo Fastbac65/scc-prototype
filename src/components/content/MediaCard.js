@@ -25,19 +25,6 @@ export default function MediaCard() {
     setUrl(imglib[indx]);
   }, [imglib]);
 
-  // useEffect(() => {
-  //   const urlread = getDownloadURL(imageref)
-  //     .then((urlread) => {
-  //       setUrl(urlread);
-  //       setIsLoaded(true);
-  //       // const img = document.getElementById('gimg');
-  //       // img.setAttribute('src', url);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
-
   return (
     <>
       <Fade timeout={700} in={true}>

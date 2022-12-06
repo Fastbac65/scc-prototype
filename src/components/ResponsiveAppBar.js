@@ -30,6 +30,7 @@ import logo from '../static/imgs/scc-logo-blue-sm2.png';
 
 import Profile from './user/Profile';
 import AccountSettings from './user/AccountSettings';
+import { Logout, Photo, Settings } from '@mui/icons-material';
 
 function ResponsiveAppBar() {
   const {
@@ -112,7 +113,7 @@ function ResponsiveAppBar() {
           {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
           <ListItemText
             // primaryTypographyProps={{ color: theme.palette.mode === 'dark' ? 'primary.light' : 'primary' }}
-            primaryTypographyProps={{ color: theme.palette.mode === 'dark' ? 'text.primary' : 'text.primary' }}
+            primaryTypographyProps={{ color: 'text.primary' }}
             primary={primary}
           />
         </ListItem>
@@ -269,13 +270,24 @@ function ResponsiveAppBar() {
                 open={Boolean(anchorElUser)}
                 onClick={handleCloseUserMenu}
               >
-                <MenuItem onClick={editProfile}>
+                <MenuItem onClick={editProfile} startI>
+                  <ListItemIcon>
+                    <Photo fontSize='small' />
+                  </ListItemIcon>
                   <Typography textAlign='left'>Profile</Typography>
                 </MenuItem>
+
                 <MenuItem onClick={accountSettings}>
-                  <Typography textAlign='left'>Account</Typography>
+                  <ListItemIcon>
+                    <Settings fontSize='small' />
+                  </ListItemIcon>
+                  <Typography textAlign='left'>My Account</Typography>
                 </MenuItem>
+
                 <MenuItem onClick={signOutUser}>
+                  <ListItemIcon>
+                    <Logout fontSize='small' />
+                  </ListItemIcon>
                   <Typography textAlign='left'>Logout</Typography>
                 </MenuItem>
               </Menu>

@@ -3,12 +3,13 @@ import { useValue } from './ContextProvider';
 import { storage } from './FireBase';
 
 //all error handling will occur in the call function location
+// uploading without progress feedback
 
-const uploadFile = (fileName, filePath) => {
+const uploadFile = (file, storageFilePath) => {
   return new Promise(async (resolve, reject) => {
-    const storageRef = ref(storage, filePath);
+    const storageRef = ref(storage, storageFilePath);
     try {
-      await uploadBytes(storageRef, fileName);
+      await uploadBytes(storageRef, file);
       const url = await getDownloadURL(storageRef);
       resolve(url);
     } catch (error) {

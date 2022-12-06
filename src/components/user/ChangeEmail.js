@@ -42,9 +42,9 @@ const ChangeEmail = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <DialogContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <DialogContentText>Current email:&nbsp; </DialogContentText>
-        <TextField size='small' inputRef={emailRef} defaultValue={currentUser.email} />
+      <DialogContent sx={{ minWidth: 350, justifyContent: 'center' }}>
+        {/* <DialogContentText noWrap> Email:&nbsp; </DialogContentText> */}
+        <TextField fullWidth size='small' inputRef={emailRef} defaultValue={currentUser.email} label='New Email' />
       </DialogContent>
       <DialogActions sx={{ justifyContent: 'center' }}>
         <Button type='submit' sx={{ borderRadius: 25 }} variant='contained' endIcon={<SendIcon />}>
