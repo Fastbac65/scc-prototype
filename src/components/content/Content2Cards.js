@@ -15,7 +15,7 @@ import CmplxReviewCardHist from './CmplxReviewCardHist';
 const Content2Cards = () => {
   const { theme } = useValue();
   return (
-    <Box component='section' sx={{ borderRadius: 0, flexGrow: 1 }} m={1} py={{ xs: 1, md: 2 }}>
+    <Box component='section' sx={{ borderRadius: 0, flexGrow: 1 }} mx={1} py={{ xs: 1, md: 2 }}>
       <Grid container spacing={0}>
         <Grid
           item

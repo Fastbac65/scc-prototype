@@ -7,7 +7,8 @@ import { updateEmail } from 'firebase/auth';
 const ChangeEmail = () => {
   const {
     dispatch,
-    state: { alert, modal, currentUser },
+    currentUser,
+    state: { alert, modal },
   } = useValue();
   const emailRef = useRef();
 

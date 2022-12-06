@@ -34,14 +34,18 @@ const Profile = () => {
     let imagesObj = { uName: name, uAvatar: photoURL };
     try {
       if (file) {
+        // imageName is originalFileName + uuid + originalFileExtension
         const imageName = file.name.split('.')[0] + '_' + uuidv4() + '.' + file.name.split('.').pop();
         const url = await uploadFile(file, `profile/${currentUser?.uid}/${imageName}`);
         const prevURL = currentUser?.photoURL;
 
         if (prevURL) {
-          const prevProfilePath = `profile/${currentUser?.uid}/${prevURL?.split('%2F')[2]?.split('?')[0]}`;
-          // grabs the filename minus ? afters
-          if (prevProfilePath) {
+          const prevProfileImageName = `${prevURL?.split(`${currentUser?.uid}%2F`)[1]?.split('?')[0]}`;
+          // will be undefined is there is no previous image within the URL as we're looking for the 'uid' to split on
+          const prevProfilePath = `profile/${currentUser?.uid}/${prevProfileImageName}`;
+          // full path
+          // splitting with uid is more robust -- if there is no prev stored avatar (or its a google avatar) prevProfilePath will be undefined and we wont even try delete
+          if (prevProfileImageName !== 'undefined') {
             try {
               await deleteFile(prevProfilePath);
             } catch (error) {

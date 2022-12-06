@@ -22,9 +22,6 @@ const Test = () => {
   const { theme } = useValue();
   return (
     <>
-      <ChangeEmail />
-      <ChangePassword />
-
       <Container maxWidth='lg' sx={{ textAlign: 'center', justifyContent: 'center' }}>
         <Box sx={{ backgroundImage: `url(${scc1})` }}>
           <Box sx={{ background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.2)' }}>

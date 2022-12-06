@@ -3,18 +3,24 @@ import { useRef } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import { useValue } from '../context/ContextProvider';
 import { deleteUser } from 'firebase/auth';
+import deleteUserFiles from '../context/deleteUserFiles';
 
 const DeleteAccount = () => {
   const {
     dispatch,
-    state: { alert, modal, currentUser },
+    currentUser,
+    state: { alert, modal },
   } = useValue();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch({ type: 'START_LOADING' });
     try {
+      await deleteUserFiles('Gallery', currentUser);
+      console.log('user files deleted..  trying to delete account');
       await deleteUser(currentUser);
+      console.log('user deleted..');
+
       dispatch({ type: 'MODAL', payload: { ...modal, open: false } });
       dispatch({
         type: 'UPDATE_ALERT',
@@ -23,11 +29,11 @@ const DeleteAccount = () => {
           open: true,
           severity: 'success',
           message: 'Account succesfully deleted!',
-          duration: 4000,
+          duration: 8000,
         },
       });
     } catch (error) {
-      console.log(error.message);
+      console.log('deleteaccount', error.message, error);
       dispatch({
         type: 'UPDATE_ALERT',
         payload: { ...alert, open: true, severity: 'error', message: error.message, duration: 4000 },

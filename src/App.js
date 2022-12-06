@@ -20,6 +20,7 @@ import VenueHire from './components/VenueHire';
 import Loading from './components/Loading';
 import Modal from './components/Modal';
 import Footer from './components/Footer';
+import EmailVerification from './components/user/EmailVerification';
 
 function App() {
   const { login, theme } = useValue();
@@ -33,6 +34,7 @@ function App() {
         <Modal />
         <Notification />
         <ResponsiveAppBar />
+        <EmailVerification />
         {/* <PathTrack /> */}
 
         <Routes>

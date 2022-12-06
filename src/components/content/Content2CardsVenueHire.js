@@ -48,12 +48,12 @@ const Content2Cards = () => {
             Otherwise feel free to drop us an email at scccaretaker@gmail.com or call us on the mobile 0432066292.
           </Typography>
         </Grid>
-        <Grid item sx={{ ml: 'auto', borderRadius: 1, boxShadow: '4' }} xs={12} sm={5.5}>
+        <Grid item sx={{ ml: 'auto', borderRadius: 1, boxShadow: '4' }} xs={12} sm={6}>
           <Grid container p={1} alignItems='center' justifyContent='space-around'>
             <IconBloc icon={AccessAlarmIcon} />
             <Grid item border={0} p={1} sx={{ width: '80%' }}>
               <Typography variant='body2' color='text.secondary'>
-                Large commercial grade kitchen available for the duration of your function.
+                Large commercial grade kitchen available for your function.
                 <br />
                 Ideal for your entertaining.
               </Typography>
@@ -63,7 +63,7 @@ const Content2Cards = () => {
             <IconBloc icon={ThreeDRotation} />
             <Grid item border={0} p={1} sx={{ width: '80%' }}>
               <Typography variant='body2' color='text.secondary'>
-                Stylish wooden bar leaners and stools. Full AV facilities.
+                Stylish wooden bar, beautiful tables and stools.
                 <br />
                 Capacity for up to 120 people. Inside and outside dining.
               </Typography>
@@ -75,7 +75,7 @@ const Content2Cards = () => {
               <Typography variant='body2' color='text.secondary'>
                 Large, private, outdoor balcony adjoining the hall.
                 <br />
-                South Curly is beautiful but often quite dangerous.
+                Suitable for outdoor dining and nibbles.
               </Typography>
             </Grid>
           </Grid>
@@ -83,7 +83,7 @@ const Content2Cards = () => {
             <IconBloc icon={Api} />
             <Grid item border={0} p={1} sx={{ width: '80%' }}>
               <Typography variant='body2' color='text.secondary'>
-                Patrolling the beach is critical on busy weekends
+                Full audio and video facilities for presentations/music.
                 <br />
                 BBQ facilities available for the duration of your function.
               </Typography>
@@ -95,7 +95,7 @@ const Content2Cards = () => {
               <Typography variant='body2' color='text.secondary'>
                 Large bar servery area that you are welcome to use.
                 <br />
-                You are welcome to supply drinks to your guests for free or for your guests to BYO drinks.
+                BYO drinks for you and your guests. Bar service also avilable.
               </Typography>
             </Grid>
           </Grid>

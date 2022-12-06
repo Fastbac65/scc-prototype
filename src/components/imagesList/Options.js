@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -6,7 +6,7 @@ import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { ListItemIcon, ListItemText } from '@mui/material';
-import GlobalContext, { useValue } from '../context/ContextProvider';
+import { useValue } from '../context/ContextProvider';
 
 import { Delete, Edit, MoreVert } from '@mui/icons-material';
 import deleteDocument from '../context/deleteDocument';

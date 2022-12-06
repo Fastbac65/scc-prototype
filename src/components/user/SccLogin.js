@@ -9,6 +9,7 @@ import { FacebookLoginButton, GoogleLoginButton, InstagramLoginButton } from 're
 import { useValue } from '../context/ContextProvider';
 import Content2Cards from '../content/Content2Cards';
 import PasswordField from './PasswordField';
+import ResetPassword from './ResetPassword';
 
 const RButton = styled(Button)(({ theme }) => ({
   borderRadius: 25,
@@ -16,7 +17,7 @@ const RButton = styled(Button)(({ theme }) => ({
 
 const SccLogin = () => {
   const {
-    state: { alert },
+    state: { alert, modal },
     dispatch,
     signInGoogle,
     signInEmail,
@@ -68,6 +69,11 @@ const SccLogin = () => {
     }
   };
 
+  const handleResetPassword = () => {
+    //
+    dispatch({ type: 'MODAL', payload: { ...modal, open: true, content: <ResetPassword />, title: 'Reset Password' } });
+  };
+
   const useGoogle = async () => {
     try {
       await signInGoogle();
@@ -110,7 +116,7 @@ const SccLogin = () => {
               </Box>
 
               <Box sx={{ pb: 3, display: 'flex', justifyContent: 'space-around' }}>
-                <RButton>Forgot Password</RButton>
+                <RButton onClick={handleResetPassword}>Forgot Password</RButton>
                 <RButton type='submit' variant='contained' startIcon={<LoginIcon />}>
                   Sign In
                 </RButton>

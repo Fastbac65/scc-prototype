@@ -13,6 +13,7 @@ import {
   signOut,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from 'firebase/auth';
 
 import reducer from './reducer';
@@ -159,6 +160,10 @@ export const ContextProvider = ({ children }) => {
     });
   };
 
+  const resetPassword = (email) => {
+    return sendPasswordResetEmail(auth, email);
+  };
+
   return (
     <GlobalContext.Provider
       value={{
@@ -175,6 +180,7 @@ export const ContextProvider = ({ children }) => {
         signInGoogle,
         signOutUser,
         imglib,
+        resetPassword,
       }}
     >
       {children}

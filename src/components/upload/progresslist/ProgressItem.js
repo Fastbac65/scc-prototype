@@ -42,6 +42,7 @@ const ProgressItem = ({ file, collectionName }) => {
           imageURL: url,
           thumbnailUrl: '',
         };
+        //todo why is docRef undefined
         const docRef = await addDocument(collectionName, databaseDoc, imageName);
         console.log(`${collectionName} updated:`, docRef, databaseDoc);
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -44,6 +44,7 @@ function ResponsiveAppBar() {
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  let location = useLocation();
 
   const editProfile = () => {
     dispatch({ type: 'MODAL', payload: { ...modal, open: true, title: 'Update Profile', content: <Profile /> } });
@@ -61,6 +62,7 @@ function ResponsiveAppBar() {
       primary: 'Venue Hire',
       icon: <CelebrationIcon />,
       to: '/hire',
+      color: location.pathname == '/hire' ? '#f9de00' : 'white',
       members: true,
     },
 
@@ -68,24 +70,32 @@ function ResponsiveAppBar() {
       primary: 'Posts',
       icon: <NewspaperIcon />,
       to: '/posts',
+      color: location.pathname == '/posts' ? '#f9de00' : 'white',
+
       members: true,
     },
     {
       primary: 'Gallery',
       icon: <LocalActivityIcon />,
       to: '/gallery',
+      color: location.pathname == '/gallery' ? '#f9de00' : 'white',
+
       members: true,
     },
     {
       primary: 'History',
       icon: <MilitaryTechIcon />,
       to: '/history',
+      color: location.pathname == '/history' ? '#f9de00' : 'white',
+
       members: true,
     },
     {
       primary: 'Training',
       icon: <FitnessCenterIcon />,
       to: '/training',
+      color: location.pathname == '/training' ? '#f9de00' : 'white',
+
       members: login,
     },
   ];
@@ -200,7 +210,7 @@ function ResponsiveAppBar() {
                       component={RouterLink}
                       to={page.to}
                       onClick={handleCloseNavMenu}
-                      sx={{ my: 2, color: 'white', display: 'block' }}
+                      sx={{ my: 2, color: page.color, display: 'block' }}
                     >
                       {page.primary}
                     </Button>

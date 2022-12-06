@@ -131,15 +131,27 @@ const AccountSettings = () => {
   return (
     <div>
       <DialogActions sx={{ justifyContent: 'space-around' }}>
-        <Button sx={{ borderRadius: 25 }} variant='contained' onClick={() => handleAction('Change Email')}>
+        <Button
+          sx={{ borderRadius: 25, color: userAction === 'Change Email' ? '#f9de00' : null }}
+          variant='contained'
+          onClick={() => handleAction('Change Email')}
+        >
           Change Email
         </Button>
         {isPassword && (
-          <Button sx={{ borderRadius: 25 }} variant='contained' onClick={() => handleAction('Change Password')}>
+          <Button
+            sx={{ borderRadius: 25, color: userAction === 'Change Password' ? '#f9de00' : null }}
+            variant='contained'
+            onClick={() => handleAction('Change Password')}
+          >
             Change Password
           </Button>
         )}
-        <Button sx={{ borderRadius: 25 }} variant='contained' onClick={() => handleAction('Delete Account')}>
+        <Button
+          sx={{ borderRadius: 25, color: userAction === 'Delete Account' ? '#f9de00' : null }}
+          variant='contained'
+          onClick={() => handleAction('Delete Account')}
+        >
           Delete Account
         </Button>
       </DialogActions>
