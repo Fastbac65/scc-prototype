@@ -270,7 +270,7 @@ function ResponsiveAppBar() {
                 open={Boolean(anchorElUser)}
                 onClick={handleCloseUserMenu}
               >
-                <MenuItem onClick={editProfile} startI>
+                <MenuItem onClick={editProfile}>
                   <ListItemIcon>
                     <Photo fontSize='small' />
                   </ListItemIcon>
