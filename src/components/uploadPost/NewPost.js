@@ -11,14 +11,14 @@ const NewPost = () => {
 
   return (
     <form>
-      <DialogActions sx={{ justifyContent: 'center' }}>
+      <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
         <UploadImages />
       </DialogActions>
       <DialogContent>
-        <DialogContentText>Please fill out required fields - Note max character limits</DialogContentText>
+        <DialogContentText>Please fill out required fields</DialogContentText>
         <TextField size='small' type='text' fullWidth inputRef={titleRef} label='Title' required />
-        <TextField size='small' type='text' fullWidth inputRef={subtitleRef} label='Subtitle' required />
-        <TextField size='small' type='text' fullWidth inputRef={summaryRef} label='Summary' required multiline />
+        {/* <TextField size='small' type='text' fullWidth inputRef={subtitleRef} label='Subtitle' required /> */}
+        {/* <TextField size='small' type='text' fullWidth inputRef={summaryRef} label='Summary' required multiline /> */}
         <TextField size='small' type='text' fullWidth inputRef={bodyRef} label='Main' required multiline />
       </DialogContent>
       <DialogActions sx={{ justifyContent: 'center' }}>

@@ -2,13 +2,13 @@ import { CheckCircleOutline } from '@mui/icons-material';
 import { ImageListItem } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect, useState } from 'react';
-import CircularProgressWithLabel from './CircularProgressWithLabel';
+import CircularProgressWithLabel from '../utils/CircularProgressWithLabel';
 import { v4 as uuidv4 } from 'uuid';
-import uploadFileProgress from '../../context/uploadFileProgress';
-import { addDocument } from '../../context/addDocument';
-import { useValue } from '../../context/ContextProvider';
+import uploadFileProgress from '../context/uploadFileProgress';
+import { addDocument } from '../context/addDocument';
+import { useValue } from '../context/ContextProvider';
 
-const ProgressItem = ({ file, collectionName }) => {
+const PostImageItem = ({ file, collectionName }) => {
   const { currentUser } = useValue();
   const [progress, setProgress] = useState(0);
   const [imageURL, setImageURL] = useState(null);
@@ -52,25 +52,25 @@ const ProgressItem = ({ file, collectionName }) => {
         console.log(error.message);
       }
     };
-    uploadImage();
+    //uploadImage();
   }, [file]);
-
+  //cols={1} row={1}
   return (
     imageURL && (
-      <ImageListItem cols={1} row={1}>
+      <ImageListItem>
         <img src={imageURL} alt={collectionName} loading='lazy' />
-        <Box sx={backDrop}>
+        {/* <Box sx={backDrop}>
           {progress < 100 ? (
             <CircularProgressWithLabel value={progress} />
           ) : (
             <CheckCircleOutline sx={{ width: 25, height: 25, color: '#f9de00' }} />
           )}
-        </Box>
+        </Box> */}
       </ImageListItem>
     )
   );
 };
-export default ProgressItem;
+export default PostImageItem;
 
 const backDrop = {
   position: 'absolute',

@@ -2,23 +2,28 @@ import { Add } from '@mui/icons-material';
 import { Box, Fab, Input } from '@mui/material';
 import React, { useRef } from 'react';
 
-const AddImages = ({ setFiles }) => {
+const AddImages = ({ files, setFiles }) => {
   const fileRef = useRef();
 
   const handleClick = () => {
     fileRef.current.click();
-
-    console.log('form:', fileRef.current.value);
   };
 
   const handleChange = (e) => {
-    setFiles([...e.target.files]);
-    console.log('form change:', e.target.files);
+    let currentFiles = files;
+    let newFiles = [...e.target.files];
+    console.log('1', files, newFiles);
+
+    const allFiles = [...files, ...e.target.files];
+
+    console.log(allFiles);
+
+    setFiles(allFiles);
     fileRef.current.value = null; //allows the same file to be uploaded twice
   };
 
   return (
-    <>
+    <div>
       <Input
         type='file'
         inputRef={fileRef}
@@ -29,7 +34,7 @@ const AddImages = ({ setFiles }) => {
       <Fab size='small' color='primary' aria-label='add' onClick={handleClick}>
         <Add fontSize='large' />
       </Fab>
-    </>
+    </div>
   );
 };
 

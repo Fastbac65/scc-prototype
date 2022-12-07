@@ -14,7 +14,7 @@ const Modal = () => {
 
   return (
     <Dialog open={modal.open} onClose={handleClose} PaperProps={{ elevation: 2 }}>
-      <DialogTitle sx={{ pb: 0 }}>
+      <DialogTitle sx={{ pb: 1 }}>
         {modal.title}
         <IconButton
           aria-label='Close'

@@ -28,7 +28,7 @@ export default function Posts() {
   };
 
   const handleCreatePost = () => {
-    // dispatch({ type: 'MODAL', payload: { ...modal, open: true, title: 'Create Post', content: <NewPost /> } });
+    dispatch({ type: 'MODAL', payload: { ...modal, open: true, title: 'Create Post', content: <NewPost /> } });
   };
 
   return (
