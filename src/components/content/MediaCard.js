@@ -12,7 +12,7 @@ import Fade from '@mui/material/Fade';
 // import { getDownloadURL } from 'firebase/storage';
 
 export default function MediaCard() {
-  const { imageref, images, imglib } = useContext(GlobalContext);
+  const { imglib } = useContext(GlobalContext);
   const [url, setUrl] = useState(
     // 'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader7.jpeg?alt=media&token=9ff47599-4360-4649-bf48-a60730cea6c5'
     'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader5.jpeg?alt=media&token=8acd48ec-9c4c-404b-b242-9031eb2c7a0a'

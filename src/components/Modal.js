@@ -13,7 +13,7 @@ const Modal = () => {
   };
 
   return (
-    <Dialog open={modal.open} onClose={handleClose} PaperProps={{ elevation: 2 }}>
+    <Dialog open={modal.open} onClose={handleClose} disableEscapeKeyDown={true} PaperProps={{ elevation: 2 }}>
       <DialogTitle sx={{ pb: 1 }}>
         {modal.title}
         <IconButton

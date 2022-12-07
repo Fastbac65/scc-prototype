@@ -1,4 +1,4 @@
-import { Fab, Tooltip, Box, IconButton, Container, Typography } from '@mui/material';
+import { Fab, Tooltip } from '@mui/material';
 import Lightbox from 'react-spring-lightbox';
 import { useValue } from '../context/ContextProvider';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';

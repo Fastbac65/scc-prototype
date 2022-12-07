@@ -1,31 +1,78 @@
-import { Button, DialogActions, DialogContent, DialogContentText, TextField } from '@mui/material';
-import { useRef } from 'react';
-import UploadImages from './UploadImages';
+import { Box, Button, DialogActions, DialogContent, DialogContentText, Paper, TextField } from '@mui/material';
+import { useRef, useState } from 'react';
 import SendIcon from '@mui/icons-material/Send';
+import AddImages from './AddImages';
+import PostImagesList from './PostImageList';
+import { useValue } from '../context/ContextProvider';
 
 const NewPost = () => {
+  const { theme } = useValue();
+  const [files, setFiles] = useState([]);
+
   const titleRef = useRef();
   const subtitleRef = useRef();
-  const summaryRef = useRef();
+  // const summaryRef = useRef();
   const bodyRef = useRef();
 
   return (
     <form>
-      <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
-        <UploadImages />
-      </DialogActions>
-      <DialogContent>
-        <DialogContentText>Please fill out required fields</DialogContentText>
-        <TextField size='small' type='text' fullWidth inputRef={titleRef} label='Title' required />
-        {/* <TextField size='small' type='text' fullWidth inputRef={subtitleRef} label='Subtitle' required /> */}
-        {/* <TextField size='small' type='text' fullWidth inputRef={summaryRef} label='Summary' required multiline /> */}
-        <TextField size='small' type='text' fullWidth inputRef={bodyRef} label='Main' required multiline />
+      <DialogContent sx={{ pt: 0, px: { xs: 1, sm: 2 }, width: { xs: 300, sm: 350 }, minHeight: 420 }}>
+        <Paper elevation={15} sx={{ pt: 0, border: theme.palette.mode === 'dark' ? 0 : 1, borderColor: 'lightgray' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <PostImagesList files={files} />
+          </Box>
+          <Box sx={{ width: '94%' }}>
+            <TextField
+              color='secondary'
+              sx={{ mb: 0, ml: 1 }}
+              variant='standard'
+              size='small'
+              type='text'
+              fullWidth
+              inputRef={titleRef}
+              label='Title'
+              required
+              multiline
+              InputProps={{ style: { fontSize: 20 } }}
+            />
+            <TextField
+              color='secondary'
+              sx={{ mb: 2, ml: 1 }}
+              variant='standard'
+              size='small'
+              type='text'
+              fullWidth
+              inputRef={subtitleRef}
+              label='Subtitle or Date'
+              required
+              InputProps={{ style: { fontSize: 14 } }}
+            />
+            {/* <TextField size='small' type='text' fullWidth inputRef={summaryRef} label='Summary' required multiline /> */}
+            <TextField
+              color='secondary'
+              sx={{ mb: 3, ml: 1 }}
+              variant='standard'
+              size='small'
+              type='text'
+              fullWidth
+              inputRef={bodyRef}
+              label='Main'
+              required
+              multiline
+              InputProps={{ style: { fontSize: 14 } }}
+            />
+          </Box>
+        </Paper>
+
+        <DialogActions sx={{ justifyContent: 'center' }}>
+          <AddImages files={files} setFiles={setFiles} />
+
+          <Button type='submit' sx={{ borderRadius: 25 }} variant='contained' endIcon={<SendIcon />}>
+            Submit
+          </Button>
+        </DialogActions>
+        <DialogContentText variant='caption'>Add photos or go with the library option.</DialogContentText>
       </DialogContent>
-      <DialogActions sx={{ justifyContent: 'center' }}>
-        <Button type='submit' sx={{ borderRadius: 25 }} variant='contained' endIcon={<SendIcon />}>
-          Submit
-        </Button>
-      </DialogActions>
     </form>
   );
 };

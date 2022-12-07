@@ -25,7 +25,7 @@ const Content2Cards = () => {
             background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)',
           }}
           xs={12}
-          sm={5.5}
+          sm={6}
         >
           <Typography variant='h5' pt={1} m={2}>
             Our Club, Our History
