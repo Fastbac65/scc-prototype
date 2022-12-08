@@ -13,7 +13,7 @@ const Loading = () => {
 
   return (
     <>
-      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.modal + 1 }} open={loading}>
+      <Backdrop sx={{ zIndex: (theme) => theme.zIndex.modal + 10 }} open={loading}>
         <CircularProgress sx={{ color: '#f9de00' }} />
       </Backdrop>
     </>

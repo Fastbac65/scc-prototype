@@ -1,12 +1,8 @@
-import { CardMedia, ImageList, ImageListItem } from '@mui/material';
 import { Fab, Tooltip, Box } from '@mui/material';
-
 import Lightbox from 'react-spring-lightbox';
-
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
 import { useValue } from '../context/ContextProvider';
 
 const PostsLightBox = ({ open, setOpen, currentImageIndex, setCurrentImageIndex, images }) => {

@@ -1,11 +1,8 @@
-import ContentCardMasonryHome from './content/ContentCardMasonryHome';
 import Content2Cards from './content/Content2Cards';
-import Footer from './Footer';
-import { Box, Paper } from '@mui/material';
+import { Box } from '@mui/material';
 import scc1 from '../static/imgs/scc-fb-grp.jpeg';
 import { useValue } from './context/ContextProvider';
 import { ImageCarousel } from './content/ImageCarousel';
-import { Container } from '@mui/system';
 import ContentCardMasonryPosts from './content/ContentCardMasonryPosts';
 
 // const Item = styled(Paper)(({ theme }) => ({

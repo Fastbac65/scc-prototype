@@ -1,13 +1,5 @@
 import { CardMedia, ImageList, ImageListItem } from '@mui/material';
-import { Fab, Tooltip, Box } from '@mui/material';
-
 import { useEffect, useState } from 'react';
-import Lightbox from 'react-spring-lightbox';
-
-import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
-import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
 import { useValue } from '../context/ContextProvider';
 import PostsLightBox from '../imagesList/PostsLightBox';
 
@@ -16,32 +8,31 @@ import PostsLightBox from '../imagesList/PostsLightBox';
 // const height = [120, 120, 120, 120, 120, 120];
 // const height = [120, 120, 120, 75, 75, 75];
 
-const PostImagesList = ({ files, collectionName }) => {
-  const { theme, imglib } = useValue();
-  // const [imageURLs, setImageURLs] = useState([]);
+const PostImagesList = ({ files, setDefaultImageURL }) => {
+  const { imglib } = useValue();
   const [images, setImages] = useState([]);
 
   const [currentImageIndex, setCurrentImageIndex] = useState();
   const [open, setOpen] = useState(false);
 
+  // picks an initial photo from the library
   useEffect(() => {
-    // picks an initial photo from the library
     const indx = Math.floor(Math.random() * imglib.length);
     let url = imglib[indx];
-    // setImageURLs([url]);
-    setImages([{ src: url }]);
+    setImages([{ src: url, alt: url }]);
+    setDefaultImageURL({ src: url, alt: url });
     console.log('first effect ran', url);
   }, []);
 
+  // sets up images array from files - basically does nothing until there are files
   useEffect(() => {
-    // basically does nothing until there are files
-
+    // create the array of images[{src: url , alt: url ,},...]
     var imgs = [];
     if (files.length) {
       console.log('if files was true');
       files.map((file, indx) => {
         var url = URL.createObjectURL(file);
-        // imgs.push({ src: url, alt: url });
+        // imgs.push({ src: url, alt: url });  another way to do it
         imgs = [...imgs, { src: url, alt: url }];
       });
       setImages(imgs);
@@ -54,17 +45,17 @@ const PostImagesList = ({ files, collectionName }) => {
     console.log('main effect ran');
   }, [files]);
 
-  const imgtest = [
-    {
-      src: 'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader7.jpeg?alt=media&token=9ff47599-4360-4649-bf48-a60730cea6c5',
-    },
-    {
-      src: 'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader5.jpeg?alt=media&token=8acd48ec-9c4c-404b-b242-9031eb2c7a0a',
-    },
-    {
-      src: 'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader4.jpeg?alt=media&token=f2ede123-a80e-468a-bff7-ce5c26d094c9',
-    },
-  ];
+  // const imgtest = [
+  //   {
+  //     src: 'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader7.jpeg?alt=media&token=9ff47599-4360-4649-bf48-a60730cea6c5',
+  //   },
+  //   {
+  //     src: 'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader5.jpeg?alt=media&token=8acd48ec-9c4c-404b-b242-9031eb2c7a0a',
+  //   },
+  //   {
+  //     src: 'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader4.jpeg?alt=media&token=f2ede123-a80e-468a-bff7-ce5c26d094c9',
+  //   },
+  // ];
 
   return (
     <div>
