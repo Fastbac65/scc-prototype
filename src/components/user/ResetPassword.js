@@ -48,7 +48,7 @@ const ResetPassword = () => {
   return (
     <form onSubmit={handleSubmit}>
       <DialogContent sx={{ minWidth: 350 }}>
-        <TextField size='small' fullWidth inputRef={emailRef} label='Email' />
+        <TextField color='secondary' size='small' fullWidth inputRef={emailRef} label='Email' />
         <DialogContentText mt={1}>Please confirm your email address:</DialogContentText>
       </DialogContent>
       <DialogActions sx={{ justifyContent: 'center' }}>

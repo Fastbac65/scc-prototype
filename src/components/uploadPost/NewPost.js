@@ -1,4 +1,4 @@
-import { Box, Button, DialogActions, DialogContent, DialogContentText, Paper, TextField } from '@mui/material';
+import { Box, Button, DialogActions, DialogContent, DialogContentText, Paper, Stack, TextField } from '@mui/material';
 import { useRef, useState } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import AddImages from './AddImages';
@@ -21,46 +21,48 @@ const NewPost = () => {
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <PostImagesList files={files} />
           </Box>
-          <Box sx={{ width: '94%' }}>
-            <TextField
-              color='secondary'
-              sx={{ mb: 0, ml: 1 }}
-              variant='standard'
-              size='small'
-              type='text'
-              fullWidth
-              inputRef={titleRef}
-              label='Title'
-              required
-              multiline
-              InputProps={{ style: { fontSize: 20 } }}
-            />
-            <TextField
-              color='secondary'
-              sx={{ mb: 2, ml: 1 }}
-              variant='standard'
-              size='small'
-              type='text'
-              fullWidth
-              inputRef={subtitleRef}
-              label='Subtitle or Date'
-              required
-              InputProps={{ style: { fontSize: 14 } }}
-            />
-            {/* <TextField size='small' type='text' fullWidth inputRef={summaryRef} label='Summary' required multiline /> */}
-            <TextField
-              color='secondary'
-              sx={{ mb: 3, ml: 1 }}
-              variant='standard'
-              size='small'
-              type='text'
-              fullWidth
-              inputRef={bodyRef}
-              label='Main'
-              required
-              multiline
-              InputProps={{ style: { fontSize: 14 } }}
-            />
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Stack sx={{ width: '92%' }}>
+              <TextField
+                color='secondary'
+                sx={{ mb: 0 }}
+                variant='standard'
+                size='small'
+                type='text'
+                fullWidth
+                inputRef={titleRef}
+                label='Title'
+                required
+                multiline
+                InputProps={{ style: { fontSize: 20 } }}
+              />
+              <TextField
+                color='secondary'
+                sx={{ mb: 2 }}
+                variant='standard'
+                size='small'
+                type='text'
+                fullWidth
+                inputRef={subtitleRef}
+                label='Subtitle or Date'
+                required
+                InputProps={{ style: { fontSize: 14 } }}
+              />
+              {/* <TextField size='small' type='text' fullWidth inputRef={summaryRef} label='Summary' required multiline /> */}
+              <TextField
+                color='secondary'
+                sx={{ mb: 3 }}
+                variant='standard'
+                size='small'
+                type='text'
+                fullWidth
+                inputRef={bodyRef}
+                label='Main'
+                required
+                multiline
+                InputProps={{ style: { fontSize: 14 } }}
+              />
+            </Stack>
           </Box>
         </Paper>
 

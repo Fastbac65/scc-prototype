@@ -109,9 +109,9 @@ const SccLogin = () => {
               />
               <Box sx={{ py: 3, display: 'flex', justifyContent: 'center' }}>
                 <Stack spacing={2} py={1} sx={{ width: '80%' }}>
-                  <TextField label='Email' required error={emailErr} inputRef={emailRef} />
+                  <TextField color='secondary' label='Email' required error={emailErr} inputRef={emailRef} />
                   <PasswordField label='Password' type='password' error={passwordErr} inputRef={passwordRef} />
-                  {/* <TextField label='Password' type='password' required error={passwordErr} inputRef={passwordRef} /> */}
+                  {/* <TextField color='secondary'  label='Password' type='password' required error={passwordErr} inputRef={passwordRef} /> */}
                 </Stack>
               </Box>
 

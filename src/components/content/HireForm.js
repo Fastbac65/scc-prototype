@@ -83,12 +83,26 @@ const HireForm = () => {
           <Box sx={{ pb: 1, display: 'flex', justifyContent: 'center' }}>
             <Stack spacing={2} py={1} sx={{ width: '80%' }}>
               <Box spacing={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <TextField size='small' label='Full Name' required error={fnameErr} inputRef={fnameRef} />
-                <TextField size='small' label='Mobile Number' error={mobileErr} inputRef={mobileRef} />
+                <TextField
+                  color='secondary'
+                  size='small'
+                  label='Full Name'
+                  required
+                  error={fnameErr}
+                  inputRef={fnameRef}
+                />
+                <TextField
+                  color='secondary'
+                  size='small'
+                  label='Mobile Number'
+                  error={mobileErr}
+                  inputRef={mobileRef}
+                />
               </Box>
 
-              <TextField size='small' label='Email' required error={emailErr} inputRef={emailRef} />
+              <TextField color='secondary' size='small' label='Email' required error={emailErr} inputRef={emailRef} />
               <TextField
+                color='secondary'
                 size='small'
                 label='Confirm Email'
                 type='text'

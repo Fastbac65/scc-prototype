@@ -23,6 +23,7 @@ const PasswordField = ({
 
   return (
     <TextField
+      color='secondary'
       sx={sx}
       label={label}
       helperText={helperText}
