@@ -22,10 +22,10 @@ const NewPost = () => {
             <PostImagesList files={files} />
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Stack sx={{ width: '92%' }}>
+            <Stack spacing={0} sx={{ width: '92%' }}>
               <TextField
                 color='secondary'
-                sx={{ mb: 0 }}
+                // sx={{ mb: 0 }}
                 variant='standard'
                 size='small'
                 type='text'
@@ -38,7 +38,7 @@ const NewPost = () => {
               />
               <TextField
                 color='secondary'
-                sx={{ mb: 2 }}
+                sx={{ mb: 1 }}
                 variant='standard'
                 size='small'
                 type='text'
@@ -73,6 +73,7 @@ const NewPost = () => {
             Submit
           </Button>
         </DialogActions>
+        <DialogContentText variant='caption'>Click on photo to zoom.</DialogContentText>
         <DialogContentText variant='caption'>Add photos or go with the library option.</DialogContentText>
       </DialogContent>
     </form>

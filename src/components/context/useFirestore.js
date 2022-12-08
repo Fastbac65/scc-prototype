@@ -4,6 +4,7 @@ import { useValue } from './ContextProvider';
 import { db } from './FireBase';
 
 //will use collectionName if available otherwise use 'Gallery'
+// returns all documents in the collectionName
 const useFirestore = (collectionName = 'Gallery') => {
   const {
     state: { alert },

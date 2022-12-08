@@ -8,6 +8,7 @@ const updateUserRecords = (collectionName, uid, updateObj) => {
       const snapshot = await getDocs(q);
       const updatePromises = [];
       snapshot.forEach((document) => {
+        // updateDoc( docRef, updateObject)
         updatePromises.push(updateDoc(doc(db, collectionName, document.id), updateObj));
       });
       await Promise.all(updatePromises);

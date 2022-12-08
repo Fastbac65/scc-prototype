@@ -13,7 +13,7 @@ export function ImageCarousel(props) {
   var items = [
     {
       src: img4,
-      description: 'Probably the most random thing you have ever seen!',
+      description: 'What ever!',
     },
     {
       src: img2,
