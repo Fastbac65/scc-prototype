@@ -6,7 +6,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useValue } from '../context/ContextProvider';
 import { useEffect, useMemo, useState } from 'react';
 
-const PostsLightBox = ({ open, currentImageIndex, images }) => {
+const PostsLightBox = ({ open, setOpen, currentImageIndex, images }) => {
   const { theme } = useValue();
 
   const [currentIndx, setCurrentIndx] = useState(0);
@@ -17,7 +17,7 @@ const PostsLightBox = ({ open, currentImageIndex, images }) => {
     setCurrentIndx(currentImageIndex);
     setIsOpen(open);
     console.log(open);
-  }, [currentImageIndex]);
+  }, [currentImageIndex, open]);
 
   const gotoPrevious = () => {
     currentIndx > 0 && setCurrentIndx(currentIndx - 1);
@@ -107,6 +107,7 @@ const PostsLightBox = ({ open, currentImageIndex, images }) => {
   };
   const handleClose = () => {
     setIsOpen(false);
+    setOpen(false);
   };
 
   return (
