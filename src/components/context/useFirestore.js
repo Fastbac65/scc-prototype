@@ -5,6 +5,7 @@ import { db } from './FireBase';
 
 //will use collectionName if available otherwise use 'Gallery'
 // returns all documents in the collectionName
+// maintains state on db collection contents - this is the GOLD of every device seeing the same things
 const useFirestore = (collectionName = 'Gallery') => {
   const {
     state: { alert },

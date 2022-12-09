@@ -1,12 +1,9 @@
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import { Avatar, Box, Tooltip, Typography } from '@mui/material';
+import { Avatar, Tooltip, Typography } from '@mui/material';
 import moment from 'moment';
-import profile from '../../static/imgs/fastbac-sq.png';
 import Options from './Options';
 import { useValue } from '../context/ContextProvider';
-import { updateCurrentUser } from 'firebase/auth';
-import CloseLightBox from './CloseLightBox';
 
 function srcset(image, size, rows = 1, cols = 1) {
   return {

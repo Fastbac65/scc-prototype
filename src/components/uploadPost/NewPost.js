@@ -6,6 +6,7 @@ import PostImagesList from './PostImageList';
 import { useValue } from '../context/ContextProvider';
 import { uuidv4 } from '@firebase/util';
 import uploadFile from '../context/uploadFile';
+import { addDocument } from '../context/addDocument';
 
 const NewPost = () => {
   const { theme, currentUser, dispatch } = useValue();
@@ -17,7 +18,7 @@ const NewPost = () => {
   const mainRef = useRef();
   const collectionName = 'Posts';
   const storageName = 'posts';
-  const postDocumentId = currentUser.uid + '_' + uuidv4();
+  const postDocumentId = currentUser?.uid + '_' + uuidv4();
 
   const uploadPostImages = () => {
     //FILE_NAME AND DATABASE DOCUMENT ID ARE THE SAME
@@ -62,33 +63,37 @@ const NewPost = () => {
     const main = mainRef.current.value;
 
     dispatch({ type: 'START_LOADING' });
+    try {
+      // upload post images if there are any
+      if (files.length) {
+        postImagesURLs = await uploadPostImages();
 
-    // upload post images if there are any
-    if (files.length) {
-      postImagesURLs = await uploadPostImages();
-
-      console.log(postImagesURLs);
-    } else console.log('default url is - ', postImagesURLs);
-
-    const databaseDoc = {
-      //TODO create sccUser db which will init on first signin/up and use this info when currentUser is ''
-      userId: currentUser?.uid || '',
-      uName: currentUser?.displayName || '',
-      uEmail: currentUser?.email || '',
-      uAvatar: currentUser?.photoURL || '',
-      uMobile: currentUser?.phoneNumber || '',
-      albumName: collectionName,
-      postType: '',
-      title: title,
-      subtitle: subtitle,
-      main: main.split(/\r?\n/),
-      imageURLs: postImagesURLs,
-      thumbnailUrl: '',
-      tags: {},
-      likes: 0,
-    };
-
-    // const addDocument = (collectionName, documentObj, documentId);   // also adds timestamp automatically
+        console.log(postImagesURLs);
+      } else {
+        // should be already initialised to default lib image
+        console.log('default url is - ', postImagesURLs);
+      }
+      // update database collection 'Posts'
+      const postDocumentObj = {
+        userId: currentUser?.uid || '',
+        uName: currentUser?.displayName || '',
+        uEmail: currentUser?.email || '',
+        uAvatar: currentUser?.photoURL || '',
+        uMobile: currentUser?.phoneNumber || '',
+        albumName: collectionName,
+        postType: '',
+        title: title,
+        subtitle: subtitle,
+        main: main.split(/\r?\n/), // array of paragraphs
+        images: postImagesURLs, // array of images objects [{src: url, alt: url,},.. ]
+        thumbnailUrl: '',
+        tags: {},
+        likes: 0,
+      };
+      await addDocument(collectionName, postDocumentObj, postDocumentId); // also adds timestamp automatically
+    } catch (error) {
+      console.log(error.message);
+    }
 
     dispatch({ type: 'END_LOADING' });
   };

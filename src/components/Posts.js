@@ -11,6 +11,8 @@ import { Stack } from '@mui/material';
 import { useState } from 'react';
 import { useValue } from './context/ContextProvider';
 import NewPost from './uploadPost/NewPost';
+import useFirestore from './context/useFirestore';
+import PostsList from './postsList/PostsList';
 
 export default function Posts() {
   const {
@@ -21,6 +23,7 @@ export default function Posts() {
 
   const [files, setFiles] = useState([]);
   const [like, setLike] = useState('');
+  const { documents } = useFirestore('Posts');
 
   const handleLikeClick = () => {
     if (like === 'red') setLike('');
@@ -30,6 +33,7 @@ export default function Posts() {
   const handleCreatePost = () => {
     dispatch({ type: 'MODAL', payload: { ...modal, open: true, title: 'Create Post', content: <NewPost /> } });
   };
+  console.log(documents);
 
   return (
     <div>
@@ -45,6 +49,7 @@ export default function Posts() {
             <FavoriteIcon sx={{ color: like }} />
           </Fab>
         </Stack>
+        <PostsList documents={documents} />
 
         <ContentCardMasonryPosts />
       </Box>
