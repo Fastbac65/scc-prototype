@@ -10,13 +10,10 @@ const PostsLightBox = ({ open, setOpen, currentImageIndex, images }) => {
   const { theme } = useValue();
 
   const [currentIndx, setCurrentIndx] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
 
   // runs upfront as opposed to useEffect which runs after component renders which is too late to set Indx
   useMemo(() => {
     setCurrentIndx(currentImageIndex);
-    setIsOpen(open);
-    console.log(open);
   }, [currentImageIndex, open]);
 
   const gotoPrevious = () => {
@@ -106,13 +103,12 @@ const PostsLightBox = ({ open, setOpen, currentImageIndex, images }) => {
     );
   };
   const handleClose = () => {
-    setIsOpen(false);
     setOpen(false);
   };
 
   return (
     <Lightbox
-      isOpen={isOpen}
+      isOpen={open}
       onPrev={gotoPrevious}
       onNext={gotoNext}
       images={images}

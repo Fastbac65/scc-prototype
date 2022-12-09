@@ -19,6 +19,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Fade from '@mui/material/Fade';
 
 import { useValue } from '../context/ContextProvider';
+import { Box, ImageList, ImageListItem } from '@mui/material';
+import moment from 'moment';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -31,13 +33,13 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function PostExpandCard({ doc }) {
+export default function PostExpandCard({ doc, setOpen, setCurrentImageIndex, setImages }) {
   const [expanded, setExpanded] = useState(false);
   const { currentUser } = useValue();
 
   const [like, setLike] = useState();
 
-  const [images, setImages] = useState([]);
+  // const [images, setImages] = useState([]);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -55,7 +57,7 @@ export default function PostExpandCard({ doc }) {
           <div id={doc.id} style={{ position: 'absolute', top: '-100px' }}></div>
         </div>
 
-        <Fade timeout={500} in={true}>
+        <Fade timeout={100} in={true}>
           <Card sx={{ maxWidth: 345 }}>
             <CardHeader
               avatar={
@@ -78,7 +80,65 @@ export default function PostExpandCard({ doc }) {
               title={doc.data?.title}
               subheader={doc.data?.subtitle}
             />
-            <CardMedia component='img' height='150' src={doc.data?.images[0].src} alt={doc.data?.images[0]} />
+            <ImageList
+              gap={1}
+              sx={{ width: 'auto', height: 'auto', maxHeight: 301, maxWidth: 350 }} // height 301 allows for 1px gap so no scroll bars show up
+              rowHeight={150}
+              // cols={layout[files.length - 1]}
+              cols={doc.data.images.length == 1 ? 1 : 2}
+            >
+              {doc.data.images.map((image, indx) => (
+                <ImageListItem key={image.src}>
+                  <CardMedia
+                    component='img'
+                    height='150'
+                    src={image.src}
+                    alt={image.alt}
+                    sx={{ cursor: 'pointer' }}
+                    onClick={() => {
+                      setCurrentImageIndex(indx);
+                      setImages(doc.data?.images);
+                      setOpen(true);
+                    }}
+                  />
+                  {indx === 0 && (
+                    <Typography
+                      variant='caption'
+                      component='span'
+                      sx={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        color: 'white',
+                        bgcolor: 'rgba(0,0,0,0.3)',
+                        p: '3px',
+                        borderBottomRightRadius: 10,
+                      }}
+                    >
+                      {moment(doc?.data?.timestamp?.toDate()).fromNow()}
+                    </Typography>
+                  )}
+                  {indx === 1 && doc.data.images.length > 4 && (
+                    <Typography
+                      variant='caption'
+                      component='span'
+                      sx={{
+                        position: 'absolute',
+                        right: 0,
+                        Top: 0,
+                        color: 'white',
+                        bgcolor: 'rgba(0,0,0,0.3)',
+                        p: '3px',
+                        borderBottomLeftRadius: 10,
+                      }}
+                    >
+                      {`+${doc.data.images.length - 4} photos`}
+                    </Typography>
+                  )}
+                </ImageListItem>
+              ))}
+            </ImageList>
+
             <CardContent>
               <Typography variant='body2' color='text.secondary'>
                 {doc.data?.main[0]}

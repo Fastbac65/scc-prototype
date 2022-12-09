@@ -1,4 +1,4 @@
-import { Button, DialogActions, DialogContent, DialogContentText, TextField } from '@mui/material';
+import { Button, DialogActions, DialogContent, TextField } from '@mui/material';
 import { useRef } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import { useValue } from '../context/ContextProvider';

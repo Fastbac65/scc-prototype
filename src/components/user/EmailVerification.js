@@ -1,5 +1,4 @@
-import { Close } from '@mui/icons-material';
-import { Alert, Button, Collapse, IconButton, Box } from '@mui/material';
+import { Alert, Button, Box } from '@mui/material';
 import { sendEmailVerification } from 'firebase/auth';
 import { useState } from 'react';
 import { useValue } from '../context/ContextProvider';
@@ -11,7 +10,6 @@ const EmailVerification = () => {
     state: { alert },
   } = useValue();
 
-  const [open, setOpen] = useState(true);
   const [isClicked, setIsClicked] = useState(false);
 
   const verify = async () => {

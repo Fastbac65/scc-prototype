@@ -1,22 +1,17 @@
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import { Avatar, Box, Tooltip, Typography } from '@mui/material';
-import moment from 'moment';
+import { Box, Tooltip, Typography } from '@mui/material';
 // import Options from './Options';
 import { useValue } from '../context/ContextProvider';
 import PostExpandCard from '../content/PostExpandCard';
-import CmplxReviewCard from '../content/CmplxReviewCard';
 import { Masonry } from '@mui/lab';
+import { useState } from 'react';
+import PostsLightBox from '../imagesList/PostsLightBox';
 
 const PostsList = ({ documents }) => {
-  const {
-    state: { lightbox },
-    dispatch,
-    login,
-    currentUser,
-  } = useValue();
+  const { dispatch, login, currentUser } = useValue();
 
-  console.log(documents);
+  const [images, setImages] = useState([]);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [open, setOpen] = useState(false);
 
   return (
     <div>
@@ -34,10 +29,22 @@ const PostsList = ({ documents }) => {
             spacing={{ xs: 1 }}
           >
             {documents.map((doc, indx) => (
-              <PostExpandCard key={doc.id} doc={doc} />
+              <PostExpandCard
+                key={doc.id}
+                doc={doc}
+                setOpen={setOpen}
+                setCurrentImageIndex={setCurrentImageIndex}
+                setImages={setImages}
+              />
             ))}
-            <CmplxReviewCard />
           </Masonry>
+          <PostsLightBox
+            open={open}
+            setOpen={setOpen}
+            currentImageIndex={currentImageIndex}
+            setCurrentImageIndex={setCurrentImageIndex}
+            images={images}
+          />
         </Box>
       </Box>
     </div>

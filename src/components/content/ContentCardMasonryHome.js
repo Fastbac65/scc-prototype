@@ -11,7 +11,6 @@ const ContentCardMasonryHome = () => {
     <Box component='section' mx={1}>
       <Grid container>
         <Grid item xs={12} sx={{ borderRadius: 1, boxShadow: 0 }}>
-          <Typography variant='body1' color='text' m={2} mb={4}></Typography>
           <Box pr={{ xs: 0, sm: 2, md: 3 }} sx={{ display: 'flex', justifyContent: 'center' }}>
             <Masonry
               // sx={{ border: '1px dotted red' }}

@@ -5,6 +5,7 @@ import scc1 from '../static/imgs/scc-party.jpeg';
 import scc2 from '../static/imgs/scc-beach-surfers.jpeg';
 import { Box } from '@mui/material';
 import { useValue } from './context/ContextProvider';
+import Posts from './Posts';
 
 const VenueHire = () => {
   const { theme } = useValue();
@@ -17,7 +18,7 @@ const VenueHire = () => {
       </Box>
       <Box sx={{ backgroundImage: `url(${scc2}) `, backgroundSize: 'cover' }}>
         <Box sx={{ background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(200,200,200,0.7)' }}>
-          <ContentCardMasonryPosts />
+          <Posts />
         </Box>
       </Box>
     </>
