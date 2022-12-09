@@ -12,7 +12,7 @@ const updateUserRecords = (collectionName, uid, updateObj) => {
         updatePromises.push(updateDoc(doc(db, collectionName, document.id), updateObj));
       });
       await Promise.all(updatePromises);
-      resolve();
+      resolve(updatePromises);
     } catch (error) {
       reject(error);
     }

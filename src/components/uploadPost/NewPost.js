@@ -13,9 +13,9 @@ const NewPost = () => {
   const [files, setFiles] = useState([]);
   let postImagesURLs = [];
 
-  const titleRef = useRef();
-  const subtitleRef = useRef();
-  const mainRef = useRef();
+  const titleRef = useRef('');
+  const subtitleRef = useRef('');
+  const mainRef = useRef('');
   const collectionName = 'Posts';
   const storageName = 'posts';
   const postDocumentId = currentUser?.uid + '_' + uuidv4();

@@ -1,5 +1,5 @@
 import { CardMedia, ImageList, ImageListItem } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useValue } from '../context/ContextProvider';
 import PostsLightBox from '../imagesList/PostsLightBox';
 
@@ -12,11 +12,11 @@ const PostImagesList = ({ files, setDefaultImageURL }) => {
   const { imglib } = useValue();
   const [images, setImages] = useState([]);
 
-  const [currentImageIndex, setCurrentImageIndex] = useState();
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [open, setOpen] = useState(false);
 
   // picks an initial photo from the library
-  useEffect(() => {
+  useMemo(() => {
     const indx = Math.floor(Math.random() * imglib.length);
     let url = imglib[indx];
     setImages([{ src: url, alt: url }]);
@@ -82,6 +82,7 @@ const PostImagesList = ({ files, setDefaultImageURL }) => {
                     onClick={() => {
                       setCurrentImageIndex(indx);
                       setOpen(true);
+                      console.log('clicked image');
                     }}
                   />
                   {/* <img src={image} alt={collectionName} loading='lazy' /> */}

@@ -4,17 +4,26 @@ import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useValue } from '../context/ContextProvider';
+import { useEffect, useMemo, useState } from 'react';
 
-const PostsLightBox = ({ open, setOpen, currentImageIndex, setCurrentImageIndex, images }) => {
+const PostsLightBox = ({ open, currentImageIndex, images }) => {
   const { theme } = useValue();
 
+  const [currentIndx, setCurrentIndx] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+
+  // runs upfront as opposed to useEffect which runs after component renders which is too late to set Indx
+  useMemo(() => {
+    setCurrentIndx(currentImageIndex);
+    setIsOpen(open);
+    console.log(open);
+  }, [currentImageIndex]);
+
   const gotoPrevious = () => {
-    currentImageIndex > 0 && setCurrentImageIndex(currentImageIndex - 1);
-    // lightbox.currentIndx > 0 && dispatch({ type: 'LIGHTBOX-1' });
+    currentIndx > 0 && setCurrentIndx(currentIndx - 1);
   };
   const gotoNext = () => {
-    currentImageIndex + 1 < images.length && setCurrentImageIndex(currentImageIndex + 1);
-    // lightbox.currentIndx + 1 < images.length && dispatch({ type: 'LIGHTBOX+1' });
+    currentIndx + 1 < images.length && setCurrentIndx(currentIndx + 1);
   };
   const Prev = () => {
     return (
@@ -25,7 +34,7 @@ const PostsLightBox = ({ open, setOpen, currentImageIndex, setCurrentImageIndex,
           sx={{
             // border: 1,
             // borderColor: 'red',
-            display: currentImageIndex === 0 ? 'none' : 'flex',
+            display: currentIndx === 0 ? 'none' : 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             background: 'none',
@@ -52,7 +61,7 @@ const PostsLightBox = ({ open, setOpen, currentImageIndex, setCurrentImageIndex,
           color='primary'
           onClick={gotoNext}
           sx={{
-            display: currentImageIndex === images.length - 1 ? 'none' : 'flex',
+            display: currentIndx === images.length - 1 ? 'none' : 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             background: 'none',
@@ -97,16 +106,16 @@ const PostsLightBox = ({ open, setOpen, currentImageIndex, setCurrentImageIndex,
     );
   };
   const handleClose = () => {
-    setOpen(false);
+    setIsOpen(false);
   };
 
   return (
     <Lightbox
-      isOpen={open}
+      isOpen={isOpen}
       onPrev={gotoPrevious}
       onNext={gotoNext}
       images={images}
-      currentIndex={currentImageIndex}
+      currentIndex={currentIndx}
       /* Add your own UI */
       renderHeader={() => <CloseLightBox />}
       // renderFooter={() => <CloseLightBox />}
