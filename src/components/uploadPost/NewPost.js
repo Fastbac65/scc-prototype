@@ -119,7 +119,7 @@ const NewPost = () => {
       },
     });
   };
-  console.log(files);
+  // console.log(files);
 
   return (
     <form onSubmit={handleSubmitPost}>

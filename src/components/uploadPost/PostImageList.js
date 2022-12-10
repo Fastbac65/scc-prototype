@@ -1,7 +1,7 @@
 import { Delete } from '@mui/icons-material';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { Box, CardMedia, IconButton, ImageList, ImageListItem, Tooltip, Typography } from '@mui/material';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useValue } from '../context/ContextProvider';
 import PostsLightBox from '../imagesList/PostsLightBox';
 
@@ -17,11 +17,10 @@ const PostImageList = ({ files, setFiles, setPostDefaultImageURL }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [open, setOpen] = useState(false);
 
-  const indx = Math.floor(Math.random() * imglib.length);
-  let url = imglib[indx];
-
   // picks an initial photo from the library
   useMemo(() => {
+    const indx = Math.floor(Math.random() * imglib.length);
+    let url = imglib[indx];
     console.log('first effect ran', url);
     setImages([{ src: url, alt: url }]);
   }, []);
@@ -29,7 +28,6 @@ const PostImageList = ({ files, setFiles, setPostDefaultImageURL }) => {
   // sets up images array from files - basically does nothing until there are files
   useEffect(() => {
     // create the array of images[{src: url , alt: url ,},...]
-    setPostDefaultImageURL({ src: url, alt: url });
 
     var imgs = [];
     if (files.length) {
@@ -43,6 +41,8 @@ const PostImageList = ({ files, setFiles, setPostDefaultImageURL }) => {
     }
     if (!files.length) {
       console.log('there are no files');
+      setPostDefaultImageURL(...images);
+
       // may need to reload a default image if all files are deleted in the UI
     }
 
