@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -14,13 +14,13 @@ import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import Fade from '@mui/material/Fade';
 
 import { useValue } from '../context/ContextProvider';
-import { Box, ImageList, ImageListItem } from '@mui/material';
+import { ImageList, ImageListItem } from '@mui/material';
 import moment from 'moment';
+import PostOptions from '../uploadPost/PostOptions';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -72,11 +72,7 @@ export default function PostExpandCard({ doc, setOpen, setCurrentImageIndex, set
                   </Avatar>
                 </Tooltip>
               }
-              action={
-                <IconButton aria-label='settings'>
-                  <MoreVertIcon />
-                </IconButton>
-              }
+              action={<PostOptions postDoc={doc} />}
               title={doc.data?.title}
               subheader={doc.data?.subtitle}
             />

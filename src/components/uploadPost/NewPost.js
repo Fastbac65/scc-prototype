@@ -2,16 +2,22 @@ import { Box, Button, DialogActions, DialogContent, DialogContentText, Paper, St
 import { useRef, useState } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import AddImages from './AddImages';
-import PostImagesList from './PostImageList';
+import PostImageList from './PostImageList';
 import { useValue } from '../context/ContextProvider';
 import { uuidv4 } from '@firebase/util';
 import uploadFile from '../context/uploadFile';
 import { addDocument } from '../context/addDocument';
 
 const NewPost = () => {
-  const { theme, currentUser, dispatch } = useValue();
+  const {
+    theme,
+    currentUser,
+    dispatch,
+    state: { alert, modal },
+  } = useValue();
   const [files, setFiles] = useState([]);
-  let postImagesURLs = [];
+  const [postDefaultImageURL, setPostDefaultImageURL] = useState('');
+  var postImagesURLs = [];
 
   const titleRef = useRef('');
   const subtitleRef = useRef('');
@@ -52,8 +58,11 @@ const NewPost = () => {
     });
   };
 
+  // this should be called by PostImageList if there are no files
   const setDefaultImageURL = (url) => {
+    console.log('setDefImage', url);
     postImagesURLs = [url];
+    console.log('setDefImage', postImagesURLs);
   };
 
   const handleSubmitPost = async (e) => {
@@ -66,11 +75,13 @@ const NewPost = () => {
     try {
       // upload post images if there are any
       if (files.length) {
-        postImagesURLs = await uploadPostImages();
+        let urls = await uploadPostImages(); // returns an array of urls
+        postImagesURLs = urls;
 
-        console.log(postImagesURLs);
+        console.log('there are images: ', urls);
       } else {
         // should be already initialised to default lib image
+        postImagesURLs = [postDefaultImageURL];
         console.log('default url is - ', postImagesURLs);
       }
       // update database collection 'Posts'
@@ -84,7 +95,7 @@ const NewPost = () => {
         postType: '',
         title: title,
         subtitle: subtitle,
-        main: main.split(/\r?\n/), // array of paragraphs
+        main: main.split(/\r?\n/), // array of paragraphs. split twice to remove empty lines (double CRLF)
         images: postImagesURLs, // array of images objects [{src: url, alt: url,},.. ]
         thumbnailUrl: '',
         tags: {},
@@ -96,6 +107,17 @@ const NewPost = () => {
     }
 
     dispatch({ type: 'END_LOADING' });
+    dispatch({ type: 'MODAL', payload: { ...modal, open: false } });
+    dispatch({
+      type: 'UPDATE_ALERT',
+      payload: {
+        ...alert,
+        open: true,
+        severity: 'success',
+        message: 'Your new post has been created succesfully!!',
+        duration: 5000,
+      },
+    });
   };
 
   return (
@@ -103,7 +125,7 @@ const NewPost = () => {
       <DialogContent sx={{ pt: 0, px: { xs: 1, sm: 2 }, width: { xs: 300, sm: 350 }, minHeight: 420 }}>
         <Paper elevation={15} sx={{ pt: 0, border: theme.palette.mode === 'dark' ? 0 : 1, borderColor: 'lightgray' }}>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <PostImagesList files={files} setDefaultImageURL={setDefaultImageURL} />
+            <PostImageList files={files} setPostDefaultImageURL={setPostDefaultImageURL} />
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Stack spacing={0} sx={{ width: '92%' }}>
@@ -129,7 +151,6 @@ const NewPost = () => {
                 fullWidth
                 inputRef={subtitleRef}
                 label='Subtitle or Date'
-                required
                 InputProps={{ style: { fontSize: 14 } }}
               />
               {/* <TextField size='small' type='text' fullWidth inputRef={summaryRef} label='Summary' required multiline /> */}

@@ -8,25 +8,27 @@ import PostsLightBox from '../imagesList/PostsLightBox';
 // const height = [120, 120, 120, 120, 120, 120];
 // const height = [120, 120, 120, 75, 75, 75];
 
-const PostImagesList = ({ files, setDefaultImageURL }) => {
+const PostImageList = ({ files, setPostDefaultImageURL }) => {
   const { imglib } = useValue();
   const [images, setImages] = useState([]);
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [open, setOpen] = useState(false);
 
+  const indx = Math.floor(Math.random() * imglib.length);
+  let url = imglib[indx];
+
   // picks an initial photo from the library
   useMemo(() => {
-    const indx = Math.floor(Math.random() * imglib.length);
-    let url = imglib[indx];
-    setImages([{ src: url, alt: url }]);
-    setDefaultImageURL({ src: url, alt: url });
     console.log('first effect ran', url);
+    setImages([{ src: url, alt: url }]);
   }, []);
 
   // sets up images array from files - basically does nothing until there are files
   useEffect(() => {
     // create the array of images[{src: url , alt: url ,},...]
+    setPostDefaultImageURL({ src: url, alt: url });
+
     var imgs = [];
     if (files.length) {
       console.log('if files was true');
@@ -101,4 +103,4 @@ const PostImagesList = ({ files, setDefaultImageURL }) => {
     </div>
   );
 };
-export default PostImagesList;
+export default PostImageList;

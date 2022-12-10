@@ -1,5 +1,5 @@
 import { Add } from '@mui/icons-material';
-import { Box, Fab, Input } from '@mui/material';
+import { Box, Fab, Input, Tooltip } from '@mui/material';
 import React, { useRef } from 'react';
 
 const Form = ({ setFiles }) => {
@@ -29,9 +29,11 @@ const Form = ({ setFiles }) => {
           inputProps={{ accept: 'image/jpg, image/png', multiple: true }}
           onChange={handleChange}
         />
-        <Fab size='small' color='primary' aria-label='add' onClick={handleClick}>
-          <Add fontSize='large' />
-        </Fab>
+        <Tooltip followCursor arrow placement='top-start' title='add photos' enterDelay={1000}>
+          <Fab size='small' color='primary' aria-label='add' onClick={handleClick}>
+            <Add />
+          </Fab>
+        </Tooltip>
       </form>
     </Box>
   );

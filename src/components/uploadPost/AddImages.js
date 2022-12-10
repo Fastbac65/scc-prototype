@@ -10,12 +10,7 @@ const AddImages = ({ files, setFiles }) => {
   };
 
   const handleChange = (e) => {
-    let currentFiles = files;
-    let newFiles = [...e.target.files];
-    console.log('1', files, newFiles);
-
     const allFiles = [...files, ...e.target.files];
-
     console.log(allFiles);
 
     setFiles(allFiles);
@@ -32,7 +27,7 @@ const AddImages = ({ files, setFiles }) => {
         onChange={handleChange}
       />
       <Fab size='small' color='primary' aria-label='add' onClick={handleClick}>
-        <Add fontSize='large' />
+        <Add />
       </Fab>
     </div>
   );
