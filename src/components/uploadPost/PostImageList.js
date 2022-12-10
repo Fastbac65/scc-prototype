@@ -21,7 +21,6 @@ const PostImageList = ({ files, setFiles, setPostDefaultImageURL }) => {
   useMemo(() => {
     const indx = Math.floor(Math.random() * imglib.length);
     let url = imglib[indx];
-    console.log('first effect ran', url);
     setImages([{ src: url, alt: url }]);
   }, []);
 
@@ -40,13 +39,10 @@ const PostImageList = ({ files, setFiles, setPostDefaultImageURL }) => {
       setImages(imgs);
     }
     if (!files.length) {
-      console.log('there are no files');
       setPostDefaultImageURL(...images);
 
       // may need to reload a default image if all files are deleted in the UI
     }
-
-    console.log('main effect ran');
   }, [files]);
 
   const handleDelete = (e, indx, image) => {

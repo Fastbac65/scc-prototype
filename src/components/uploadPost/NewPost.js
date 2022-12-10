@@ -80,9 +80,8 @@ const NewPost = () => {
 
         console.log('there are images: ', urls);
       } else {
-        // should be already initialised to default lib image
+        // needs to be initialised to default lib image which is set by PostImageList
         postImagesURLs = [postDefaultImageURL];
-        console.log('default url is - ', postImagesURLs);
       }
       // update database collection 'Posts'
       const postDocumentObj = {
