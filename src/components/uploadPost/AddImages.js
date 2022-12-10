@@ -1,5 +1,5 @@
 import { Add } from '@mui/icons-material';
-import { Box, Fab, Input } from '@mui/material';
+import { Box, Button, Fab, Input } from '@mui/material';
 import React, { useRef } from 'react';
 
 const AddImages = ({ files, setFiles }) => {
@@ -26,9 +26,9 @@ const AddImages = ({ files, setFiles }) => {
         inputProps={{ accept: 'image/jpg, image/png', multiple: true }}
         onChange={handleChange}
       />
-      <Fab size='small' color='primary' aria-label='add' onClick={handleClick}>
-        <Add />
-      </Fab>
+      <Button variant='contained' startIcon={<Add />} sx={{ borderRadius: 25 }} onClick={handleClick}>
+        Photo
+      </Button>
     </div>
   );
 };

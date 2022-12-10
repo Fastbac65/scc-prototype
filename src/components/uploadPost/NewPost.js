@@ -119,13 +119,14 @@ const NewPost = () => {
       },
     });
   };
+  console.log(files);
 
   return (
     <form onSubmit={handleSubmitPost}>
       <DialogContent sx={{ pt: 0, px: { xs: 1, sm: 2 }, width: { xs: 300, sm: 350 }, minHeight: 420 }}>
         <Paper elevation={15} sx={{ pt: 0, border: theme.palette.mode === 'dark' ? 0 : 1, borderColor: 'lightgray' }}>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <PostImageList files={files} setPostDefaultImageURL={setPostDefaultImageURL} />
+            <PostImageList files={files} setFiles={setFiles} setPostDefaultImageURL={setPostDefaultImageURL} />
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Stack spacing={0} sx={{ width: '92%' }}>
@@ -171,7 +172,7 @@ const NewPost = () => {
           </Box>
         </Paper>
 
-        <DialogActions sx={{ justifyContent: 'center' }}>
+        <DialogActions sx={{ my: 2, justifyContent: 'space-around' }}>
           <AddImages files={files} setFiles={setFiles} />
 
           <Button type='submit' sx={{ borderRadius: 25 }} variant='contained' endIcon={<SendIcon />}>
