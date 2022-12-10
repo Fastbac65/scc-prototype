@@ -148,24 +148,31 @@ export default function PostExpandCard({ doc, setOpen, setCurrentImageIndex, set
                 <ShareIcon />
               </IconButton>
 
-              <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label='show more'>
-                <ExpandMoreIcon />
-              </ExpandMore>
+              {doc.data.main.length > 1 && (
+                <ExpandMore
+                  expand={expanded}
+                  onClick={handleExpandClick}
+                  aria-expanded={expanded}
+                  aria-label='show more'
+                >
+                  <ExpandMoreIcon />
+                </ExpandMore>
+              )}
             </CardActions>
             <Collapse in={expanded} timeout='auto' unmountOnExit>
               <CardContent>
-                <Typography variant='body2' paragraph color='text.secondary'>
-                  {doc.data?.main[1]}
-                </Typography>
-                <Typography variant='body2' paragraph color='text.secondary'>
-                  {doc.data?.main[2]}
-                </Typography>
-                <Typography variant='body2' paragraph color='text.secondary'>
-                  {doc.data?.main[3]}
-                </Typography>
-                <Typography variant='body2' paragraph color='text.secondary'>
-                  {doc.data?.main[3]}
-                </Typography>
+                {doc.data.main.map(
+                  (
+                    paragraf,
+                    indx // being explicit not to confuse with Typography paragraph prop
+                  ) => (
+                    <Typography key={indx} variant='body2' paragraph color='text.secondary'>
+                      {
+                        indx !== 0 && paragraf // skip first paragraf as its alreay above
+                      }
+                    </Typography>
+                  )
+                )}
               </CardContent>
               <CardActions disableSpacing>
                 <IconButton onClick={handleLikeClick} aria-label='add to favorites'>

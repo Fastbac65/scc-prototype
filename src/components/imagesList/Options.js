@@ -51,15 +51,15 @@ function Options({ collectionName, imageName }) {
             onClick={handleOpenUserMenu}
             sx={{
               display: login ? 'in-line' : 'none',
-              p: 0,
+              // p: 0,
               position: 'absolute',
-              top: 10,
-              right: 10,
+              top: 0,
+              right: 0,
               background: 'rgb(0,0,0,.3)',
               color: 'white',
             }}
           >
-            <MoreVert fontSize='large' />
+            <MoreVert />
           </IconButton>
         </Tooltip>
         <Menu
