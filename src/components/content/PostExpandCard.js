@@ -136,7 +136,7 @@ export default function PostExpandCard({ doc, setOpen, setCurrentImageIndex, set
             </ImageList>
 
             <CardContent>
-              <Typography variant='body2' color='text.secondary'>
+              <Typography variant='body2' color='text.primary'>
                 {doc.data?.main[0]}
               </Typography>
             </CardContent>

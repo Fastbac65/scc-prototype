@@ -67,7 +67,13 @@ const HireForm = () => {
         // navigate(-1);
         dispatch({
           type: 'UPDATE_ALERT',
-          payload: { ...alert, open: true, severity: 'success', message: 'Registration Successful', duration: 6000 },
+          payload: {
+            ...alert,
+            open: true,
+            severity: 'success',
+            message: "We'll be back to you in in a tick",
+            duration: 6000,
+          },
         });
       }
     } catch (error) {

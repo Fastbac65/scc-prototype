@@ -31,7 +31,7 @@ const Profile = () => {
     dispatch({ type: 'MODAL', payload: { ...modal, open: false } });
     dispatch({ type: 'START_LOADING' });
     let currentUserObj = { displayName: name, photoURL: photoURL, phoneNumber: '0407945789' };
-    let imagesObj = { uName: name, uAvatar: photoURL };
+    let updateObj = { uName: name, uAvatar: photoURL };
     try {
       if (file) {
         // imageName is originalFileName + uuid + originalFileExtension
@@ -57,7 +57,7 @@ const Profile = () => {
         //firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/profile %2F M6pujkdevmSNNIowQpFPWtAbcPx2 %2F paella_8e96633c-9fb2-4de9-8a84-40bd73993f3e.jpg?alt=media&token=4d303da6-8bab-434b-bc02-f4468aa8563a
 
         currentUserObj.photoURL = url;
-        imagesObj.uAvatar = url;
+        updateObj.uAvatar = url;
       }
     } catch (error) {
       dispatch({
@@ -68,7 +68,8 @@ const Profile = () => {
     }
 
     await updateProfile(currentUser, currentUserObj);
-    await updateUserRecords('Gallery', currentUser?.uid, imagesObj);
+    await updateUserRecords('Gallery', currentUser?.uid, updateObj);
+    await updateUserRecords('Posts', currentUser?.uid, updateObj);
 
     dispatch({ type: 'END_LOADING' });
     dispatch({

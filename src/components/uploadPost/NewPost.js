@@ -16,6 +16,7 @@ const NewPost = () => {
     state: { alert, modal },
   } = useValue();
   const [files, setFiles] = useState([]);
+  // this should be set by PostImageList if there are no files
   const [postDefaultImageURL, setPostDefaultImageURL] = useState('');
   var postImagesURLs = [];
 
@@ -58,11 +59,8 @@ const NewPost = () => {
     });
   };
 
-  // this should be called by PostImageList if there are no files
   const setDefaultImageURL = (url) => {
-    console.log('setDefImage', url);
     postImagesURLs = [url];
-    console.log('setDefImage', postImagesURLs);
   };
 
   const handleSubmitPost = async (e) => {
@@ -82,6 +80,7 @@ const NewPost = () => {
       } else {
         // needs to be initialised to default lib image which is set by PostImageList
         postImagesURLs = [postDefaultImageURL];
+        console.log('there are NO images: using lib', postDefaultImageURL);
       }
       // update database collection 'Posts'
       const postDocumentObj = {
