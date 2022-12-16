@@ -93,7 +93,7 @@ const NewPost = () => {
         postType: '',
         title: title,
         subtitle: subtitle,
-        main: main.split(/\r?\n/), // array of paragraphs. split twice to remove empty lines (double CRLF)
+        main: main.split(/\r?\n/), // array of paragraphs.
         images: postImagesURLs, // array of images objects [{src: url, alt: url,},.. ]
         thumbnailUrl: '',
         tags: {},
