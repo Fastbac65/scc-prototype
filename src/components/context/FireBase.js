@@ -2,12 +2,12 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage, ref } from 'firebase/storage';
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
-const firebaseConfig = {
+export const firebaseConfig = {
   // apiKey: 'AIzaSyBz4ew-AmtQGL0h6DNYJKhniipIK7eFBUM',
   // authDomain: 'scc-proto.firebaseapp.com',
   // projectId: 'scc-proto',
@@ -26,8 +26,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-export const provider = new GoogleAuthProvider();
+export const providerGoogle = new GoogleAuthProvider();
+export const providerFacebook = new FacebookAuthProvider();
 export const db = getFirestore();
 export const storage = getStorage();
-
-//1928-Curl-Curl-Carnival-1024x760_d3990f15-65f1-449e-a161-daeb31751f32.jpeg

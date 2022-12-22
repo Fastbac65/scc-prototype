@@ -37,7 +37,9 @@ const PathTracker = () => {
           <Button sx={{ ml: 4 }} size='small' variant='contained' component={RouterLink} to='/test'>
             Test
           </Button>
-          {currentUser ? ` - ${currentUser.displayName} ${currentUser.email}` : null}
+          {currentUser
+            ? ` - ${currentUser.displayName} ${currentUser?.email || currentUser?.providerData[0]?.email}`
+            : null}
         </Typography>
       </Box>
     </>

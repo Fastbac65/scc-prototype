@@ -64,7 +64,8 @@ const EmailVerification = () => {
           // }
           sx={{ pt: 2 }}
         >
-          Hi {currentUser?.displayName}. Please verify your email:&nbsp;{currentUser?.email}&nbsp;
+          Hi {currentUser?.displayName}. Please verify your email:&nbsp;
+          {currentUser?.email || currentUser?.providerData[0]?.email}&nbsp;
           <Button
             variant='contained'
             size='small'

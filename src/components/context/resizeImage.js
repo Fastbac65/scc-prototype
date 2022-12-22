@@ -4,8 +4,8 @@ import Resizer from 'react-image-file-resizer';
 // upload image management - images are resized to 1200 maxHeight or maxWidth if they are larger
 // this function can also compress images based on jpegQuality - 100 is almost lossless
 
-const resizeImage = (imageToResize, jpegQuality = 75) =>
-  new Promise((resolve) => {
+const resizeImage = (imageToResize, jpegQuality = 75) => {
+  return new Promise((resolve) => {
     if (imageToResize) {
       const url = URL.createObjectURL(imageToResize);
       console.log(url);
@@ -38,6 +38,7 @@ const resizeImage = (imageToResize, jpegQuality = 75) =>
       img.src = url;
     }
   });
+};
 
 function dataURItoBlob(dataURI) {
   // returns a Blob object

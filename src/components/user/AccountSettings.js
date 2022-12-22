@@ -3,6 +3,7 @@ import { Box, Button, DialogActions, DialogContent, DialogContentText } from '@m
 import {
   EmailAuthProvider,
   GoogleAuthProvider,
+  FacebookAuthProvider,
   reauthenticateWithCredential,
   reauthenticateWithPopup,
 } from 'firebase/auth';
@@ -18,24 +19,77 @@ const AccountSettings = () => {
     currentUser,
     dispatch,
     state: { modal, alert },
+    reauthenticateInstagram,
   } = useValue();
+
   const [reAuth, setReAuth] = useState(false);
   const [userAction, setUserAction] = useState(false);
   const passwordRef = useRef();
+  const InstaUserActions = useRef([]);
 
-  // check the auth method and only show change password if the method is 'password' (ie not Google etc)
-  const isPassword = currentUser?.providerData[0].providerId === 'password'; // true or false
+  var provider = null;
+  var isPassword = false;
+  // check the auth method
+  if (currentUser.providerData.length > 0) {
+    // there is a providerID array for all except custom token (Insta)
+    switch (currentUser.providerData[0].providerId) {
+      case 'google.com': {
+        provider = new GoogleAuthProvider();
+        break;
+      }
+      case 'facebook.com': {
+        provider = new FacebookAuthProvider();
+        break;
+      }
+      case 'password': {
+        isPassword = true;
+        break;
+      }
 
-  const handleAction = async (action) => {
+      default: {
+        throw new Error('bad provider ID');
+        break;
+      }
+    }
+  } else provider = 'Instagram';
+
+  //and only show change password if the method is 'password' (ie not Google etc)
+  const handleChangeAccountSettings = async (action, authPhase2 = false) => {
     if (isPassword) {
+      // just set isPassword and the rest is managed in the submit
       setReAuth(true);
       setUserAction(action);
+    } else if (provider === 'Instagram') {
+      var reauthInsta = false;
+      try {
+        dispatch({ type: 'START_LOADING' });
+        window.open('https://localhost:5001/redirect?ra=true', 'SCC SLSC', 'height=500, width=400');
+        reauthInsta = await reauthenticateInstagram();
+
+        console.log('success or fail', reauthInsta);
+      } catch (error) {
+        console.log('timeout', reauthInsta);
+      }
+
+      // if (!authPhase2) {
+      //   // auth phase 1 store the actions and user.uid so we can perform the correct actions later
+      //   InstaUserActions.current.push({ uid: currentUser.uid, action: action });
+      //   dispatch({ type: 'START_LOADING' });
+      //   window.open('https://localhost:5001/redirect?ra=true', 'SCC SLSC', 'height=500, width=400');
+      // }
+      // if (authPhase2) {
+      //   // wer in the final part of insta auth
+      // }
     } else {
       dispatch({ type: 'START_LOADING' });
 
       try {
-        await reauthenticateWithPopup(currentUser, new GoogleAuthProvider());
+        await reauthenticateWithPopup(currentUser, provider);
         dispatch({ type: 'END_LOADING' });
+        dispatch({
+          type: 'UPDATE_ALERT',
+          payload: { ...alert, open: true, severity: 'success', message: 'User credentials verified!', duration: 4000 },
+        });
 
         switch (action) {
           case 'Change Email': {
@@ -74,15 +128,19 @@ const AccountSettings = () => {
           payload: { ...alert, open: true, severity: 'error', message: error.message, duration: 4000 },
         });
       }
-
-      //do stuff
+      //end of action with google or facebook
     }
   };
+
+  // handles the email/password re-auth in account settings window
 
   const handleSubmitAuth = async (e) => {
     dispatch({ type: 'START_LOADING' });
     e.preventDefault();
-    const credential = EmailAuthProvider.credential(currentUser?.email, passwordRef.current.value);
+    const credential = EmailAuthProvider.credential(
+      currentUser?.email || currentUser?.providerData[0]?.email,
+      passwordRef.current.value
+    );
 
     try {
       //reauth password
@@ -130,11 +188,16 @@ const AccountSettings = () => {
 
   return (
     <div>
+      <DialogContent>
+        <DialogContentText variant='caption'>
+          These settings are specific to your account on South Curl Curl SLSC website.
+        </DialogContentText>
+      </DialogContent>
       <DialogActions sx={{ justifyContent: 'space-around' }}>
         <Button
           sx={{ borderRadius: 25, color: userAction === 'Change Email' ? '#f9de00' : null }}
           variant='contained'
-          onClick={() => handleAction('Change Email')}
+          onClick={() => handleChangeAccountSettings('Change Email')}
         >
           Change Email
         </Button>
@@ -142,7 +205,7 @@ const AccountSettings = () => {
           <Button
             sx={{ borderRadius: 25, color: userAction === 'Change Password' ? '#f9de00' : null }}
             variant='contained'
-            onClick={() => handleAction('Change Password')}
+            onClick={() => handleChangeAccountSettings('Change Password')}
           >
             Change Password
           </Button>
@@ -150,15 +213,17 @@ const AccountSettings = () => {
         <Button
           sx={{ borderRadius: 25, color: userAction === 'Delete Account' ? '#f9de00' : null }}
           variant='contained'
-          onClick={() => handleAction('Delete Account')}
+          onClick={() => handleChangeAccountSettings('Delete Account')}
         >
           Delete Account
         </Button>
       </DialogActions>
       <DialogContent>
         <DialogContentText variant='caption'>
-          For security reasons you will need to provide credentials to change account settings!
+          For security reasons you will need to provide credentials to change account settings! If you are logged in via
+          social we will attempt to re-authenticate you via pop-up.
         </DialogContentText>
+        {/* this from only appears if the re-auth is email/password - this method of passing props is new*/}
         <form onSubmit={handleSubmitAuth}>{reAuth && <ReAuth {...{ passwordRef }} />}</form>
       </DialogContent>
     </div>

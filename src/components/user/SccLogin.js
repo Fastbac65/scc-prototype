@@ -20,8 +20,10 @@ const SccLogin = () => {
     state: { alert, modal },
     dispatch,
     signInGoogle,
+    signInFacebook,
     signInEmail,
   } = useValue();
+
   const navigate = useNavigate();
 
   const emailRef = useRef('');
@@ -56,10 +58,10 @@ const SccLogin = () => {
       } else {
         await signInEmail(email, password);
         navigate(-1);
-        dispatch({
-          type: 'UPDATE_ALERT',
-          payload: { ...alert, open: true, severity: 'success', message: 'Login Successful', duration: 6000 },
-        });
+        // dispatch({
+        //   type: 'UPDATE_ALERT',
+        //   payload: { ...alert, open: true, severity: 'success', message: 'Login Successful', duration: 6000 },
+        // });
       }
     } catch (error) {
       dispatch({
@@ -78,14 +80,40 @@ const SccLogin = () => {
     try {
       await signInGoogle();
       navigate(-1);
-      dispatch({
-        type: 'UPDATE_ALERT',
-        payload: { ...alert, open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 3000 },
-      });
+      // dispatch({
+      //   type: 'UPDATE_ALERT',
+      //   payload: { ...alert, open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 3000 },
+      // });
     } catch (error) {
       console.log(error);
     }
     // signInGoogle().then(navigate('/'));
+  };
+  const useFacebook = async () => {
+    try {
+      await signInFacebook();
+      navigate(-1);
+      // dispatch({
+      //   type: 'UPDATE_ALERT',
+      //   payload: { ...alert, open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 3000 },
+      // });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const useInstagram = async () => {
+    // const instaConfig = {
+    //   appId: '691115862542515',
+    //   appSec: 'c4f390a15af029ef563befff883921cb',
+    // };
+    // //
+    // const redirectUri = 'http://localhost:5001/auth/';
+    // const appId = instaConfig.appId;
+    // const igAuthUrl = `https://api.instagram.com/oauth/authorize?force_authentication=1&client_id=${appId}&redirect_uri=${redirectUri}&scope=user_profile,user_media&state=1&response_type=code`;
+    dispatch({ type: 'START_LOADING' });
+
+    window.open('https://localhost:5001/redirect?ra=false', 'SCC SLSC', 'height=500, width=400');
   };
 
   const handleOnload = (e) => {
@@ -123,9 +151,14 @@ const SccLogin = () => {
               </Box>
               <Box sx={{ py: 3, display: 'flex', justifyContent: 'center' }}>
                 <Stack sx={{ pb: 4, width: '56%' }}>
-                  <FacebookLoginButton style={{ fontSize: '14px' }} align='center' size='40px' />
+                  <FacebookLoginButton style={{ fontSize: '14px' }} align='center' size='40px' onClick={useFacebook} />
                   <GoogleLoginButton style={{ fontSize: '14px' }} align='center' size='40px' onClick={useGoogle} />
-                  <InstagramLoginButton style={{ fontSize: '14px' }} align='center' size='40px' />
+                  <InstagramLoginButton
+                    style={{ fontSize: '14px' }}
+                    align='center'
+                    size='40px'
+                    onClick={useInstagram}
+                  />
                 </Stack>
               </Box>
             </Card>

@@ -7,6 +7,7 @@ import { useValue } from '../context/ContextProvider';
 import { uuidv4 } from '@firebase/util';
 import uploadFile from '../context/uploadFile';
 import { addDocument } from '../context/addDocument';
+import resizeImage from '../context/resizeImage';
 
 const NewPost = () => {
   const {
@@ -38,22 +39,31 @@ const NewPost = () => {
       const images = []; // our standard arry of objects [{src: url, alt: url,},.. ]
 
       try {
+        var resizePromises = [];
+        files.forEach((file, indx) => {
+          resizePromises.push(resizeImage(file));
+        });
+        const resizeBlobs = await Promise.all(resizePromises);
+        console.log('1', resizeBlobs);
+
         //upload Post images to storage
 
-        files.forEach((file, indx) => {
+        files.forEach(async (file, indx) => {
           const imageName = postDocumentId + '_' + indx + '.' + file.name.split('.').pop();
           const storageFilePath = `${storageName}/${currentUser.uid}/` + imageName;
-
-          imageUploadPromises.push(uploadFile(file, storageFilePath));
+          // const resizeFile = await resizeImage(file); // resize and compress the file
+          imageUploadPromises.push(uploadFile(resizeBlobs[indx].blob, storageFilePath)); // upload the resized version
         });
         const urls = await Promise.all(imageUploadPromises);
+        console.log('2 images uploaded');
         urls.map((url) => {
           images.push({ src: url, alt: url });
         });
+        console.log('3', images);
 
         resolve(images); // send back array of URLs of Post images in [{src: url, alt: url,},.. ]
       } catch (error) {
-        console.log(error.message);
+        console.log('4', error.message);
         reject(error);
       }
     });
@@ -86,7 +96,7 @@ const NewPost = () => {
       const postDocumentObj = {
         userId: currentUser?.uid || '',
         uName: currentUser?.displayName || '',
-        uEmail: currentUser?.email || '',
+        uEmail: currentUser?.email || currentUser?.providerData[0]?.email || '',
         uAvatar: currentUser?.photoURL || '',
         uMobile: currentUser?.phoneNumber || '',
         albumName: collectionName,

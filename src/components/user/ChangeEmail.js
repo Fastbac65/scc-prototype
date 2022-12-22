@@ -49,7 +49,7 @@ const ChangeEmail = () => {
           fullWidth
           size='small'
           inputRef={emailRef}
-          defaultValue={currentUser.email}
+          defaultValue={currentUser?.email || currentUser?.providerData[0]?.email}
           label='New Email'
         />
       </DialogContent>

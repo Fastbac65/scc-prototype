@@ -1,12 +1,13 @@
 import { createContext, useContext, useEffect, useState, useReducer } from 'react';
 import PropTypes from 'prop-types';
+import { FacebookAuthProvider } from 'firebase/auth';
 
 import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import { createTheme } from '@mui/material';
 
-import { auth, provider } from './FireBase';
+import { auth, providerGoogle, providerFacebook } from './FireBase';
 import {
   signInWithPopup,
   onAuthStateChanged,
@@ -74,6 +75,8 @@ export const ContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState({});
   const [mode, setMode] = useState('light');
   const [login, setLogin] = useState(false);
+  var userCreds = {};
+  localStorage.setItem('instaReauthState', 'false');
 
   var theme = createTheme({
     breakpoints: {
@@ -109,16 +112,30 @@ export const ContextProvider = ({ children }) => {
     'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fscc-beach-sunrise.jpeg?alt=media&token=9bc45d92-b866-4905-b199-7f751f8b5175',
   ];
 
-  //sets the currentUser global object when authentication changes In(full user object from auth provider) or Out(null)
+  //sets the currentUser global object when authentication changes. Logging In(full user object from auth provider) or Out(null)
   //sets the login global true when logged in. Used for routing and conditional rendering - its Boolean
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       setCurrentUser(authUser);
       authUser ? setLogin(true) : setLogin(false);
+      dispatch({ type: 'END_LOADING' });
+      authUser
+        ? dispatch({
+            type: 'UPDATE_ALERT',
+            payload: {
+              ...alert,
+              open: true,
+              severity: 'success',
+              message: 'Success - Welcome to SCC members!!!!',
+              duration: 6000,
+            },
+          })
+        : console.log('no user');
+
+      return () => {
+        unsubscribe();
+      };
     });
-    return () => {
-      unsubscribe();
-    };
   }, []);
 
   const toggleLogin = () => {
@@ -140,12 +157,49 @@ export const ContextProvider = ({ children }) => {
   const signInGoogle = () => {
     return new Promise(async (resolve, reject) => {
       try {
-        const result = await signInWithPopup(auth, provider);
-        localStorage.setItem('login', true);
+        const result = await signInWithPopup(auth, providerGoogle);
+        // localStorage.setItem('login', true);
         console.log('signin', result);
         resolve(result);
       } catch (error) {
         console.log('signin', error);
+        reject(error);
+      }
+    });
+  };
+  const signInFacebook = () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        providerFacebook.addScope('email');
+        const result = await signInWithPopup(auth, providerFacebook);
+        // localStorage.setItem('login', true);
+        console.log('signin', result);
+        const credential = FacebookAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        userCreds = { ...credential };
+        console.log(userCreds);
+        console.log(accessToken);
+        resolve(result);
+      } catch (error) {
+        console.log('signin', error);
+        reject(error);
+      }
+    });
+  };
+  const reauthenticateInstagram = () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let count = 0;
+        setInterval(() => {
+          count += 1;
+          if (count < 40) {
+            // timeout 20 secs
+            console.log(count);
+            if (localStorage.getItem('instaReauthState') === 'true') resolve(true);
+          } else reject(false);
+        }, 500);
+      } catch (error) {
+        console.log('error', error);
         reject(error);
       }
     });
@@ -178,6 +232,8 @@ export const ContextProvider = ({ children }) => {
         signInEmail,
         signUpEmail,
         signInGoogle,
+        signInFacebook,
+        reauthenticateInstagram,
         signOutUser,
         imglib,
         resetPassword,

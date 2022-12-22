@@ -21,6 +21,7 @@ import Loading from './components/Loading';
 import Modal from './components/Modal';
 import Footer from './components/Footer';
 import EmailVerification from './components/user/EmailVerification';
+import AuthInsta from './components/user/AuthInsta';
 
 function App() {
   const { login, theme } = useValue();
@@ -38,6 +39,7 @@ function App() {
         {/* <PathTrack /> */}
 
         <Routes>
+          <Route path='/auth' element={<AuthInsta />}></Route>
           <Route exact path='/posts' element={<Posts />}></Route>
           <Route exact path='/history' element={<History />}></Route>
           <Route exact path='/gallery' element={<Gallery />}></Route>
@@ -46,8 +48,8 @@ function App() {
           {!login && <Route exact path='/login' element={<SccLogin />}></Route>}
           {!login && <Route exact path='/signup' element={<SccSignup />}></Route>}
           <Route exact path='/test' element={<Test />}></Route>
-          <Route exact path='/' element={<Home />}></Route>
-          <Route path='*' element={<Home />}></Route>
+          <Route exact path='/*' element={<Home />}></Route>
+          {/* <Route path='*' element={<Home />}></Route> */}
         </Routes>
         <Footer />
       </ThemeProvider>

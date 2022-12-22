@@ -35,7 +35,7 @@ const ProgressItem = ({ file, collectionName }) => {
           //TODO create sccUser db which will init on first signin/up and use this info when currentUser is ''
           userId: currentUser?.uid || '',
           uName: currentUser?.displayName || '',
-          uEmail: currentUser?.email || '',
+          uEmail: currentUser?.email || currentUser?.providerData[0]?.email || '',
           uAvatar: currentUser?.photoURL || '',
           uMobile: currentUser?.phoneNumber || '',
           albumName: collectionName,
