@@ -76,7 +76,6 @@ export const ContextProvider = ({ children }) => {
   const [mode, setMode] = useState('light');
   const [login, setLogin] = useState(false);
   var userCreds = {};
-  localStorage.setItem('instaReauthState', 'false');
 
   var theme = createTheme({
     breakpoints: {
@@ -119,19 +118,6 @@ export const ContextProvider = ({ children }) => {
       setCurrentUser(authUser);
       authUser ? setLogin(true) : setLogin(false);
       dispatch({ type: 'END_LOADING' });
-      authUser
-        ? dispatch({
-            type: 'UPDATE_ALERT',
-            payload: {
-              ...alert,
-              open: true,
-              severity: 'success',
-              message: 'Success - Welcome to SCC members!!!!',
-              duration: 6000,
-            },
-          })
-        : console.log('no user');
-
       return () => {
         unsubscribe();
       };
@@ -186,17 +172,29 @@ export const ContextProvider = ({ children }) => {
       }
     });
   };
-  const reauthenticateInstagram = () => {
+  const reauthenticateInstagram = (authWindow) => {
     return new Promise(async (resolve, reject) => {
+      localStorage.setItem('instaReauthState', 'false');
+      localStorage.setItem('currentUser', `${currentUser.uid}`);
       try {
-        let count = 0;
-        setInterval(() => {
-          count += 1;
-          if (count < 40) {
-            // timeout 20 secs
-            console.log(count);
-            if (localStorage.getItem('instaReauthState') === 'true') resolve(true);
-          } else reject(false);
+        let checkAuth = setInterval(() => {
+          if (authWindow.closed) {
+            // the auth window is going to close for only 1 or 2 reasons..  auth success or user closes
+            if (localStorage.getItem('instaReauthState') === 'true') {
+              // reauth success
+              localStorage.removeItem('instaReauthState');
+              localStorage.removeItem('currentUser');
+              clearInterval(checkAuth);
+              resolve(true);
+            } else {
+              // user closed the window
+              clearInterval(checkAuth);
+
+              reject(false);
+            }
+            //
+            console.log('auth win closed');
+          }
         }, 500);
       } catch (error) {
         console.log('error', error);

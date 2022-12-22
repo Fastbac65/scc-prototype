@@ -58,10 +58,16 @@ const SccLogin = () => {
       } else {
         await signInEmail(email, password);
         navigate(-1);
-        // dispatch({
-        //   type: 'UPDATE_ALERT',
-        //   payload: { ...alert, open: true, severity: 'success', message: 'Login Successful', duration: 6000 },
-        // });
+        dispatch({
+          type: 'UPDATE_ALERT',
+          payload: {
+            ...alert,
+            open: true,
+            severity: 'success',
+            message: 'Login Successful - Welcome back!',
+            duration: 6000,
+          },
+        });
       }
     } catch (error) {
       dispatch({
@@ -80,10 +86,10 @@ const SccLogin = () => {
     try {
       await signInGoogle();
       navigate(-1);
-      // dispatch({
-      //   type: 'UPDATE_ALERT',
-      //   payload: { ...alert, open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 3000 },
-      // });
+      dispatch({
+        type: 'UPDATE_ALERT',
+        payload: { ...alert, open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 6000 },
+      });
     } catch (error) {
       console.log(error);
     }
@@ -93,10 +99,10 @@ const SccLogin = () => {
     try {
       await signInFacebook();
       navigate(-1);
-      // dispatch({
-      //   type: 'UPDATE_ALERT',
-      //   payload: { ...alert, open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 3000 },
-      // });
+      dispatch({
+        type: 'UPDATE_ALERT',
+        payload: { ...alert, open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 6000 },
+      });
     } catch (error) {
       console.log(error);
     }

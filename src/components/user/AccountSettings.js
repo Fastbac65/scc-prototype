@@ -54,37 +54,42 @@ const AccountSettings = () => {
   } else provider = 'Instagram';
 
   //and only show change password if the method is 'password' (ie not Google etc)
-  const handleChangeAccountSettings = async (action, authPhase2 = false) => {
+  const handleChangeAccountSettings = async (action) => {
     if (isPassword) {
       // just set isPassword and the rest is managed in the submit
       setReAuth(true);
       setUserAction(action);
-    } else if (provider === 'Instagram') {
-      var reauthInsta = false;
+    } else if (provider === 'xInstagram') {
       try {
         dispatch({ type: 'START_LOADING' });
         window.open('https://localhost:5001/redirect?ra=true', 'SCC SLSC', 'height=500, width=400');
-        reauthInsta = await reauthenticateInstagram();
-
-        console.log('success or fail', reauthInsta);
+        var reauthInsta = await reauthenticateInstagram();
+        dispatch({ type: 'END_LOADING' });
       } catch (error) {
+        dispatch({ type: 'END_LOADING' });
+
         console.log('timeout', reauthInsta);
       }
-
-      // if (!authPhase2) {
-      //   // auth phase 1 store the actions and user.uid so we can perform the correct actions later
-      //   InstaUserActions.current.push({ uid: currentUser.uid, action: action });
-      //   dispatch({ type: 'START_LOADING' });
-      //   window.open('https://localhost:5001/redirect?ra=true', 'SCC SLSC', 'height=500, width=400');
-      // }
-      // if (authPhase2) {
-      //   // wer in the final part of insta auth
-      // }
     } else {
       dispatch({ type: 'START_LOADING' });
 
       try {
-        await reauthenticateWithPopup(currentUser, provider);
+        if (provider === 'Instagram') {
+          const authWindow = window.open(
+            'https://localhost:5001/redirect?ra=true',
+            'SCC SLSC',
+            'height=500, width=400'
+          );
+          try {
+            reauthInsta = await reauthenticateInstagram(authWindow);
+            if (!reauthInsta) throw new Error('Instagram reauthentication failed!');
+          } catch (error) {
+            throw new Error('Instagram reauthentication window closed!');
+          }
+        } else {
+          await reauthenticateWithPopup(currentUser, provider);
+        }
+
         dispatch({ type: 'END_LOADING' });
         dispatch({
           type: 'UPDATE_ALERT',
@@ -128,7 +133,7 @@ const AccountSettings = () => {
           payload: { ...alert, open: true, severity: 'error', message: error.message, duration: 4000 },
         });
       }
-      //end of action with google or facebook
+      //end of action with google or facebook or insta
     }
   };
 

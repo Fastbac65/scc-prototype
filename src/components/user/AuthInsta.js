@@ -46,9 +46,10 @@ const AuthInsta = () => {
       try {
         const userCredential = await signInWithCustomToken(getAuth(tempApp), token);
         const user = userCredential.user;
-        if (currentUser.uid === user.uid) {
+        if (localStorage.getItem('currentUser') === user.uid) {
           console.log('reauth success');
           localStorage.setItem('instaReauthState', 'true');
+          window.close();
         } else {
           console.log('reauth failed');
         }
