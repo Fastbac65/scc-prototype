@@ -22,6 +22,7 @@ const SccLogin = () => {
     signInGoogle,
     signInFacebook,
     signInEmail,
+    signInInstagram,
   } = useValue();
 
   const navigate = useNavigate();
@@ -92,6 +93,10 @@ const SccLogin = () => {
       });
     } catch (error) {
       console.log(error);
+      dispatch({
+        type: 'UPDATE_ALERT',
+        payload: { ...alert, open: true, severity: 'error', message: error.message, duration: 6000 },
+      });
     }
     // signInGoogle().then(navigate('/'));
   };
@@ -105,21 +110,31 @@ const SccLogin = () => {
       });
     } catch (error) {
       console.log(error);
+      dispatch({
+        type: 'UPDATE_ALERT',
+        payload: { ...alert, open: true, severity: 'error', message: error.message, duration: 6000 },
+      });
     }
   };
 
   const useInstagram = async () => {
-    // const instaConfig = {
-    //   appId: '691115862542515',
-    //   appSec: 'c4f390a15af029ef563befff883921cb',
-    // };
-    // //
-    // const redirectUri = 'http://localhost:5001/auth/';
-    // const appId = instaConfig.appId;
-    // const igAuthUrl = `https://api.instagram.com/oauth/authorize?force_authentication=1&client_id=${appId}&redirect_uri=${redirectUri}&scope=user_profile,user_media&state=1&response_type=code`;
     dispatch({ type: 'START_LOADING' });
-
-    window.open('https://localhost:5001/redirect?ra=false', 'SCC SLSC', 'height=500, width=400');
+    try {
+      await signInInstagram();
+      navigate(-1);
+      dispatch({
+        type: 'UPDATE_ALERT',
+        payload: { ...alert, open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 6000 },
+      });
+      dispatch({ type: 'END_LOADING' });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: 'UPDATE_ALERT',
+        payload: { ...alert, open: true, severity: 'error', message: error.message, duration: 6000 },
+      });
+      dispatch({ type: 'END_LOADING' });
+    }
   };
 
   const handleOnload = (e) => {

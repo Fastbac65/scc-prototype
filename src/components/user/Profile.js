@@ -1,11 +1,12 @@
 import { Avatar, Box, Button, DialogActions, DialogContent, DialogContentText, Input, TextField } from '@mui/material';
 import { updateProfile } from 'firebase/auth';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useValue } from '../context/ContextProvider';
 import uploadFile from '../context/uploadFile';
 import deleteFile from '../context/deleteFile';
 import updateUserRecords from '../context/updateUserRecords';
+import resizeImage from '../context/resizeImage';
 
 const Profile = () => {
   const {
@@ -16,12 +17,17 @@ const Profile = () => {
   const [name, setName] = useState(currentUser?.displayName);
   const [file, setFile] = useState(null);
   const [photoURL, setPhotoURL] = useState(currentUser?.photoURL);
+  var resizedImg = useRef({});
 
   // getting the new profile image file if one is selected
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
+      resizedImg.current = await resizeImage(file, 80, 150);
+
       setFile(file);
+      console.log(resizedImg);
+
       setPhotoURL(URL.createObjectURL(file));
     }
   };
@@ -30,13 +36,14 @@ const Profile = () => {
     e.preventDefault();
     dispatch({ type: 'MODAL', payload: { ...modal, open: false } });
     dispatch({ type: 'START_LOADING' });
-    let currentUserObj = { displayName: name, photoURL: photoURL, phoneNumber: '0407945789' };
-    let updateObj = { uName: name, uAvatar: photoURL };
+    let currentUserUpdateObj = { displayName: name, photoURL: photoURL }; // used for updating the auth
+    let databaseUpdateObj = { uName: name, uAvatar: photoURL };
     try {
       if (file) {
         // imageName is originalFileName + uuid + originalFileExtension
+        // const resizedImg = await resizeImage(file, 80, 150);
         const imageName = file.name.split('.')[0] + '_' + uuidv4() + '.' + file.name.split('.').pop();
-        const url = await uploadFile(file, `profile/${currentUser?.uid}/${imageName}`);
+        const url = await uploadFile(resizedImg.current.blob, `profile/${currentUser?.uid}/${imageName}`);
         const prevURL = currentUser?.photoURL;
 
         if (prevURL) {
@@ -56,8 +63,8 @@ const Profile = () => {
         }
         //firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/profile %2F M6pujkdevmSNNIowQpFPWtAbcPx2 %2F paella_8e96633c-9fb2-4de9-8a84-40bd73993f3e.jpg?alt=media&token=4d303da6-8bab-434b-bc02-f4468aa8563a
 
-        currentUserObj.photoURL = url;
-        updateObj.uAvatar = url;
+        currentUserUpdateObj.photoURL = url;
+        databaseUpdateObj.uAvatar = url;
       }
     } catch (error) {
       dispatch({
@@ -67,9 +74,9 @@ const Profile = () => {
       console.log(error.message);
     }
 
-    await updateProfile(currentUser, currentUserObj);
-    await updateUserRecords('Gallery', currentUser?.uid, updateObj);
-    await updateUserRecords('Posts', currentUser?.uid, updateObj);
+    await updateProfile(currentUser, currentUserUpdateObj);
+    await updateUserRecords('Gallery', currentUser?.uid, databaseUpdateObj);
+    await updateUserRecords('Posts', currentUser?.uid, databaseUpdateObj);
 
     dispatch({ type: 'END_LOADING' });
     dispatch({
@@ -96,7 +103,13 @@ const Profile = () => {
             }}
           />
           <label htmlFor='profilePhoto'>
-            <Input accept='image/*' id='profilePhoto' type='file' style={{ display: 'none' }} onChange={handleChange} />
+            <Input
+              inputProps={{ accept: 'image/*' }}
+              id='profilePhoto'
+              type='file'
+              style={{ display: 'none' }}
+              onChange={handleChange}
+            />
             <Avatar src={photoURL} sx={{ width: 60, height: 60, cursor: 'pointer' }} />
           </label>
         </Box>

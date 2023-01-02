@@ -4,7 +4,7 @@ import Resizer from 'react-image-file-resizer';
 // upload image management - images are resized to 1200 maxHeight or maxWidth if they are larger
 // this function can also compress images based on jpegQuality - 100 is almost lossless
 
-const resizeImage = (imageToResize, jpegQuality = 75) => {
+const resizeImage = (imageToResize, jpegQuality = 75, resizeMax = 1200) => {
   return new Promise((resolve) => {
     if (imageToResize) {
       const url = URL.createObjectURL(imageToResize);
@@ -16,8 +16,8 @@ const resizeImage = (imageToResize, jpegQuality = 75) => {
         var width = img.width;
         var newAspect = 1;
         // set maxwidth (landscape) or maxheight (portrait) if either is greater than 1200px (1200 is 16:9 with 720px)
-        if (width > 1200 || height > 1200) {
-          width > height ? (newAspect = 1200 / width) : (newAspect = 1200 / height);
+        if (width > resizeMax || height > resizeMax) {
+          width > height ? (newAspect = resizeMax / width) : (newAspect = resizeMax / height);
         }
         console.log('image dims: ', width, height, 'newAspect:', newAspect);
         Resizer.imageFileResizer(

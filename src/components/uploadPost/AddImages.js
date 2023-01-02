@@ -23,7 +23,7 @@ const AddImages = ({ files, setFiles }) => {
         type='file'
         inputRef={fileRef}
         sx={{ display: 'none' }}
-        inputProps={{ accept: 'image/jpg, image/png', multiple: true }}
+        inputProps={{ accept: 'image/*', multiple: true }}
         onChange={handleChange}
       />
       <Button variant='contained' startIcon={<Add />} sx={{ borderRadius: 25 }} onClick={handleClick}>

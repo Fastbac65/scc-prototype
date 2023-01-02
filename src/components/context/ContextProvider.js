@@ -117,7 +117,7 @@ export const ContextProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       setCurrentUser(authUser);
       authUser ? setLogin(true) : setLogin(false);
-      dispatch({ type: 'END_LOADING' });
+      //dispatch({ type: 'END_LOADING' });
       return () => {
         unsubscribe();
       };
@@ -172,34 +172,80 @@ export const ContextProvider = ({ children }) => {
       }
     });
   };
-  const reauthenticateInstagram = (authWindow) => {
-    return new Promise(async (resolve, reject) => {
-      localStorage.setItem('instaReauthState', 'false');
-      localStorage.setItem('currentUser', `${currentUser.uid}`);
+
+  const signInInstagram = () => {
+    return new Promise((resolve, reject) => {
+      console.log('window opening');
+      // const authWindow = window.open();
+      const authWindow = window.open('', 'SCC SLSC', 'height=500, width=400, popup=1');
+      authWindow.location.assign('https://scc-auth.cyclic.app/redirect?ra=false');
+      // setTimeout(authWindow.location.assign('https://scc-auth.cyclic.app/redirect?ra=true'), 1000);
+      // window.location.assign('https://scc-auth.cyclic.app/redirect?ra=true');
+      // let authWindow = window.open(
+      //   'https://192.168.0.215:5001/redirect?ra=false',
+      //   '_blank',
+      //   'height=500, width=400, popup=1'
+      // );
+
+      localStorage.setItem('instaLoginState', 'false');
       try {
+        var counter = 0;
+
         let checkAuth = setInterval(() => {
+          counter++;
+          console.log('ckecking', counter);
           if (authWindow.closed) {
+            console.log('win closed', counter);
             // the auth window is going to close for only 1 or 2 reasons..  auth success or user closes
-            if (localStorage.getItem('instaReauthState') === 'true') {
+            if (localStorage.getItem('instaLoginState') === 'true') {
+              // console.log(currentUser.uid, currentUser.displayName);
               // reauth success
-              localStorage.removeItem('instaReauthState');
-              localStorage.removeItem('currentUser');
+              localStorage.removeItem('instaLoginState');
               clearInterval(checkAuth);
               resolve(true);
             } else {
               // user closed the window
               clearInterval(checkAuth);
-
-              reject(false);
+              reject(new Error('Instagram authentication window closed!'));
             }
             //
             console.log('auth win closed');
           }
         }, 500);
       } catch (error) {
-        console.log('error', error);
+        console.log('error', error.message);
         reject(error);
       }
+    });
+  };
+  const reauthenticateInstagram = () => {
+    return new Promise(async (resolve, reject) => {
+      localStorage.setItem('instaReauthState', 'false');
+      localStorage.setItem('currentUser', `${currentUser.uid}`);
+      // const authWindow = window.open('http://www.bom.com.au');
+      // window.location.assign('https://scc-auth.cyclic.app/redirect?ra=true');
+      const authWindow = window.open('', 'SCC SLSC', 'height=500, width=400');
+      authWindow.location.assign('https://scc-auth.cyclic.app/redirect?ra=true');
+
+      let checkAuth = setInterval(() => {
+        if (authWindow.closed) {
+          // the auth window is going to close for only 1 or 2 reasons..  auth success or user closes
+          if (localStorage.getItem('instaReauthState') === 'true') {
+            // reauth success
+            localStorage.removeItem('instaReauthState');
+            localStorage.removeItem('currentUser');
+            clearInterval(checkAuth);
+            resolve(true);
+          } else {
+            // user closed the window
+            clearInterval(checkAuth);
+
+            reject(new Error('Instagram authentication window closed!'));
+          }
+          //
+          console.log('auth win closed');
+        }
+      }, 500);
     });
   };
 
@@ -232,6 +278,7 @@ export const ContextProvider = ({ children }) => {
         signInGoogle,
         signInFacebook,
         reauthenticateInstagram,
+        signInInstagram,
         signOutUser,
         imglib,
         resetPassword,

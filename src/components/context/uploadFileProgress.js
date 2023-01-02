@@ -4,6 +4,7 @@ import { storage } from './FireBase';
 const uploadFileProgress = (file, storageFilePath, setProgress) => {
   return new Promise((resolve, reject) => {
     const storageRef = ref(storage, storageFilePath);
+    // TODO: resize file if needed and compress then upload the new resized Blob.
     const upload = uploadBytesResumable(storageRef, file);
     upload.on(
       'state_changed',

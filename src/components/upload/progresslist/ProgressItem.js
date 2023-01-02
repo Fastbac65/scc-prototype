@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import uploadFileProgress from '../../context/uploadFileProgress';
 import { addDocument } from '../../context/addDocument';
 import { useValue } from '../../context/ContextProvider';
+import resizeImage from '../../context/resizeImage';
 
 const ProgressItem = ({ file, collectionName }) => {
   const { currentUser } = useValue();
@@ -27,8 +28,11 @@ const ProgressItem = ({ file, collectionName }) => {
       const imageName = file.name.split('.')[0] + '_' + uuidv4() + '.' + file.name.split('.').pop();
       const storageFilePath = `gallery/${currentUser.uid}/` + imageName;
       try {
+        const resizedImg = await resizeImage(file, 80); // jpeg compression quality @80   resolves { uri: .., blob: .. }
+        console.log('1', resizedImg);
+
         //upload the file to storage
-        const url = await uploadFileProgress(file, storageFilePath, setProgress);
+        const url = await uploadFileProgress(resizedImg.blob, storageFilePath, setProgress);
         console.log(url);
         //use the url from storage update to populate the imageURL field along with currentUser (or sccUser *future) info
         const databaseDoc = {

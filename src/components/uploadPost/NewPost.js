@@ -184,7 +184,7 @@ const NewPost = () => {
           <AddImages files={files} setFiles={setFiles} />
 
           <Button type='submit' sx={{ borderRadius: 25 }} variant='contained' endIcon={<SendIcon />}>
-            Submit
+            Post
           </Button>
         </DialogActions>
         <DialogContentText variant='caption'>Click on photo to zoom.</DialogContentText>

@@ -26,7 +26,7 @@ const Form = ({ setFiles }) => {
           type='file'
           inputRef={fileRef}
           sx={{ display: 'none' }}
-          inputProps={{ accept: 'image/jpg, image/png', multiple: true }}
+          inputProps={{ accept: 'image/*', multiple: true }}
           onChange={handleChange}
         />
         <Tooltip followCursor arrow placement='top-start' title='add photos' enterDelay={1000}>

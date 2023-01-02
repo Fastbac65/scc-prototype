@@ -38,14 +38,16 @@ const AuthInsta = () => {
     dispatch({ type: 'START_LOADING' });
 
     var token = `${firebaseToken}`;
+    var userCredential = null;
+    var user = null;
 
     if (reAuthInsta === 'true') {
       // we are reauth an insta user in account settings
       console.log('were in second phase');
       const tempApp = initializeApp(firebaseConfig, '_temp_');
       try {
-        const userCredential = await signInWithCustomToken(getAuth(tempApp), token);
-        const user = userCredential.user;
+        userCredential = await signInWithCustomToken(getAuth(tempApp), token);
+        user = userCredential.user;
         if (localStorage.getItem('currentUser') === user.uid) {
           console.log('reauth success');
           localStorage.setItem('instaReauthState', 'true');
@@ -70,10 +72,15 @@ const AuthInsta = () => {
 
       const tempApp = initializeApp(firebaseConfig, '_temp_');
       const tempDb = getFirestore(tempApp);
+
+      const opener = window.opener;
+      const winObj = window;
+      const name = window.name;
+
       // const app = initializeApp(firebaseConfig);
       try {
-        const userCredential = await signInWithCustomToken(getAuth(tempApp), token);
-        const user = userCredential.user;
+        userCredential = await signInWithCustomToken(getAuth(tempApp), token);
+        user = userCredential.user;
         const userloginPromises = [];
         // Saving the Instagram API access token in the Realtime Database.
         const docObject = {
@@ -82,21 +89,26 @@ const AuthInsta = () => {
           userId: `${userId}`,
         };
         // Updating the displayname if needed.
-        if (`${displayName}` !== user?.displayName || user?.email === null) {
-          userloginPromises.push(updateProfile(user, { displayName: `${displayName}`, email: 'test@test.com' }));
+        if ((`${displayName}` !== user?.displayName) === null) {
+          userloginPromises.push(updateProfile(user, { displayName: `${displayName}` }));
         }
         userloginPromises.push(addDocument(tempDb, docObject, user.uid));
         await Promise.all(userloginPromises);
         deleteApp(tempApp); // delete the temp firebase app
-        await signInWithCustomToken(auth, token);
-        window.close(); // We're done! Closing the popup.
-        console.log(user.uid, user.displayName, user.email, user.metadata);
+        // await signInWithCustomToken(auth, token);
+        userCredential = await signInWithCustomToken(auth, token);
+        user = userCredential.user;
+
+        localStorage.setItem('instaLoginState', 'true');
+        window.close();
+        console.log('auth success');
+        // window.close(); // We're done! Closing the popup.
+        // console.log(user.uid, user.displayName, user.email, user.metadata);
         // dispatch({ type: 'END_LOADING' });
 
         //
       } catch (error) {
         dispatch({ type: 'END_LOADING' });
-
         dispatch({
           type: 'UPDATE_ALERT',
           payload: { ...alert, open: true, severity: 'error', message: error.message, duration: 4000 },
