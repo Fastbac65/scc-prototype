@@ -110,7 +110,14 @@ const Profile = () => {
               style={{ display: 'none' }}
               onChange={handleChange}
             />
-            <Avatar src={photoURL} sx={{ width: 60, height: 60, cursor: 'pointer' }} />
+            <Avatar
+              sx={{ width: 50, height: 50, cursor: 'pointer', bgcolor: '#f9de00', color: 'black' }}
+              src={photoURL}
+              alt={currentUser?.displayName}
+              aria-label='profile photo'
+            >
+              {currentUser?.displayName?.charAt(0)}
+            </Avatar>
           </label>
         </Box>
         <DialogContentText sx={{ mt: 2 }}>Edit display name, click on avatar to update photo </DialogContentText>

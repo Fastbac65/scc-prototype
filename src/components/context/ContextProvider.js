@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState, useReducer } from 'react';
 import PropTypes from 'prop-types';
-import { FacebookAuthProvider } from 'firebase/auth';
 
 import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
@@ -15,6 +14,10 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
+  updateEmail,
+  updatePhoneNumber,
+  getAdditionalUserInfo,
+  FacebookAuthProvider,
 } from 'firebase/auth';
 
 import reducer from './reducer';
@@ -75,6 +78,12 @@ export const ContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState({});
   const [mode, setMode] = useState('light');
   const [login, setLogin] = useState(false);
+
+  // const instagramLoginServer = 'https://192.168.0.220:5001';
+  const instagramLoginServer = 'https://scc-auth.cyclic.app';
+  // https://scc-auth.cyclic.app
+  const imageProxyServer = 'https://scc-auth.cyclic.app/image/';
+
   var userCreds = {};
 
   var theme = createTheme({
@@ -160,11 +169,17 @@ export const ContextProvider = ({ children }) => {
         const result = await signInWithPopup(auth, providerFacebook);
         // localStorage.setItem('login', true);
         console.log('signin', result);
+        if (result.user.email === null) {
+          await updateEmail(result.user, result.user.providerData[0].email);
+          console.log('email updated in profile');
+        }
         const credential = FacebookAuthProvider.credentialFromResult(result);
-        const accessToken = credential.accessToken;
-        userCreds = { ...credential };
-        console.log(userCreds);
-        console.log(accessToken);
+        const userInfo = getAdditionalUserInfo(result);
+        console.log(userInfo);
+        // const accessToken = credential.accessToken;
+        // userCreds = { ...credential };
+        // console.log(userCreds);
+        // console.log(accessToken);
         resolve(result);
       } catch (error) {
         console.log('signin', error);
@@ -176,16 +191,8 @@ export const ContextProvider = ({ children }) => {
   const signInInstagram = () => {
     return new Promise((resolve, reject) => {
       console.log('window opening');
-      // const authWindow = window.open();
-      const authWindow = window.open('', 'SCC SLSC', 'height=500, width=400, popup=1');
-      authWindow.location.assign('https://scc-auth.cyclic.app/redirect?ra=false');
-      // setTimeout(authWindow.location.assign('https://scc-auth.cyclic.app/redirect?ra=true'), 1000);
-      // window.location.assign('https://scc-auth.cyclic.app/redirect?ra=true');
-      // let authWindow = window.open(
-      //   'https://192.168.0.215:5001/redirect?ra=false',
-      //   '_blank',
-      //   'height=500, width=400, popup=1'
-      // );
+      const authWindow = window.open('', 'SCC SLSC', 'height=600, width=400, popup=1');
+      authWindow.location.assign(`${instagramLoginServer}/redirect?ra=false`);
 
       localStorage.setItem('instaLoginState', 'false');
       try {
@@ -196,7 +203,7 @@ export const ContextProvider = ({ children }) => {
           console.log('ckecking', counter);
           if (authWindow.closed) {
             console.log('win closed', counter);
-            // the auth window is going to close for only 1 or 2 reasons..  auth success or user closes
+            // the auth window is going to close for only 1 of 2 reasons..  auth success or user closes
             if (localStorage.getItem('instaLoginState') === 'true') {
               // console.log(currentUser.uid, currentUser.displayName);
               // reauth success
@@ -221,15 +228,14 @@ export const ContextProvider = ({ children }) => {
   const reauthenticateInstagram = () => {
     return new Promise(async (resolve, reject) => {
       localStorage.setItem('instaReauthState', 'false');
+      // store the currentUser id so that AuthInsta can check against this when verifying the reAuth
       localStorage.setItem('currentUser', `${currentUser.uid}`);
-      // const authWindow = window.open('http://www.bom.com.au');
-      // window.location.assign('https://scc-auth.cyclic.app/redirect?ra=true');
       const authWindow = window.open('', 'SCC SLSC', 'height=500, width=400');
-      authWindow.location.assign('https://scc-auth.cyclic.app/redirect?ra=true');
+      authWindow.location.assign(`${instagramLoginServer}/redirect?ra=true`);
 
       let checkAuth = setInterval(() => {
         if (authWindow.closed) {
-          // the auth window is going to close for only 1 or 2 reasons..  auth success or user closes
+          // the auth window is going to close for only 1 of 2 reasons..  auth success or user closes
           if (localStorage.getItem('instaReauthState') === 'true') {
             // reauth success
             localStorage.removeItem('instaReauthState');
@@ -249,7 +255,7 @@ export const ContextProvider = ({ children }) => {
     });
   };
 
-  const signOutUser = async () => {
+  const signOutUser = () => {
     signOut(auth).then(() => {
       localStorage.clear();
       // setLogin(false);
@@ -282,6 +288,8 @@ export const ContextProvider = ({ children }) => {
         signOutUser,
         imglib,
         resetPassword,
+        instagramLoginServer,
+        imageProxyServer,
       }}
     >
       {children}

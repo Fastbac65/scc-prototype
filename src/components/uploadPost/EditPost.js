@@ -2,14 +2,15 @@ import { Box, Button, DialogActions, DialogContent, DialogContentText, Paper, St
 import { useRef, useState } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import AddImages from './AddImages';
-import PostImageList from './PostImageList';
+import EditPostImageList from './EditPostImageList';
 import { useValue } from '../context/ContextProvider';
 import { uuidv4 } from '@firebase/util';
 import uploadFile from '../context/uploadFile';
+import deleteFile from '../context/deleteFile';
 import { addDocument } from '../context/addDocument';
 import resizeImage from '../context/resizeImage';
 
-const NewPost = () => {
+const EditPost = ({ postDoc }) => {
   const {
     theme,
     currentUser,
@@ -17,8 +18,9 @@ const NewPost = () => {
     state: { alert, modal },
   } = useValue();
   const [files, setFiles] = useState([]);
+
   // this should be set by PostImageList if there are no files
-  const [postDefaultImageURL, setPostDefaultImageURL] = useState('');
+  // const [postDefaultImageURL, setPostDefaultImageURL] = useState('');
   var postImagesURLs = [];
 
   const titleRef = useRef('');
@@ -26,23 +28,8 @@ const NewPost = () => {
   const mainRef = useRef('');
   const collectionName = 'Posts';
   const storageName = 'posts';
-  const postDocumentId = currentUser?.uid + '_' + uuidv4();
-  const date = new Date();
-  const months = [
-    'Jan',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-  const defaultDate = months[date.getMonth()] + ' ' + date.getDate() + ' ,' + date.getFullYear();
+  // const postDocumentId = currentUser?.uid + '_' + uuidv4();
+  const postDocumentId = postDoc.id;
 
   const uploadPostImages = () => {
     //FILE_NAME AND DATABASE DOCUMENT ID ARE THE SAME
@@ -65,12 +52,12 @@ const NewPost = () => {
         //upload Post images to storage
 
         files.forEach(async (file, indx) => {
-          const imageName = postDocumentId + '_' + indx + '.' + file.name.split('.').pop(); // doc.id_indx.jpeg - last split gets the right file ext
+          const imageName = postDocumentId + '_' + indx + '.' + file.name.split('.').pop();
           const storageFilePath = `${storageName}/${currentUser.uid}/` + imageName;
           // const resizeFile = await resizeImage(file); // resize and compress the file
           imageUploadPromises.push(uploadFile(resizeBlobs[indx].blob, storageFilePath)); // upload the resized version
         });
-        const urls = await Promise.all(imageUploadPromises); //  these urls have the '%2F' which doesnt work on firebase methods because of rules. Always have to build path with '/'
+        const urls = await Promise.all(imageUploadPromises);
         console.log('2 images uploaded');
         urls.map((url) => {
           images.push({ src: url, alt: url });
@@ -85,9 +72,9 @@ const NewPost = () => {
     });
   };
 
-  const setDefaultImageURL = (url) => {
-    postImagesURLs = [url];
-  };
+  // const setDefaultImageURL = (url) => {
+  //   postImagesURLs = [url];
+  // };
 
   const handleSubmitPost = async (e) => {
     e.preventDefault();
@@ -97,16 +84,20 @@ const NewPost = () => {
 
     dispatch({ type: 'START_LOADING' });
     try {
-      // upload post images if there are any
+      if (files.length < postDoc.data.images.length) {
+        // there are files we need to delete - just delete the excess files as the rest will be overwritten by uploadPostImages
+        for (var i = files.length; i < postDoc.data.images.length; i++) {
+          const imageDeleteName = postDoc.data.images[i].src.split(postDoc.data.userId + '%2F')[1].split('?')[0]; // strip the filename from the URL
+          // const ext = imageDeleteName.split('.')[1];
+          const filePath = 'posts/' + postDoc.data.userId + '/' + imageDeleteName;
+          deleteFile(filePath); // no need to await this.. let em go!
+          console.log('deleted', filePath);
+        }
+      }
       if (files.length) {
-        let urls = await uploadPostImages(); // returns an array of urls
-        postImagesURLs = urls;
+        postImagesURLs = await uploadPostImages(); // returns an array of urls
 
-        console.log('there are images: ', urls);
-      } else {
-        // needs to be initialised to default lib image which is set by PostImageList
-        postImagesURLs = [postDefaultImageURL];
-        console.log('there are NO images: using lib', postDefaultImageURL);
+        console.log('there are images: ', postImagesURLs);
       }
       // update database collection 'Posts'
       const postDocumentObj = {
@@ -138,12 +129,20 @@ const NewPost = () => {
         ...alert,
         open: true,
         severity: 'success',
-        message: 'Your new post has been created succesfully!!',
+        message: 'Your post has been updated!',
         duration: 5000,
       },
     });
   };
   // console.log(files);
+
+  const initMainText = () => {
+    let str = '';
+    postDoc.data.main.forEach((paragraph) => {
+      str += paragraph + '\n';
+    });
+    return str;
+  };
 
   return (
     <form onSubmit={handleSubmitPost}>
@@ -151,13 +150,13 @@ const NewPost = () => {
         <DialogActions sx={{ my: 0, justifyContent: 'space-around' }}>
           <AddImages files={files} setFiles={setFiles} />
 
-          {/* <Button type='submit' size='small' sx={{ borderRadius: 25 }} variant='contained' endIcon={<SendIcon />}>
+          <Button type='submit' size='small' sx={{ borderRadius: 25 }} variant='contained' endIcon={<SendIcon />}>
             Save
-          </Button> */}
+          </Button>
         </DialogActions>
         <Paper elevation={15} sx={{ pt: 0, border: theme.palette.mode === 'dark' ? 0 : 1, borderColor: 'lightgray' }}>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <PostImageList files={files} setFiles={setFiles} setPostDefaultImageURL={setPostDefaultImageURL} />
+            <EditPostImageList files={files} setFiles={setFiles} postDoc={postDoc} />
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Stack spacing={0} sx={{ width: '92%' }}>
@@ -170,9 +169,10 @@ const NewPost = () => {
                 fullWidth
                 inputRef={titleRef}
                 label='Title'
+                defaultValue={postDoc.data.title}
                 required
                 multiline
-                InputProps={{ style: { fontSize: 20 } }}
+                InputProps={{ style: { fontSize: 18 } }}
               />
               <TextField
                 color='secondary'
@@ -182,8 +182,8 @@ const NewPost = () => {
                 type='text'
                 fullWidth
                 inputRef={subtitleRef}
+                defaultValue={postDoc.data.subtitle}
                 label='Subtitle or Date'
-                defaultValue={defaultDate}
                 InputProps={{ style: { fontSize: 14 } }}
               />
               {/* <TextField size='small' type='text' fullWidth inputRef={summaryRef} label='Summary' required multiline /> */}
@@ -195,7 +195,8 @@ const NewPost = () => {
                 type='text'
                 fullWidth
                 inputRef={mainRef}
-                label='Main'
+                label='Post'
+                defaultValue={initMainText()}
                 required
                 multiline
                 InputProps={{ style: { fontSize: 14 } }}
@@ -208,13 +209,13 @@ const NewPost = () => {
           {/* <AddImages files={files} setFiles={setFiles} /> */}
 
           <Button type='submit' size='small' sx={{ borderRadius: 25 }} variant='contained' endIcon={<SendIcon />}>
-            Post
+            Save
           </Button>
         </DialogActions>
         <DialogContentText variant='caption'>Click on photo to zoom.</DialogContentText>
-        <DialogContentText variant='caption'>Add photos or go with the library option.</DialogContentText>
+        <DialogContentText variant='caption'>Add/delete photos. Hit Save when you're done!</DialogContentText>
       </DialogContent>
     </form>
   );
 };
-export default NewPost;
+export default EditPost;

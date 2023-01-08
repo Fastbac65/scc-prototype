@@ -1,33 +1,57 @@
 import { Delete } from '@mui/icons-material';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { Box, CardMedia, IconButton, ImageList, ImageListItem, Tooltip, Typography } from '@mui/material';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useValue } from '../context/ContextProvider';
 import PostsLightBox from '../imagesList/PostsLightBox';
+import axios from 'axios';
+import downloadFile from '../context/downloadFile';
 
 // defines how we layout different numbers of images. Each entry is column count
 // const layout = [1, 2, 3, 4, 5, 6];
 // const height = [120, 120, 120, 120, 120, 120];
 // const height = [120, 120, 120, 75, 75, 75];
 
-const PostImageList = ({ files, setFiles, setPostDefaultImageURL }) => {
+const EditPostImageList = ({ files, setFiles, postDoc }) => {
   const { imglib } = useValue();
   const [images, setImages] = useState([]);
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [open, setOpen] = useState(false);
 
-  // picks an initial photo from the library
-  useMemo(() => {
-    const indx = Math.floor(Math.random() * imglib.length);
-    let url = imglib[indx];
-    setImages([{ src: url, alt: url }]);
+  // var existingFileNames = useRef([]);
+
+  // initial photos from the postDoc
+  useMemo(async () => {
+    setImages(postDoc.data.images);
+
+    // postDoc.data.images.forEach((image) => {
+    //   const fileName = image.src.split('?')[0].split('scc-proto.appspot.com/o/')[1];
+    //   // this fileName is used to create the existing Files in downloadFile
+    //   existingFileNames.current.push(fileName);
+    // });
+  }, []);
+
+  useEffect(() => {
+    // create the array of images[{src: url , alt: url ,},...]
+    let fileDownloadPromises = [];
+    const getExistingFiles = async () => {
+      //
+      postDoc.data.images.forEach((image) => {
+        fileDownloadPromises.push(downloadFile(image.src));
+      });
+      const downloadFiles = await Promise.all(fileDownloadPromises);
+      console.log(downloadFiles);
+      setFiles(downloadFiles);
+    };
+
+    setTimeout(() => {
+      getExistingFiles();
+    }, 500);
   }, []);
 
   // sets up images array from files - basically does nothing until there are files
   useEffect(() => {
-    // create the array of images[{src: url , alt: url ,},...]
-
     var imgs = [];
     if (files.length) {
       console.log('if files was true');
@@ -39,15 +63,15 @@ const PostImageList = ({ files, setFiles, setPostDefaultImageURL }) => {
       setImages(imgs);
     }
     if (!files.length) {
-      setPostDefaultImageURL(...images);
-
+      // setPostDefaultImageURL(...images);
       // may need to reload a default image if all files are deleted in the UI
     }
   }, [files]);
 
   const handleDelete = (e, indx, image) => {
-    // need to delete a file from 'files' and the image from the display
     console.log('delete image', image, indx, e);
+    // need to delete a file from 'files' and the image from the display
+    // setTasks(tasks.filter((taskitem) => taskitem.id !== id));
     let imgArr = [...images];
     imgArr.splice(indx, 1);
     setImages(imgArr);
@@ -56,6 +80,7 @@ const PostImageList = ({ files, setFiles, setPostDefaultImageURL }) => {
     fileArr.splice(indx, 1);
     setFiles(fileArr);
     // setFiles(files.filter((file) => file.name !== files[indx].name));
+    console.log('delete', files);
   };
 
   return (
@@ -128,4 +153,4 @@ const PostImageList = ({ files, setFiles, setPostDefaultImageURL }) => {
     </div>
   );
 };
-export default PostImageList;
+export default EditPostImageList;

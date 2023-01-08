@@ -16,10 +16,10 @@ const DeleteAccount = () => {
     e.preventDefault();
     dispatch({ type: 'START_LOADING' });
     try {
-      await deleteUserFiles('Gallery', currentUser);
-      console.log('user files deleted..  trying to delete account');
+      await deleteUserFiles(['Posts', 'Gallery', 'Users'], currentUser);
+      console.log('user Posts and Gallery items deleted..  trying to delete account');
       await deleteUser(currentUser);
-      console.log('user deleted..');
+      console.log('user account deleted..');
 
       dispatch({ type: 'MODAL', payload: { ...modal, open: false } });
       dispatch({

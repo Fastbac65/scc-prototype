@@ -26,7 +26,7 @@ const AddImages = ({ files, setFiles }) => {
         inputProps={{ accept: 'image/*', multiple: true }}
         onChange={handleChange}
       />
-      <Button variant='contained' startIcon={<Add />} sx={{ borderRadius: 25 }} onClick={handleClick}>
+      <Button size='small' variant='contained' startIcon={<Add />} sx={{ borderRadius: 25 }} onClick={handleClick}>
         Photo
       </Button>
     </div>

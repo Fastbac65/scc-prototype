@@ -103,6 +103,7 @@ const SccLogin = () => {
   const useFacebook = async () => {
     try {
       await signInFacebook();
+
       navigate(-1);
       dispatch({
         type: 'UPDATE_ALERT',

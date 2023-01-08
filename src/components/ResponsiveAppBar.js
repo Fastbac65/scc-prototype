@@ -245,10 +245,10 @@ function ResponsiveAppBar() {
                   }}
                 >
                   <Avatar
-                    sx={{ bgcolor: '#f9de00' }}
+                    sx={{ bgcolor: '#f9de00', color: 'black' }}
                     src={currentUser?.photoURL}
                     alt={currentUser?.displayName}
-                    aria-label='recipe'
+                    aria-label='user settings'
                   >
                     {currentUser?.displayName?.charAt(0)}
                   </Avatar>

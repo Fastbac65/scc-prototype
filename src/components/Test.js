@@ -1,7 +1,7 @@
 import { Close } from '@mui/icons-material';
 import { Box, Fab, Tooltip } from '@mui/material';
 import { Container } from '@mui/system';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ImageCarousel } from './content/ImageCarousel';
 import SimpleActionCard from './content/SimpleActionCard';
 import { useValue } from './context/ContextProvider';
@@ -12,75 +12,19 @@ import ImageResize from './context/ImageResize';
 import { initializeApp, deleteApp } from 'firebase/app';
 import { getAuth, signInWithCustomToken, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import axios from 'axios';
 
 const Test = () => {
-  const { theme } = useValue();
-  // function addDocument(db, documentObj, documentId) {
-  //   const docRef = doc(collection(db, 'Users'), documentId);
-  //   return setDoc(docRef, { ...documentObj, timestamp: serverTimestamp() });
-  // }
+  const { theme, currentUser } = useValue();
 
-  const queryUrl = window.location.href.split('#_')[0]; // remove the trailing #_ if present
-  if (queryUrl.indexOf('?') >= 0) {
-    var userId = queryUrl.split('ui=')[1].split('&')[0];
-    var displayName = queryUrl.split('un=')[1].split('&')[0];
-    var accessToken = queryUrl.split('at=')[1].split('&')[0];
-    var firebaseToken = queryUrl.split('ft=')[1].split('&')[0];
-    var reAuthInsta = queryUrl.split('ra=')[1].split('&')[0];
-  }
-  console.log(userId, displayName, accessToken, reAuthInsta);
+  const [image, setImage] = useState('');
 
-  const loginClient = () => {
-    var token = `${firebaseToken}`;
-    const firebaseConfig = {
-      apiKey: 'AIzaSyBz4ew-AmtQGL0h6DNYJKhniipIK7eFBUM',
-      authDomain: 'scc-proto.firebaseapp.com',
-      projectId: 'scc-proto',
-      storageBucket: 'scc-proto.appspot.com',
-      messagingSenderId: '254746155478',
-      appId: '1:254746155478:web:703ef003cd09fa621bec77',
-    };
-    // We sign in via a temporary Firebase app to update the profile.
-    //var tempApp = initializeApp(firebaseConfig, '_temp_');
-    var app = initializeApp(firebaseConfig);
-    var auth = getAuth(app);
-    var db = getFirestore(app);
-    console.log(app, auth, db);
-    const email = 'bob@bob.com';
-    const password = 'qwaszx';
-    // signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-    signInWithCustomToken(auth, token).then((userCredential) => {
-      const user = userCredential.user;
+  const profile = 'https://www.instagram.com/aungko_r/channel/?__a=1&__d=dis';
 
-      console.log(user);
-      // Saving the Instagram API access token in the Realtime Database.
-      // const docObject = {
-      //   instaAccessToken: '${instaAccessToken}',
-      //   firebaseToken: '${firebaseToken}',
-      //   userId: '${userId}',
-      // };
-      //const tasks = [addDocument(db, docObject, user.uid)];
+  const url =
+    'https://192.168.0.220:5001/image/https://instagram.fsyd8-1.fna.fbcdn.net/v/t51.2885-19/319599394_1294096694657733_2010438183614683485_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.fsyd8-1.fna.fbcdn.net&_nc_cat=109&_nc_ohc=rG5yve9ilk4AX-eKxl-&edm=AAWvnRQBAAAA&ccb=7-5&oh=00_AfByVYXlCZAQxpB6_aUoniBIP8kbTNXrmAK0Rx7167Rx4A&oe=63B7BB51&_nc_sid=e7738c';
 
-      // Updating the displayname if needed.
-      //if ('${displayName}' !== user?.displayName || user?.email === null){
-      //  tasks.push(updateProfile(user, { displayName: '${displayName}', email: 'test@test.com' }));
-      //}
-
-      // Wait for completion of above tasks.
-      //return Promise.all(tasks).then(async function () {
-      // Delete temporary Firebase app and sign in the default Firebase app, then close the popup.
-      //await deleteApp(tempApp);
-      //const app = initializeApp(firebaseConfig);
-      //const promise = await signInWithCustomToken(getAuth(app), token);
-      //window.close(); // We're done! Closing the popup.
-      //const user = promise.user;
-      console.log(user.uid, user.displayName, user.email, user.metadata);
-      console.log('we made it');
-    });
-    // });
-  };
-
-  return (
+  https: return (
     <>
       <Container maxWidth='lg' sx={{ textAlign: 'center', justifyContent: 'center' }}>
         <Box sx={{ backgroundImage: `url(${scc1})` }}>
@@ -88,17 +32,7 @@ const Test = () => {
             <p>************ Component Test Page *****************</p>
 
             <div>
-              <p>
-                Sign In a Firebase app with Instagram.
-                <br />
-                <br />
-                <br />
-                <br />
-                <strong>Now sign in!</strong>
-              </p>
-              <button id='demo-sign-in-button' onClick={loginClient}>
-                Sign in with Instagram
-              </button>
+              <img src={url} />
             </div>
           </Box>
         </Box>

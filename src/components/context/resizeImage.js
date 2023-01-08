@@ -42,11 +42,12 @@ const resizeImage = (imageToResize, jpegQuality = 75, resizeMax = 1200) => {
 
 function dataURItoBlob(dataURI) {
   // returns a Blob object
-  // convert base64/URLEncoded data component to raw binary data held in a buffer
   var buffer;
   if (dataURI.split(',')[0].indexOf('base64') >= 0) {
     // check that its base64
     //byteString = atob(dataURI.split(',')[1]);     deprecated so using the node Buffer API
+
+    // convert base64/URLEncoded data component to raw binary data held in a buffer
     buffer = Buffer.from(dataURI.split(',')[1], 'base64');
   }
   // separate out the mime component
