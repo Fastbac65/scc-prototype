@@ -28,20 +28,7 @@ const NewPost = () => {
   const storageName = 'posts';
   const postDocumentId = currentUser?.uid + '_' + uuidv4();
   const date = new Date();
-  const months = [
-    'Jan',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const defaultDate = months[date.getMonth()] + ' ' + date.getDate() + ' ,' + date.getFullYear();
 
   const uploadPostImages = () => {
@@ -119,7 +106,7 @@ const NewPost = () => {
         postType: '',
         title: title,
         subtitle: subtitle,
-        main: main.split(/\r?\n/), // array of paragraphs.
+        main: main.split(/\r?\n/).filter((para) => para !== ''), // array of paragraphs.
         images: postImagesURLs, // array of images objects [{src: url, alt: url,},.. ]
         thumbnailUrl: '',
         tags: {},
@@ -156,9 +143,7 @@ const NewPost = () => {
           </Button> */}
         </DialogActions>
         <Paper elevation={15} sx={{ pt: 0, border: theme.palette.mode === 'dark' ? 0 : 1, borderColor: 'lightgray' }}>
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <PostImageList files={files} setFiles={setFiles} setPostDefaultImageURL={setPostDefaultImageURL} />
-          </Box>
+          <PostImageList files={files} setFiles={setFiles} setPostDefaultImageURL={setPostDefaultImageURL} />
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Stack spacing={0} sx={{ width: '92%' }}>
               <TextField

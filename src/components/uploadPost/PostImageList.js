@@ -63,7 +63,7 @@ const PostImageList = ({ files, setFiles, setPostDefaultImageURL }) => {
       {images.length !== 0 && (
         <ImageList
           gap={1}
-          sx={{ width: '100%', height: 'auto', maxHeight: 150, maxWidth: 350 }}
+          sx={{ mt: 0, width: '100%', height: 'auto', maxHeight: 150, maxWidth: 350 }}
           rowHeight={150}
           // cols={layout[files.length - 1]}
           cols={images.length}

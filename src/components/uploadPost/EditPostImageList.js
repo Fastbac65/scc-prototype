@@ -88,7 +88,7 @@ const EditPostImageList = ({ files, setFiles, postDoc }) => {
       {images.length !== 0 && (
         <ImageList
           gap={1}
-          sx={{ width: '100%', height: 'auto', maxHeight: 150, maxWidth: 350 }}
+          sx={{ mt: 0, width: 'auto', height: 'auto', maxHeight: 150, maxWidth: 350 }}
           rowHeight={150}
           // cols={layout[files.length - 1]}
           cols={images.length}
@@ -100,7 +100,7 @@ const EditPostImageList = ({ files, setFiles, postDoc }) => {
                   <CardMedia
                     component='img'
                     // height={height[files.length - 1]}
-                    height={150}
+                    height='150'
                     src={image.src}
                     alt={image?.alt}
                     loading='lazy'

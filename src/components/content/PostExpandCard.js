@@ -78,7 +78,7 @@ export default function PostExpandCard({ doc, setOpen, setCurrentImageIndex, set
             />
             <ImageList
               gap={1}
-              sx={{ width: 'auto', height: 'auto', maxHeight: 301, maxWidth: 350 }} // height 301 allows for 1px gap so no scroll bars show up
+              sx={{ my: -1, width: 'auto', height: 'auto', maxHeight: 301, maxWidth: 350 }} // height 301 allows for 1px gap so no scroll bars show up
               rowHeight={150}
               // cols={layout[files.length - 1]}
               cols={doc.data.images.length == 1 ? 1 : 2}
@@ -140,7 +140,7 @@ export default function PostExpandCard({ doc, setOpen, setCurrentImageIndex, set
                 {doc.data?.main[0]}
               </Typography>
             </CardContent>
-            <CardActions disableSpacing>
+            <CardActions disableSpacing sx={{ py: 0 }}>
               <IconButton onClick={handleLikeClick} aria-label='add to favorites'>
                 <FavoriteIcon sx={{ color: like }} />
               </IconButton>
@@ -160,7 +160,7 @@ export default function PostExpandCard({ doc, setOpen, setCurrentImageIndex, set
               )}
             </CardActions>
             <Collapse in={expanded} timeout='auto' unmountOnExit>
-              <CardContent>
+              <CardContent sx={{ py: 0 }}>
                 {doc.data.main.map(
                   (
                     paragraf,
@@ -174,7 +174,7 @@ export default function PostExpandCard({ doc, setOpen, setCurrentImageIndex, set
                   )
                 )}
               </CardContent>
-              <CardActions disableSpacing>
+              <CardActions disableSpacing sx={{ py: 0 }}>
                 <IconButton onClick={handleLikeClick} aria-label='add to favorites'>
                   <FavoriteIcon sx={{ color: like }} />
                 </IconButton>

@@ -110,7 +110,7 @@ const EditPost = ({ postDoc }) => {
         postType: '',
         title: title,
         subtitle: subtitle,
-        main: main.split(/\r?\n/), // array of paragraphs.
+        main: main.split(/\r?\n/).filter((para) => para !== ''), // array of paragraphs filtered for empty ones
         images: postImagesURLs, // array of images objects [{src: url, alt: url,},.. ]
         thumbnailUrl: '',
         tags: {},
@@ -139,7 +139,7 @@ const EditPost = ({ postDoc }) => {
   const initMainText = () => {
     let str = '';
     postDoc.data.main.forEach((paragraph) => {
-      str += paragraph + '\n';
+      str += paragraph + '\n\n';
     });
     return str;
   };
@@ -150,14 +150,12 @@ const EditPost = ({ postDoc }) => {
         <DialogActions sx={{ my: 0, justifyContent: 'space-around' }}>
           <AddImages files={files} setFiles={setFiles} />
 
-          <Button type='submit' size='small' sx={{ borderRadius: 25 }} variant='contained' endIcon={<SendIcon />}>
+          {/* <Button type='submit' size='small' sx={{ borderRadius: 25 }} variant='contained' endIcon={<SendIcon />}>
             Save
-          </Button>
+          </Button> */}
         </DialogActions>
         <Paper elevation={15} sx={{ pt: 0, border: theme.palette.mode === 'dark' ? 0 : 1, borderColor: 'lightgray' }}>
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <EditPostImageList files={files} setFiles={setFiles} postDoc={postDoc} />
-          </Box>
+          <EditPostImageList files={files} setFiles={setFiles} postDoc={postDoc} />
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Stack spacing={0} sx={{ width: '92%' }}>
               <TextField
@@ -209,11 +207,11 @@ const EditPost = ({ postDoc }) => {
           {/* <AddImages files={files} setFiles={setFiles} /> */}
 
           <Button type='submit' size='small' sx={{ borderRadius: 25 }} variant='contained' endIcon={<SendIcon />}>
-            Save
+            Update
           </Button>
         </DialogActions>
-        <DialogContentText variant='caption'>Click on photo to zoom.</DialogContentText>
-        <DialogContentText variant='caption'>Add/delete photos. Hit Save when you're done!</DialogContentText>
+        <DialogContentText variant='caption'>Click on photo to zoom. Add/delete photos & content.</DialogContentText>
+        <DialogContentText variant='caption'> Update when you're done!</DialogContentText>
       </DialogContent>
     </form>
   );

@@ -8,13 +8,6 @@ import { getAuth, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth
 
 // Your web app's Firebase configuration
 export const firebaseConfig = {
-  // apiKey: 'AIzaSyBz4ew-AmtQGL0h6DNYJKhniipIK7eFBUM',
-  // authDomain: 'scc-proto.firebaseapp.com',
-  // projectId: 'scc-proto',
-  // storageBucket: 'scc-proto.appspot.com',
-  // messagingSenderId: '254746155478',
-  // appId: '1:254746155478:web:703ef003cd09fa621bec77',
-
   apiKey: process.env.REACT_APP_apiKey,
   authDomain: process.env.REACT_APP_authDomain,
   projectId: process.env.REACT_APP_projectId,

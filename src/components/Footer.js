@@ -1,4 +1,4 @@
-import { CardMedia, Grid, ImageList, ImageListItem, Link, Paper, Typography } from '@mui/material';
+import { CardMedia, Grid, Link, Paper, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 
 const Footer = () => {

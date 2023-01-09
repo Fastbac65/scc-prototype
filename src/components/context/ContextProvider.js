@@ -79,8 +79,8 @@ export const ContextProvider = ({ children }) => {
   const [mode, setMode] = useState('light');
   const [login, setLogin] = useState(false);
 
-  // const instagramLoginServer = 'https://192.168.0.220:5001';
-  const instagramLoginServer = 'https://scc-auth.cyclic.app';
+  const instagramLoginServer = 'https://192.168.0.220:5001';
+  // const instagramLoginServer = 'https://scc-auth.cyclic.app';
   // https://scc-auth.cyclic.app
   const imageProxyServer = 'https://scc-auth.cyclic.app/image/';
 

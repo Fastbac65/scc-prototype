@@ -19,10 +19,17 @@ const Test = () => {
 
   const [image, setImage] = useState('');
 
-  const profile = 'https://www.instagram.com/aungko_r/channel/?__a=1&__d=dis';
+  const profile = 'https://www.instagram.com/fastbac65/channel/?__a=1&__d=dis';
+  const serverx = 'https://192.168.0.220:5001/image/';
+  const server = 'https://scc-auth.cyclic.app/image/';
+
+  const resp = fetch(serverx + profile, {
+    method: 'GET',
+    mode: 'no-cors',
+  });
 
   const url =
-    'https://192.168.0.220:5001/image/https://instagram.fsyd8-1.fna.fbcdn.net/v/t51.2885-19/319599394_1294096694657733_2010438183614683485_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.fsyd8-1.fna.fbcdn.net&_nc_cat=109&_nc_ohc=rG5yve9ilk4AX-eKxl-&edm=AAWvnRQBAAAA&ccb=7-5&oh=00_AfByVYXlCZAQxpB6_aUoniBIP8kbTNXrmAK0Rx7167Rx4A&oe=63B7BB51&_nc_sid=e7738c';
+    'https://instagram.fsyd7-1.fna.fbcdn.net/v/t51.2885-19/319599394_1294096694657733_2010438183614683485_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.fsyd7-1.fna.fbcdn.net&_nc_cat=109&_nc_ohc=lb_dpEPL-AQAX9_ti2L&edm=AAWvnRQBAAAA&ccb=7-5&oh=00_AfBhnDdv-bSyVCG-IS2mHQm9gs94tNRGL3uSHwgGTQj7eA&oe=63BFA451&_nc_sid=e7738c';
 
   https: return (
     <>
@@ -32,7 +39,7 @@ const Test = () => {
             <p>************ Component Test Page *****************</p>
 
             <div>
-              <img src={url} />
+              <img src={server + url} />
             </div>
           </Box>
         </Box>
