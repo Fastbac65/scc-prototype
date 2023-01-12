@@ -21,8 +21,8 @@ const SccLogin = () => {
     dispatch,
     signInGoogle,
     signInFacebook,
-    signInEmail,
     signInInstagram,
+    signInEmail,
   } = useValue();
 
   const navigate = useNavigate();
@@ -71,9 +71,17 @@ const SccLogin = () => {
         });
       }
     } catch (error) {
+      console.log(error);
       dispatch({
         type: 'UPDATE_ALERT',
-        payload: { ...alert, open: true, severity: 'error', message: error.message, duration: 6000 },
+        payload: {
+          ...alert,
+          open: true,
+          severity: 'error',
+          message:
+            'Login unsuccessful : ' + error.code + '. Please use "FORGOT PASSWORD" to recover your membership access',
+          duration: 10000,
+        },
       });
     }
   };
@@ -98,8 +106,8 @@ const SccLogin = () => {
         payload: { ...alert, open: true, severity: 'error', message: error.message, duration: 6000 },
       });
     }
-    // signInGoogle().then(navigate('/'));
   };
+
   const useFacebook = async () => {
     try {
       await signInFacebook();

@@ -4,7 +4,6 @@ import SendIcon from '@mui/icons-material/Send';
 import AddImages from './AddImages';
 import EditPostImageList from './EditPostImageList';
 import { useValue } from '../context/ContextProvider';
-import { uuidv4 } from '@firebase/util';
 import uploadFile from '../context/uploadFile';
 import deleteFile from '../context/deleteFile';
 import { addDocument } from '../context/addDocument';
@@ -59,9 +58,7 @@ const EditPost = ({ postDoc }) => {
         });
         const urls = await Promise.all(imageUploadPromises);
         console.log('2 images uploaded');
-        urls.map((url) => {
-          images.push({ src: url, alt: url });
-        });
+        urls.map((url) => images.push({ src: url, alt: url }));
         console.log('3', images);
 
         resolve(images); // send back array of URLs of Post images in [{src: url, alt: url,},.. ]

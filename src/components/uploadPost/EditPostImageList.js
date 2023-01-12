@@ -1,10 +1,7 @@
-import { Delete } from '@mui/icons-material';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-import { Box, CardMedia, IconButton, ImageList, ImageListItem, Tooltip, Typography } from '@mui/material';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { useValue } from '../context/ContextProvider';
+import { Box, CardMedia, IconButton, ImageList, ImageListItem, Tooltip } from '@mui/material';
+import { useEffect, useMemo, useState } from 'react';
 import PostsLightBox from '../imagesList/PostsLightBox';
-import axios from 'axios';
 import downloadFile from '../context/downloadFile';
 
 // defines how we layout different numbers of images. Each entry is column count
@@ -13,7 +10,6 @@ import downloadFile from '../context/downloadFile';
 // const height = [120, 120, 120, 75, 75, 75];
 
 const EditPostImageList = ({ files, setFiles, postDoc }) => {
-  const { imglib } = useValue();
   const [images, setImages] = useState([]);
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -55,7 +51,7 @@ const EditPostImageList = ({ files, setFiles, postDoc }) => {
     var imgs = [];
     if (files.length) {
       console.log('if files was true');
-      files.map((file, indx) => {
+      files.forEach((file, indx) => {
         var url = URL.createObjectURL(file);
         // imgs.push({ src: url, alt: url });  another way to do it
         imgs = [...imgs, { src: url, alt: url }];

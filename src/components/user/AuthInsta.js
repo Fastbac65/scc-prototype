@@ -7,19 +7,18 @@ import { setDoc, doc, serverTimestamp, collection, getFirestore } from 'firebase
 import { Container, Box, Typography, CardMedia } from '@mui/material';
 import scc1 from '../../static/imgs/scc-fb-grp.jpeg';
 import { firebaseConfig, auth } from '../context/FireBase';
-import axios from 'axios';
+// import axios from 'axios';
 
 const AuthInsta = () => {
   const {
-    theme,
-    currentUser,
     imageProxyServer,
     signOutUser,
     dispatch,
     state: { alert },
   } = useValue();
 
-  function addDocument(db, documentObj, documentId) {
+  function addInstaUserDocument(db, documentObj, documentId) {
+    //  because we are using a tmp instance of firebase for new insta user we need this version of addDocument
     const docRef = doc(collection(db, 'Users'), documentId);
     return setDoc(docRef, { ...documentObj, timestamp: serverTimestamp() });
   }
@@ -40,8 +39,9 @@ const AuthInsta = () => {
       var instaAccessToken = queryUrl.split('&at=')[1].split('&')[0];
       var firebaseToken = queryUrl.split('&ft=')[1].split('&')[0];
       var reAuthInsta = queryUrl.split('&ra=')[1].split('&')[0];
+      var newUser = queryUrl.split('&nu=')[1].split('&')[0];
     }
-    console.log(userId, displayName, instaAccessToken, reAuthInsta, photoURL);
+    console.log(userId, displayName, instaAccessToken, reAuthInsta, photoURL, newUser);
 
     var token = `${firebaseToken}`;
     var userCredential = null;
@@ -77,53 +77,74 @@ const AuthInsta = () => {
       }
     } else {
       // were logging in an Insta user
-      // We sign in via a temporary Firebase app to update the profile.
+      // We sign in via a temporary Firebase app to update the profile if its a new user.
+      if (newUser === 'true') {
+        const tempApp = initializeApp(firebaseConfig, '_temp_');
+        const tempDb = getFirestore(tempApp);
 
-      const tempApp = initializeApp(firebaseConfig, '_temp_');
-      const tempDb = getFirestore(tempApp);
+        try {
+          userCredential = await signInWithCustomToken(getAuth(tempApp), token);
+          user = userCredential.user;
+          const userloginPromises = [];
 
-      try {
-        userCredential = await signInWithCustomToken(getAuth(tempApp), token);
-        user = userCredential.user;
-        const userloginPromises = [];
+          // access insta profile pic via server - avoids CORS related issues
+          const instaProfileUrl = imageProxyServer + photoURL;
 
-        // access insta profile pic via server - avoids CORS related issues
-        const instaProfileUrl = imageProxyServer + photoURL;
+          // Saving the Instagram API access token in the Realtime Database.
+          const docObject = {
+            instaAccessToken: `${instaAccessToken}`,
+            firebaseToken: `${firebaseToken}`,
+            userId: `${userId}`,
+            uName: displayName,
+            uAvatar: instaProfileUrl,
+            uEmail: '',
+            uMobile: '',
+            uRole: { basic: true },
+            provider: 'Instagram',
+          };
+          // Updating the profile if either displayName or profileURL are blank
+          //
+          if (user?.displayName === null || user?.photoURL === null) {
+            userloginPromises.push(updateProfile(user, { displayName: `${displayName}`, photoURL: instaProfileUrl }));
+          }
+          userloginPromises.push(addInstaUserDocument(tempDb, docObject, user.uid));
+          await Promise.all(userloginPromises);
+          deleteApp(tempApp); // delete the temp firebase app
+          // await signInWithCustomToken(auth, token);
+          userCredential = await signInWithCustomToken(auth, token);
+          // user = userCredential.user;
 
-        // Saving the Instagram API access token in the Realtime Database.
-        const docObject = {
-          instaAccessToken: `${instaAccessToken}`,
-          firebaseToken: `${firebaseToken}`,
-          userId: `${userId}`,
-          uName: displayName,
-          uAvatar: instaProfileUrl,
-        };
-        // Updating the profile if either displayName or profileURL are blank
-        //
-        if (user?.displayName === null || user?.photoURL === null) {
-          userloginPromises.push(updateProfile(user, { displayName: `${displayName}`, photoURL: instaProfileUrl }));
+          localStorage.setItem('instaLoginState', 'true');
+          window.close();
+          console.log('auth success');
+          // window.close(); // We're done! Closing the popup.
+          // console.log(user.uid, user.displayName, user.email, user.metadata);
+          // dispatch({ type: 'END_LOADING' });
+
+          //
+        } catch (error) {
+          dispatch({ type: 'END_LOADING' });
+          dispatch({
+            type: 'UPDATE_ALERT',
+            payload: { ...alert, open: true, severity: 'error', message: error.message, duration: 4000 },
+          });
         }
-        userloginPromises.push(addDocument(tempDb, docObject, user.uid));
-        await Promise.all(userloginPromises);
-        deleteApp(tempApp); // delete the temp firebase app
-        // await signInWithCustomToken(auth, token);
-        userCredential = await signInWithCustomToken(auth, token);
-        user = userCredential.user;
+      } else {
+        // simple re-login of insta user
+        try {
+          userCredential = await signInWithCustomToken(auth, token);
+          // user = userCredential.user;
 
-        localStorage.setItem('instaLoginState', 'true');
-        window.close();
-        console.log('auth success');
-        // window.close(); // We're done! Closing the popup.
-        // console.log(user.uid, user.displayName, user.email, user.metadata);
-        // dispatch({ type: 'END_LOADING' });
-
-        //
-      } catch (error) {
-        dispatch({ type: 'END_LOADING' });
-        dispatch({
-          type: 'UPDATE_ALERT',
-          payload: { ...alert, open: true, severity: 'error', message: error.message, duration: 4000 },
-        });
+          localStorage.setItem('instaLoginState', 'true');
+          window.close();
+          console.log('Existing user auth success');
+        } catch (error) {
+          dispatch({ type: 'END_LOADING' });
+          dispatch({
+            type: 'UPDATE_ALERT',
+            payload: { ...alert, open: true, severity: 'error', message: error.message, duration: 4000 },
+          });
+        }
       }
     }
   };

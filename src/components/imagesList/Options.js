@@ -8,7 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { ListItemIcon, ListItemText } from '@mui/material';
 import { useValue } from '../context/ContextProvider';
 
-import { Delete, Edit, MoreVert } from '@mui/icons-material';
+import { Delete, MoreVert } from '@mui/icons-material';
 import deleteDocument from '../context/deleteDocument';
 import deleteFile from '../context/deleteFile';
 
@@ -84,12 +84,12 @@ function Options({ collectionName, imageName }) {
             </ListItemIcon>
             <ListItemText>Delete</ListItemText>
           </MenuItem>
-          <MenuItem /*onClick={handleDelete}*/>
+          {/* <MenuItem onClick={handleEdit}>
             <ListItemIcon>
               <Edit />
             </ListItemIcon>
             <ListItemText>Edit</ListItemText>
-          </MenuItem>
+          </MenuItem> */}
         </Menu>
       </Box>
     </>

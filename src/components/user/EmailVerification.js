@@ -1,16 +1,40 @@
 import { Alert, Button, Box } from '@mui/material';
 import { sendEmailVerification } from 'firebase/auth';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useValue } from '../context/ContextProvider';
+import { auth } from '../context/FireBase';
+import useFirestoreGetUser from '../context/useFirestoreGetUser';
 import AccountSettings from './AccountSettings';
-import Profile from './Profile';
 
 const EmailVerification = () => {
   const {
     currentUser,
+    login,
     dispatch,
     state: { alert, modal },
   } = useValue();
+
+  const [emailVerified, setEmailVerified] = useState(auth?.currentUser?.emailVerified);
+  // const userDoc = useFirestoreGetUser();
+  console.log('auth.user', emailVerified, auth?.currentUser?.emailVerified);
+
+  useEffect(() => {
+    //
+    if (auth?.currentUser?.emailVerified !== undefined) {
+      setEmailVerified(auth?.currentUser?.emailVerified);
+      console.log('update current user now', auth?.currentUser?.emailVerified);
+    }
+    console.log('setEmail', auth?.currentUser?.emailVerified);
+  }, [auth.currentUser]);
+
+  // useEffect(() => {
+  //   console.log(
+  //     'current user email verified state:',
+  //     currentUser?.emailVerified,
+  //     emailVerified,
+  //     currentUser.uRole?.email
+  //   );
+  // }, [currentUser, currentUser.uRole?.email]);
 
   const [isClicked, setIsClicked] = useState(false);
 
@@ -55,7 +79,9 @@ const EmailVerification = () => {
     //
   };
   return (
+    login &&
     currentUser?.emailVerified === false && (
+      // emailVerified === false && (
       <Box>
         {/* <Collapse in={open}> */}
         {currentUser?.email !== null && (

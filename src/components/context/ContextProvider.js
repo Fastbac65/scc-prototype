@@ -6,7 +6,7 @@ import Fade from '@mui/material/Fade';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import { createTheme } from '@mui/material';
 
-import { auth, providerGoogle, providerFacebook } from './FireBase';
+import { db, auth, providerGoogle, providerFacebook } from './FireBase';
 import {
   signInWithPopup,
   onAuthStateChanged,
@@ -15,12 +15,15 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   updateEmail,
-  updatePhoneNumber,
   getAdditionalUserInfo,
-  FacebookAuthProvider,
+  // FacebookAuthProvider,
 } from 'firebase/auth';
 
 import reducer from './reducer';
+import { addDocument } from './addDocument';
+import { doc, getDoc } from 'firebase/firestore';
+import updateUserRecords from './updateUserRecords';
+import useFirestoreGetUser from './useFirestoreGetUser';
 
 export const GlobalContext = createContext();
 
@@ -50,10 +53,7 @@ export function ScrollTop(props) {
   };
   ScrollTop.propTypes = {
     children: PropTypes.element.isRequired,
-    /**
-     * Injected by the documentation to work in an iframe.
-     * You won't need it on your project.
-     */
+
     window: PropTypes.func,
   };
 
@@ -79,12 +79,12 @@ export const ContextProvider = ({ children }) => {
   const [mode, setMode] = useState('light');
   const [login, setLogin] = useState(false);
 
+  // const newUser = false;
+
   const instagramLoginServer = 'https://192.168.0.220:5001';
   // const instagramLoginServer = 'https://scc-auth.cyclic.app';
   // https://scc-auth.cyclic.app
   const imageProxyServer = 'https://scc-auth.cyclic.app/image/';
-
-  var userCreds = {};
 
   var theme = createTheme({
     breakpoints: {
@@ -120,13 +120,36 @@ export const ContextProvider = ({ children }) => {
     'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fscc-beach-sunrise.jpeg?alt=media&token=9bc45d92-b866-4905-b199-7f751f8b5175',
   ];
 
+  const getUserDoc = async (uid) => {
+    //
+    const docRef = doc(db, 'Users', uid);
+    return getDoc(docRef);
+    // const docSnap = await getDoc(docRef);
+    // console.log(docSnap.id, docSnap.data());
+  };
   //sets the currentUser global object when authentication changes. Logging In(full user object from auth provider) or Out(null)
   //sets the login global true when logged in. Used for routing and conditional rendering - its Boolean
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
-      setCurrentUser(authUser);
       authUser ? setLogin(true) : setLogin(false);
-      //dispatch({ type: 'END_LOADING' });
+
+      if (authUser) {
+        getUserDoc(authUser.uid).then((userDoc) => {
+          let user = { ...authUser, ...userDoc.data() };
+          setCurrentUser(user);
+          console.log('auth state login', user);
+          // let x = { uRole: { ...user?.uRole, createPost: true, nippersEditor: false } };
+
+          if (!user?.emailVerified && user?.uRole?.createPost === undefined) {
+            // let x = { uRole: { ...user?.uRole, createPost: true, nippersEditor: false } };
+            updateUserRecords('Users', user.uid, {
+              uRole: { ...user?.uRole, createPost: true, nippersEditor: false, email: false },
+            })
+              .then((result) => console.log('User role updated', result))
+              .catch((error) => console.log('Error updated user roles', error));
+          }
+        });
+      }
       return () => {
         unsubscribe();
       };
@@ -141,8 +164,27 @@ export const ContextProvider = ({ children }) => {
     setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
   };
 
-  const signUpEmail = (email, password) => {
-    return createUserWithEmailAndPassword(auth, email, password);
+  const signUpEmail = (email, password, mobile) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await createUserWithEmailAndPassword(auth, email, password);
+        const user = result.user;
+        const docObject = {
+          userId: user.uid,
+          uName: user.displayName,
+          uAvatar: user?.profileURL || '',
+          uEmail: user?.email || '',
+          uMobile: mobile,
+          uRole: 'basic',
+        };
+        await addDocument('Users', docObject, user.uid);
+        console.log('signin', result);
+        resolve(result);
+      } catch (error) {
+        console.log('signin', error);
+        reject(error);
+      }
+    });
   };
 
   const signInEmail = (email, password) => {
@@ -155,6 +197,25 @@ export const ContextProvider = ({ children }) => {
         const result = await signInWithPopup(auth, providerGoogle);
         // localStorage.setItem('login', true);
         console.log('signin', result);
+        const userInfo = getAdditionalUserInfo(result);
+        if (userInfo.isNewUser) {
+          // first time FB login we need to copy the email from providerData into the user
+          // write the user record
+          const user = result.user;
+          const docObject = {
+            userId: user.uid,
+            uName: user.displayName,
+            uAvatar: user?.profileURL || '',
+            uEmail: user?.email || '',
+            uMobile: '',
+            uRole: {
+              basic: true,
+            },
+            provider: user.providerData[0].providerId,
+          };
+          await addDocument('Users', docObject, user.uid);
+        }
+        // we can use this to determine a new user
         resolve(result);
       } catch (error) {
         console.log('signin', error);
@@ -167,14 +228,34 @@ export const ContextProvider = ({ children }) => {
       try {
         providerFacebook.addScope('email');
         const result = await signInWithPopup(auth, providerFacebook);
-        // localStorage.setItem('login', true);
         console.log('signin', result);
-        if (result.user.email === null) {
-          await updateEmail(result.user, result.user.providerData[0].email);
-          console.log('email updated in profile');
-        }
-        const credential = FacebookAuthProvider.credentialFromResult(result);
+
+        // const credential = FacebookAuthProvider.credentialFromResult(result);
         const userInfo = getAdditionalUserInfo(result);
+        if (userInfo.isNewUser) {
+          // first time FB login we need to copy the email from providerData into the user
+          if (result.user.email === null) {
+            await updateEmail(result.user, result.user.providerData[0].email);
+            console.log('email updated in profile');
+          }
+          // write the user record
+          const user = result.user;
+          const docObject = {
+            userId: user.uid,
+            uName: user.displayName,
+            uAvatar: user?.photoURL || '',
+            uEmail: user?.email || '',
+            uMobile: '',
+            uRole: {
+              basic: true,
+            },
+            provider: user.providerData[0].providerId,
+          };
+          await addDocument('Users', docObject, user.uid);
+          let x = { ...currentUser, ...docObject };
+          console.log(x);
+        }
+        // we can use this to determine a new user
         console.log(userInfo);
         // const accessToken = credential.accessToken;
         // userCreds = { ...credential };
@@ -212,6 +293,8 @@ export const ContextProvider = ({ children }) => {
               resolve(true);
             } else {
               // user closed the window
+              localStorage.removeItem('instaLoginState');
+
               clearInterval(checkAuth);
               reject(new Error('Instagram authentication window closed!'));
             }
@@ -279,6 +362,7 @@ export const ContextProvider = ({ children }) => {
         setLogin,
         toggleLogin,
         currentUser,
+        setCurrentUser,
         signInEmail,
         signUpEmail,
         signInGoogle,

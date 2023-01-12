@@ -8,7 +8,7 @@ import { styled } from '@mui/material/styles';
 import { FacebookLoginButton, GoogleLoginButton, InstagramLoginButton } from 'react-social-login-buttons';
 import { useValue } from '../context/ContextProvider';
 import PasswordField from './PasswordField';
-import { updateProfile } from 'firebase/auth';
+import { updateEmail, updateProfile } from 'firebase/auth';
 import { auth } from '../context/FireBase';
 
 // import { async } from '@firebase/util';
@@ -33,6 +33,8 @@ const SccSignup = () => {
     state: { alert },
     dispatch,
     signInGoogle,
+    signInFacebook,
+    signInInstagram,
     signUpEmail,
   } = useValue();
 
@@ -85,13 +87,17 @@ const SccSignup = () => {
         //sign up
       } else {
         dispatch({ type: 'START_LOADING' });
-        await signUpEmail(email, password);
+        await signUpEmail(email, password, mobile);
         const randomAvatar = 'https://i.pravatar.cc/250?u=' + email;
-        await updateProfile(auth.currentUser, {
-          displayName: fname,
-          phoneNumber: mobile,
-          photoURL: randomAvatar,
-        });
+        const updatePromises = [];
+        updatePromises.push(
+          updateProfile(auth.currentUser, {
+            displayName: fname,
+            photoURL: randomAvatar,
+          })
+        );
+        updatePromises.push(updateEmail(auth.currentUser, email));
+        await Promise.all(updatePromises);
         dispatch({ type: 'END_LOADING' });
 
         navigate(-1);
@@ -106,23 +112,61 @@ const SccSignup = () => {
     }
   };
 
-  const useGoogle = () => {
-    signInGoogle()
-      .then((res) => {
-        navigate(-1);
-        dispatch({
-          type: 'UPDATE_ALERT',
-          payload: {
-            ...alert,
-            open: true,
-            severity: 'success',
-            message: 'Registration successful - Welcome to SCC members!',
-            duration: 6000,
-          },
-        });
-      })
-      .catch((error) => console.log(error));
+  const useGoogle = async () => {
+    try {
+      await signInGoogle();
+      navigate(-1);
+      dispatch({
+        type: 'UPDATE_ALERT',
+        payload: { ...alert, open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 6000 },
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: 'UPDATE_ALERT',
+        payload: { ...alert, open: true, severity: 'error', message: error.message, duration: 6000 },
+      });
+    }
   };
+
+  const useFacebook = async () => {
+    try {
+      await signInFacebook();
+
+      navigate(-1);
+      dispatch({
+        type: 'UPDATE_ALERT',
+        payload: { ...alert, open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 6000 },
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: 'UPDATE_ALERT',
+        payload: { ...alert, open: true, severity: 'error', message: error.message, duration: 6000 },
+      });
+    }
+  };
+
+  const useInstagram = async () => {
+    dispatch({ type: 'START_LOADING' });
+    try {
+      await signInInstagram();
+      navigate(-1);
+      dispatch({
+        type: 'UPDATE_ALERT',
+        payload: { ...alert, open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 6000 },
+      });
+      dispatch({ type: 'END_LOADING' });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: 'UPDATE_ALERT',
+        payload: { ...alert, open: true, severity: 'error', message: error.message, duration: 6000 },
+      });
+      dispatch({ type: 'END_LOADING' });
+    }
+  };
+
   // get the size of the image to the right of login
   const handleOnload = (e) => {
     setHeight(e.target.offsetHeight);
@@ -200,13 +244,13 @@ const SccSignup = () => {
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Stack sx={{ pb: 4, width: '60%' }}>
-                  <FacebookLoginButton style={{ fontSize: '14px' }} align='center' size='40px'>
+                  <FacebookLoginButton style={{ fontSize: '14px' }} align='center' size='40px' onClick={useFacebook}>
                     Sign up with Facebook
                   </FacebookLoginButton>
                   <GoogleLoginButton style={{ fontSize: '14px' }} align='center' size='40px' onClick={useGoogle}>
                     Sign up with Google
                   </GoogleLoginButton>
-                  <InstagramLoginButton style={{ fontSize: '14px' }} align='center' size='40px'>
+                  <InstagramLoginButton style={{ fontSize: '14px' }} align='center' size='40px' onClick={useInstagram}>
                     Sign up with Instagram
                   </InstagramLoginButton>
                 </Stack>

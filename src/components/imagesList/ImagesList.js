@@ -99,9 +99,7 @@ export default function ImagesList({ documents, collectionName }) {
               </Tooltip>
             )}
             {/* menu top right*/}
-            {currentUser?.displayName === doc?.data?.uName && (
-              <Options imageName={doc?.id} collectionName={collectionName} />
-            )}
+            {currentUser?.uid === doc?.data?.userId && <Options imageName={doc?.id} collectionName={collectionName} />}
           </ImageListItem>
         ))}
       </ImageList>

@@ -1,6 +1,5 @@
-import { Delete } from '@mui/icons-material';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-import { Box, CardMedia, IconButton, ImageList, ImageListItem, Tooltip, Typography } from '@mui/material';
+import { Box, CardMedia, IconButton, ImageList, ImageListItem, Tooltip } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { useValue } from '../context/ContextProvider';
 import PostsLightBox from '../imagesList/PostsLightBox';
@@ -31,7 +30,7 @@ const PostImageList = ({ files, setFiles, setPostDefaultImageURL }) => {
     var imgs = [];
     if (files.length) {
       console.log('if files was true');
-      files.map((file, indx) => {
+      files.forEach((file, indx) => {
         var url = URL.createObjectURL(file);
         // imgs.push({ src: url, alt: url });  another way to do it
         imgs = [...imgs, { src: url, alt: url }];

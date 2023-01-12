@@ -17,7 +17,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import Fade from '@mui/material/Fade';
 
-import { useValue } from '../context/ContextProvider';
 import { ImageList, ImageListItem } from '@mui/material';
 import moment from 'moment';
 import PostOptions from '../uploadPost/PostOptions';
@@ -35,7 +34,6 @@ const ExpandMore = styled((props) => {
 
 export default function PostExpandCard({ doc, setOpen, setCurrentImageIndex, setImages }) {
   const [expanded, setExpanded] = useState(false);
-  const { currentUser } = useValue();
 
   const [like, setLike] = useState();
 
@@ -81,7 +79,7 @@ export default function PostExpandCard({ doc, setOpen, setCurrentImageIndex, set
               sx={{ my: -1, width: 'auto', height: 'auto', maxHeight: 301, maxWidth: 350 }} // height 301 allows for 1px gap so no scroll bars show up
               rowHeight={150}
               // cols={layout[files.length - 1]}
-              cols={doc.data.images.length == 1 ? 1 : 2}
+              cols={doc.data.images.length === 1 ? 1 : 2}
             >
               {doc.data.images.map((image, indx) => (
                 <ImageListItem key={image.src}>

@@ -1,5 +1,5 @@
 import { Add } from '@mui/icons-material';
-import { Box, Button, Fab, Input } from '@mui/material';
+import { Button, Input } from '@mui/material';
 import React, { useRef } from 'react';
 
 const AddImages = ({ files, setFiles }) => {

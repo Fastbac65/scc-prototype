@@ -14,10 +14,7 @@ import EditPost from './EditPost';
 import deletePost from '../context/deletePost';
 
 function PostOptions({ postDoc }) {
-  const collectionName = 'Posts';
-
   const {
-    login,
     currentUser,
     state: { alert, modal },
     dispatch,
@@ -59,15 +56,6 @@ function PostOptions({ postDoc }) {
       type: 'MODAL',
       payload: { ...modal, open: true, content: <EditPost postDoc={postDoc} />, title: 'Edit Post' },
     });
-
-    // try {
-    //   //
-    // } catch (error) {
-    //   dispatch({
-    //     type: 'UPDATE_ALERT',
-    //     payload: { ...alert, open: true, severity: 'error', message: error.message, duration: 6000 },
-    //   });
-    // }
   };
 
   return (

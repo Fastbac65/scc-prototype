@@ -59,7 +59,7 @@ const NewPost = () => {
         });
         const urls = await Promise.all(imageUploadPromises); //  these urls have the '%2F' which doesnt work on firebase methods because of rules. Always have to build path with '/'
         console.log('2 images uploaded');
-        urls.map((url) => {
+        urls.forEach((url) => {
           images.push({ src: url, alt: url });
         });
         console.log('3', images);
@@ -70,10 +70,6 @@ const NewPost = () => {
         reject(error);
       }
     });
-  };
-
-  const setDefaultImageURL = (url) => {
-    postImagesURLs = [url];
   };
 
   const handleSubmitPost = async (e) => {
