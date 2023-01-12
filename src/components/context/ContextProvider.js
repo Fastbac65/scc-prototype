@@ -135,9 +135,12 @@ export const ContextProvider = ({ children }) => {
 
       if (authUser) {
         getUserDoc(authUser.uid).then((userDoc) => {
-          let user = { ...authUser, ...userDoc.data() };
+          // let user = authUser;
+          let user = Object.assign(authUser, userDoc.data());
+
+          // setCurrentUser(authUser);
           setCurrentUser(user);
-          console.log('auth state login', user);
+          console.log('auth state login', authUser);
           // let x = { uRole: { ...user?.uRole, createPost: true, nippersEditor: false } };
 
           if (!user?.emailVerified && user?.uRole?.createPost === undefined) {

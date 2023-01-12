@@ -4,6 +4,7 @@ import PasswordField from './PasswordField';
 import SendIcon from '@mui/icons-material/Send';
 import { useValue } from '../context/ContextProvider';
 import { updatePassword } from 'firebase/auth';
+import { auth } from '../context/FireBase';
 
 const ChangePassword = () => {
   const {

@@ -8,6 +8,7 @@ import {
 } from 'firebase/auth';
 import { useRef, useState } from 'react';
 import { useValue } from '../context/ContextProvider';
+import { auth } from '../context/FireBase';
 import ChangeEmail from './ChangeEmail';
 import ChangePassword from './ChangePassword';
 import DeleteAccount from './DeleteAccount';

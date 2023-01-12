@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import { useValue } from '../context/ContextProvider';
 import { updateEmail } from 'firebase/auth';
+import { auth } from '../context/FireBase';
 
 const ChangeEmail = () => {
   const {

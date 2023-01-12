@@ -50,7 +50,7 @@ const EmailVerification = () => {
     dispatch({ type: 'START_LOADING' });
 
     try {
-      await sendEmailVerification(currentUser);
+      await sendEmailVerification(auth.currentUser);
       dispatch({
         type: 'UPDATE_ALERT',
         payload: {
@@ -101,7 +101,7 @@ const EmailVerification = () => {
             sx={{ pt: 2 }}
           >
             Hi {currentUser?.displayName}. Please verify your email:&nbsp;{' '}
-            {currentUser?.email || currentUser?.providerData[0]?.email} &nbsp;
+            {auth.currentUser?.email || currentUser?.providerData[0]?.email} &nbsp;
             <Button
               variant='contained'
               size='small'
