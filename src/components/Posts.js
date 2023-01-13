@@ -78,8 +78,8 @@ export default function Posts() {
           </Stack>
         )}
         <PostsList
-          // documents={like == '' ? documents : currentUser?.uPostLikes?.length > 0 ? currentUser.uPostLikes : documents}
-          documents={documents}
+          documents={like == '' ? documents : likePostDocs}
+          // documents={documents}
         />
 
         <ContentCardMasonryPosts />

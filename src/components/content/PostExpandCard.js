@@ -46,7 +46,7 @@ export default function PostExpandCard({ user, doc, setOpen, setCurrentImageInde
     if (user) {
       let like = user?.uPostLikes?.indexOf(doc.id) >= 0 ? 'red' : '';
       setLike(like);
-      console.log('setLikes initialised');
+      // console.log('setLikes initialised');
     }
   }, []);
 
@@ -219,12 +219,16 @@ export default function PostExpandCard({ user, doc, setOpen, setCurrentImageInde
                 )}
               </CardContent>
               <CardActions disableSpacing sx={{ py: 0 }}>
-                <IconButton onClick={handleLikeClick} aria-label='add to favorites'>
-                  <FavoriteIcon sx={{ color: like }} />
-                </IconButton>
-                <IconButton aria-label='share'>
-                  <ShareIcon />
-                </IconButton>
+                {login && (
+                  <>
+                    <IconButton onClick={handleLikeClick} aria-label='add to favorites'>
+                      <FavoriteIcon sx={{ color: like }} />
+                    </IconButton>
+                    <IconButton aria-label='share'>
+                      <ShareIcon />
+                    </IconButton>
+                  </>
+                )}
 
                 <ExpandMore
                   href={`#${doc.id}`}
