@@ -1,0 +1,8 @@
+[
+  {
+    "origin": ["https://192.168.0.220:3000", "https://localhost:3000", "https://scc-proto.web.app"],
+    "method": ["GET", "POST"],
+    "responseHeader": ["Content-Type"],
+    "maxAgeSeconds": 36000
+  }
+]

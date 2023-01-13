@@ -1,18 +1,29 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useReducer } from 'react';
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
-//firestore testing
-import { collection, addDoc, getDocs } from 'firebase/firestore';
-import { db, auth, provider, storage, imageref, images } from './FireBase';
-import { signInWithPopup, onAuthStateChanged, signOut } from 'firebase/auth';
-import { getDownloadURL, ref } from 'firebase/storage';
+import { createTheme } from '@mui/material';
 
-import img from '../../static/imgs/paella.jpg';
-import { useNavigate } from 'react-router-dom';
-import { async } from '@firebase/util';
+import { db, auth, providerGoogle, providerFacebook } from './FireBase';
+import {
+  signInWithPopup,
+  onAuthStateChanged,
+  signOut,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  updateEmail,
+  getAdditionalUserInfo,
+  // FacebookAuthProvider,
+} from 'firebase/auth';
+
+import reducer from './reducer';
+import { addDocument } from './addDocument';
+import { doc, getDoc } from 'firebase/firestore';
+import updateUserRecords from './updateUserRecords';
+import useFirestoreGetUser from './useFirestoreGetUser';
 
 export const GlobalContext = createContext();
 
@@ -20,51 +31,29 @@ export const useValue = () => {
   return useContext(GlobalContext);
 };
 
-var post1 = {
-  firstn: 'Ada',
-  lastn: 'Lovelace',
-  content:
-    'Images formed and reformed: a flickering montage of the Sprawl’s towers and ragged Fuller domes, dim figures moving toward him in the center of his closed left eyelid. They were dropping, losing altitude in a canyon of rainbow foliage, a lurid communal mural that completely covered the hull of the blowers and the amplified breathing of the fighters. He woke and found her stretched beside him in the tunnel’s ceiling. Her cheekbones flaring scarlet as Wizard’s Castle burned, forehead drenched with azure when Munich fell to the Tank War, mouth touched with hot gold as a paid killer in the tunnel’s ceiling. Still it was a long strange way home over the black water and the amplified breathing of the previous century. They floated in the dark, curled in his devotion to esoteric forms of tailor-worship. Then a mist closed over the black water and the amplified breathing of the arcade showed him broken lengths of damp chipboard and the drifting shoals of waste. Case had never seen him wear the same suit twice, although his wardrobe seemed to consist entirely of meticulous reconstruction’s of garments of the car’s floor. The two surviving Founders of Zion were old men, old with the movement of the train, their high heels like polished hooves against the gray metal of the blowers and the amplified breathing of the fighters.',
-  img: img,
-};
-
-// addDoc(collection(db, 'posts'), post)
-//   .then((docRef) => console.log('Document written with ID: ', docRef.id))
-//   .catch((e) => console.error('Error adding document: ', e));
-
-// const query = getDocs(collection(db, 'posts')).then((query) => {
-//   query.forEach((post) => {
-//     let x = post.data();
-//     // console.log(`${post.id} => `, post.data());
-//     // console.log(`${post.id} => ${x.firstn} and ${post1}`);
-//   });
-// });
-
 export function ScrollTop(props) {
-  const { children, window } = props;
+  const { children, window, id } = props;
   // Note that you normally won't need to set the window ref as useScrollTrigger
   // will default to window.
   // This is only being set here because the demo is in an iframe.
   const trigger = useScrollTrigger({
     target: window ? window() : undefined,
     disableHysteresis: true,
-    threshold: 400,
+    threshold: 200,
   });
   const handleClick = (event) => {
-    const anchor = (event.target.ownerDocument || document).querySelector('#back-to-top-anchor');
+    const anchor = (event.target.ownerDocument || document).querySelector(id);
 
     if (anchor) {
       anchor.scrollIntoView({
         block: 'start',
+        behaviour: 'smooth',
       });
     }
   };
   ScrollTop.propTypes = {
     children: PropTypes.element.isRequired,
-    /**
-     * Injected by the documentation to work in an iframe.
-     * You won't need it on your project.
-     */
+
     window: PropTypes.func,
   };
 
@@ -77,27 +66,48 @@ export function ScrollTop(props) {
   );
 }
 
-export const ContextProvider = ({ children, theme, toggleColorMode, login, setLogin, toggleLogin }) => {
-  const [blogs, setBlogs] = useState([
-    {
-      id: 2,
-      text: 'Leilas party',
-      day: 'Nov 5th at 5pm',
-      reminder: true,
+export const ContextProvider = ({ children }) => {
+  const initialstate = {
+    alert: { open: false, severity: 'info', message: '', duration: 1000 },
+    modal: { open: false, title: '', content: '' },
+    loading: false,
+    lightbox: { open: false, currentIndx: 0 },
+  };
+  const [state, dispatch] = useReducer(reducer, initialstate);
+
+  const [currentUser, setCurrentUser] = useState({});
+  const [mode, setMode] = useState('light');
+  const [login, setLogin] = useState(false);
+
+  // const newUser = false;
+
+  const instagramLoginServer = 'https://192.168.0.220:5001';
+  // const instagramLoginServer = 'https://scc-auth.cyclic.app';
+  // https://scc-auth.cyclic.app
+  const imageProxyServer = 'https://scc-auth.cyclic.app/image/';
+
+  var theme = createTheme({
+    breakpoints: {
+      values: { xs: 0, sm: 576, md: 768, lg: 992, xl: 1400 },
     },
-    {
-      id: 4,
-      text: 'Leilas bday party',
-      day: 'Nov 5th at 5pm',
-      reminder: true,
+    palette: {
+      primary: {
+        main: '#004c98',
+      },
+      secondary: {
+        // main: '#f44336',
+        main: '#336fac',
+      },
+      mode: mode,
     },
-    {
-      id: 5,
-      text: 'Food Shopping',
-      day: 'Dec 3rd at 10am',
-      reminder: true,
+    typography: {
+      fontFamily: 'Quicksand, Roboto',
+      fontWeightLight: 400,
+      fontWeightRegular: 500,
+      fontWeightMedium: 600,
+      fontWeightBold: 700,
     },
-  ]);
+  });
 
   const imglib = [
     'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader8.jpeg?alt=media&token=a1f8999d-3a8e-4e92-ac46-40c7298fe80a',
@@ -110,77 +120,282 @@ export const ContextProvider = ({ children, theme, toggleColorMode, login, setLo
     'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fscc-beach-sunrise.jpeg?alt=media&token=9bc45d92-b866-4905-b199-7f751f8b5175',
   ];
 
-  const [user, setUser] = useState({});
-
+  const getUserDoc = async (uid) => {
+    //
+    const docRef = doc(db, 'Users', uid);
+    return getDoc(docRef);
+    // const docSnap = await getDoc(docRef);
+    // console.log(docSnap.id, docSnap.data());
+  };
+  //sets the currentUser global object when authentication changes. Logging In(full user object from auth provider) or Out(null)
+  //sets the login global true when logged in. Used for routing and conditional rendering - its Boolean
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentuser) => {
-      setUser(currentuser);
-      currentuser ? setLogin(true) : setLogin(false);
-      console.log('useState', user, currentuser);
+    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+      authUser ? setLogin(true) : setLogin(false);
+
+      if (authUser) {
+        getUserDoc(authUser.uid).then((userDoc) => {
+          // let user = authUser;
+          // deep copy of authUser with functions but creates a reference so user is effectively same
+          let user = Object.assign(authUser, userDoc.data());
+
+          // setCurrentUser(authUser);
+          setCurrentUser(user);
+          console.log('auth state login', user);
+          //TODO fix this
+          if (user?.emailVerified && user?.uRole?.createPost === undefined) {
+            // let x = { uRole: { ...user?.uRole, createPost: true, nippersEditor: false } };
+            updateUserRecords('Users', user.uid, {
+              uRole: { ...user?.uRole, createPost: true, nippersEditor: false, email: false },
+            })
+              .then((result) => console.log('User role updated', result))
+              .catch((error) => console.log('Error updated user roles', error));
+          }
+        });
+      }
+      return () => {
+        unsubscribe();
+      };
     });
-    return () => {
-      unsubscribe();
-    };
   }, []);
 
-  const signInGoogle = () => {
+  const toggleLogin = () => {
+    setLogin(!login);
+  };
+
+  const toggleColorMode = () => {
+    setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+  };
+
+  const signUpEmail = (email, password, mobile) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const result = await signInWithPopup(auth, provider);
-        localStorage.setItem('login', true);
+        const result = await createUserWithEmailAndPassword(auth, email, password);
+        const user = result.user;
+        const docObject = {
+          userId: user.uid,
+          uName: user.displayName,
+          uAvatar: user?.profileURL || '',
+          uEmail: user?.email || '',
+          uMobile: mobile,
+          uRole: { basic: true },
+        };
+        await addDocument('Users', docObject, user.uid);
         console.log('signin', result);
         resolve(result);
       } catch (error) {
         console.log('signin', error);
         reject(error);
       }
-      // signInWithPopup(auth, provider)
-      //   .then((result) => {
-      //     // setLogin(true);
-      //     // setUserobj(result);
-      //     localStorage.setItem('login', true);
-      //     console.log('signin', result);
-      //     // const user = result.user;
-      //     // navigate('/');
-      //     res(result);
-      //   })
-      //   .catch((error) => {
-      //     const errorCode = error.code;
-      //     const errorMessage = error.message;
-      //     // The email of the user's account used.
-      //     const email = error.customData.email;
-      //     // The AuthCredential type that was used.
-      //     // const credential = provider.credentialFromError(error);
-      //     console.log(error);
-      //     rej(error);
-      //   });
     });
   };
 
-  const signOutUser = async () => {
+  const signInEmail = (email, password) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await signInWithEmailAndPassword(auth, email, password);
+        const user = result.user;
+        const docObject = {
+          userId: user.uid,
+          uName: user.displayName,
+          uAvatar: user?.profileURL || '',
+          uEmail: user?.email || '',
+          uMobile: '',
+          uRole: { basic: true },
+        };
+        await addDocument('Users', docObject, user.uid);
+        console.log('signin', result);
+        resolve(result);
+      } catch (error) {
+        console.log('signin', error);
+        reject(error);
+      }
+    });
+  };
+
+  const signInGoogle = () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await signInWithPopup(auth, providerGoogle);
+        // localStorage.setItem('login', true);
+        console.log('signin', result);
+        const userInfo = getAdditionalUserInfo(result);
+        if (userInfo.isNewUser) {
+          // first time FB login we need to copy the email from providerData into the user
+          // write the user record
+          const user = result.user;
+          const docObject = {
+            userId: user.uid,
+            uName: user.displayName,
+            uAvatar: user?.profileURL || '',
+            uEmail: user?.email || '',
+            uMobile: '',
+            uRole: {
+              basic: true,
+            },
+            provider: user.providerData[0].providerId,
+          };
+          await addDocument('Users', docObject, user.uid);
+        }
+        // we can use this to determine a new user
+        resolve(result);
+      } catch (error) {
+        console.log('signin', error);
+        reject(error);
+      }
+    });
+  };
+  const signInFacebook = () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        providerFacebook.addScope('email');
+        const result = await signInWithPopup(auth, providerFacebook);
+        console.log('signin', result);
+
+        // const credential = FacebookAuthProvider.credentialFromResult(result);
+        const userInfo = getAdditionalUserInfo(result);
+        if (userInfo.isNewUser) {
+          // first time FB login we need to copy the email from providerData into the user
+          if (result.user.email === null) {
+            await updateEmail(result.user, result.user.providerData[0].email);
+            console.log('email updated in profile');
+          }
+          // write the user record
+          const user = result.user;
+          const docObject = {
+            userId: user.uid,
+            uName: user.displayName,
+            uAvatar: user?.photoURL || '',
+            uEmail: user?.email || '',
+            uMobile: '',
+            uRole: {
+              basic: true,
+            },
+            provider: user.providerData[0].providerId,
+          };
+          await addDocument('Users', docObject, user.uid);
+          let x = { ...currentUser, ...docObject };
+          console.log(x);
+        }
+        // we can use this to determine a new user
+        console.log(userInfo);
+        // const accessToken = credential.accessToken;
+        // userCreds = { ...credential };
+        // console.log(userCreds);
+        // console.log(accessToken);
+        resolve(result);
+      } catch (error) {
+        console.log('signin', error);
+        reject(error);
+      }
+    });
+  };
+
+  const signInInstagram = () => {
+    return new Promise((resolve, reject) => {
+      console.log('window opening');
+      const authWindow = window.open('', 'SCC SLSC', 'height=600, width=400, popup=1');
+      authWindow.location.assign(`${instagramLoginServer}/redirect?ra=false`);
+
+      localStorage.setItem('instaLoginState', 'false');
+      try {
+        var counter = 0;
+
+        let checkAuth = setInterval(() => {
+          counter++;
+          console.log('ckecking', counter);
+          if (authWindow.closed) {
+            console.log('win closed', counter);
+            // the auth window is going to close for only 1 of 2 reasons..  auth success or user closes
+            if (localStorage.getItem('instaLoginState') === 'true') {
+              // console.log(currentUser.uid, currentUser.displayName);
+              // reauth success
+              localStorage.removeItem('instaLoginState');
+              clearInterval(checkAuth);
+              resolve(true);
+            } else {
+              // user closed the window
+              localStorage.removeItem('instaLoginState');
+
+              clearInterval(checkAuth);
+              reject(new Error('Instagram authentication window closed!'));
+            }
+            //
+            console.log('auth win closed');
+          }
+        }, 500);
+      } catch (error) {
+        console.log('error', error.message);
+        reject(error);
+      }
+    });
+  };
+  const reauthenticateInstagram = () => {
+    return new Promise(async (resolve, reject) => {
+      localStorage.setItem('instaReauthState', 'false');
+      // store the currentUser id so that AuthInsta can check against this when verifying the reAuth
+      localStorage.setItem('currentUser', `${currentUser.uid}`);
+      const authWindow = window.open('', 'SCC SLSC', 'height=500, width=400');
+      authWindow.location.assign(`${instagramLoginServer}/redirect?ra=true`);
+
+      let checkAuth = setInterval(() => {
+        if (authWindow.closed) {
+          // the auth window is going to close for only 1 of 2 reasons..  auth success or user closes
+          if (localStorage.getItem('instaReauthState') === 'true') {
+            // reauth success
+            localStorage.removeItem('instaReauthState');
+            localStorage.removeItem('currentUser');
+            clearInterval(checkAuth);
+            resolve(true);
+          } else {
+            // user closed the window
+            clearInterval(checkAuth);
+
+            reject(new Error('Instagram authentication window closed!'));
+          }
+          //
+          console.log('auth win closed');
+        }
+      }, 500);
+    });
+  };
+
+  const signOutUser = () => {
     signOut(auth).then(() => {
       localStorage.clear();
       // setLogin(false);
       // navigate('/login');
-      console.log('logged out ', user);
+      console.log('logged out ', currentUser);
     });
+  };
+
+  const resetPassword = (email) => {
+    return sendPasswordResetEmail(auth, email);
   };
 
   return (
     <GlobalContext.Provider
       value={{
-        blogs,
+        state,
+        dispatch,
         theme,
         toggleColorMode,
         login,
         setLogin,
         toggleLogin,
-        user,
-        setUser,
-        signOutUser,
+        currentUser,
+        setCurrentUser,
+        signInEmail,
+        signUpEmail,
         signInGoogle,
-        imageref,
+        signInFacebook,
+        reauthenticateInstagram,
+        signInInstagram,
+        signOutUser,
         imglib,
+        resetPassword,
+        instagramLoginServer,
+        imageProxyServer,
       }}
     >
       {children}
