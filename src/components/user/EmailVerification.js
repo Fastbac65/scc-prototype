@@ -14,28 +14,6 @@ const EmailVerification = () => {
     state: { alert, modal },
   } = useValue();
 
-  const [emailVerified, setEmailVerified] = useState(auth?.currentUser?.emailVerified);
-  // const userDoc = useFirestoreGetUser();
-  console.log('auth.user', emailVerified, auth?.currentUser?.emailVerified);
-
-  useEffect(() => {
-    //
-    if (auth?.currentUser?.emailVerified !== undefined) {
-      setEmailVerified(auth?.currentUser?.emailVerified);
-      console.log('update current user now', auth?.currentUser?.emailVerified);
-    }
-    console.log('setEmail', auth?.currentUser?.emailVerified);
-  }, [auth.currentUser]);
-
-  // useEffect(() => {
-  //   console.log(
-  //     'current user email verified state:',
-  //     currentUser?.emailVerified,
-  //     emailVerified,
-  //     currentUser.uRole?.email
-  //   );
-  // }, [currentUser, currentUser.uRole?.email]);
-
   const [isClicked, setIsClicked] = useState(false);
 
   const accountSettings = () => {
@@ -50,15 +28,16 @@ const EmailVerification = () => {
     dispatch({ type: 'START_LOADING' });
 
     try {
-      await sendEmailVerification(auth.currentUser);
+      await sendEmailVerification(currentUser);
       dispatch({
         type: 'UPDATE_ALERT',
         payload: {
           ...alert,
           open: true,
           severity: 'success',
-          message: 'Verification email sent, please follow instructions in your email',
-          duration: 5000,
+          message:
+            'Verification email sent, please click on verify link in your email. You will be re-directed back here with full access to SCC Members!',
+          duration: 10000,
         },
       });
     } catch (error) {
@@ -80,8 +59,9 @@ const EmailVerification = () => {
   };
   return (
     login &&
-    currentUser?.emailVerified === false && (
-      // emailVerified === false && (
+    auth.currentUser?.emailVerified === false && (
+      // auth.currentUser will be updated after email verification process via reload(auth.currentUser)
+      // unless we write the code currentUser maybe out of sync..   not sure yet as the clone process was a reference base
       <Box>
         {/* <Collapse in={open}> */}
         {currentUser?.email !== null && (
@@ -100,8 +80,8 @@ const EmailVerification = () => {
             // }
             sx={{ pt: 2 }}
           >
-            Hi {currentUser?.displayName}. Please verify your email:&nbsp;{' '}
-            {auth.currentUser?.email || currentUser?.providerData[0]?.email} &nbsp;
+            Hi {currentUser?.displayName}. Please verify your email:&nbsp;
+            {currentUser?.email}&nbsp; &nbsp;
             <Button
               variant='contained'
               size='small'

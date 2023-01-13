@@ -136,14 +136,14 @@ export const ContextProvider = ({ children }) => {
       if (authUser) {
         getUserDoc(authUser.uid).then((userDoc) => {
           // let user = authUser;
+          // deep copy of authUser with functions but creates a reference so user is effectively same
           let user = Object.assign(authUser, userDoc.data());
 
           // setCurrentUser(authUser);
           setCurrentUser(user);
-          console.log('auth state login', authUser);
-          // let x = { uRole: { ...user?.uRole, createPost: true, nippersEditor: false } };
-
-          if (!user?.emailVerified && user?.uRole?.createPost === undefined) {
+          console.log('auth state login', user);
+          //TODO fix this
+          if (user?.emailVerified && user?.uRole?.createPost === undefined) {
             // let x = { uRole: { ...user?.uRole, createPost: true, nippersEditor: false } };
             updateUserRecords('Users', user.uid, {
               uRole: { ...user?.uRole, createPost: true, nippersEditor: false, email: false },
@@ -178,7 +178,7 @@ export const ContextProvider = ({ children }) => {
           uAvatar: user?.profileURL || '',
           uEmail: user?.email || '',
           uMobile: mobile,
-          uRole: 'basic',
+          uRole: { basic: true },
         };
         await addDocument('Users', docObject, user.uid);
         console.log('signin', result);
@@ -191,7 +191,26 @@ export const ContextProvider = ({ children }) => {
   };
 
   const signInEmail = (email, password) => {
-    return signInWithEmailAndPassword(auth, email, password);
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await signInWithEmailAndPassword(auth, email, password);
+        const user = result.user;
+        const docObject = {
+          userId: user.uid,
+          uName: user.displayName,
+          uAvatar: user?.profileURL || '',
+          uEmail: user?.email || '',
+          uMobile: '',
+          uRole: { basic: true },
+        };
+        await addDocument('Users', docObject, user.uid);
+        console.log('signin', result);
+        resolve(result);
+      } catch (error) {
+        console.log('signin', error);
+        reject(error);
+      }
+    });
   };
 
   const signInGoogle = () => {

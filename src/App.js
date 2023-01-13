@@ -22,6 +22,7 @@ import Modal from './components/Modal';
 import Footer from './components/Footer';
 import EmailVerification from './components/user/EmailVerification';
 import AuthInsta from './components/user/AuthInsta';
+import CompleteVerification from './components/user/CompleteVerification';
 
 function App() {
   const { login, theme } = useValue();
@@ -40,6 +41,7 @@ function App() {
 
         <Routes>
           <Route path='/auth' element={<AuthInsta />}></Route>
+          <Route path='/verify' element={<CompleteVerification />}></Route>
           <Route exact path='/posts' element={<Posts />}></Route>
           <Route exact path='/history' element={<History />}></Route>
           <Route exact path='/gallery' element={<Gallery />}></Route>
