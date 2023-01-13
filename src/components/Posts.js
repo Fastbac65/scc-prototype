@@ -8,7 +8,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import ContentCardMasonryPosts from './content/ContentCardMasonryPosts';
 import { Stack, Tooltip } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useValue } from './context/ContextProvider';
 import NewPost from './uploadPost/NewPost';
 import useFirestore from './context/useFirestore';
@@ -25,12 +25,28 @@ export default function Posts() {
 
   // const [files, setFiles] = useState([]);
   const [like, setLike] = useState('');
-
+  const [likePostDocs, setLikePostDocs] = useState([]);
   const { documents } = useFirestore('Posts');
 
-  const handleLikeClick = () => {
+  useEffect(() => {
+    //
+  }, [currentUser?.uPostLikes?.length]);
+
+  const handleFavsClick = () => {
     if (like === 'red') setLike('');
     else setLike('red');
+
+    console.log(currentUser?.uPostLikes);
+    if (currentUser?.uPostLikes?.length > 0) {
+      let likes = [];
+      documents.forEach((doc) => {
+        if (currentUser.uPostLikes.indexOf(doc.id) >= 0) {
+          likes.push(doc);
+        }
+      });
+      setLikePostDocs(likes);
+      console.log('liked posts', likes);
+    }
   };
 
   const handleCreatePost = () => {
@@ -55,7 +71,7 @@ export default function Posts() {
             </Tooltip>
 
             <Tooltip arrow placement='top-start' title='favourites' enterDelay={2000}>
-              <Fab color='secondary' id='favourite' size='small' aria-label='like' onClick={handleLikeClick}>
+              <Fab color='secondary' id='favourite' size='small' aria-label='like' onClick={handleFavsClick}>
                 <FavoriteIcon sx={{ color: like }} />
               </Fab>
             </Tooltip>
