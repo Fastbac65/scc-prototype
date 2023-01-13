@@ -23,7 +23,7 @@ export default function Posts() {
     state: { alert, modal },
   } = useValue();
 
-  const [files, setFiles] = useState([]);
+  // const [files, setFiles] = useState([]);
   const [like, setLike] = useState('');
 
   const { documents } = useFirestore('Posts');
@@ -61,7 +61,10 @@ export default function Posts() {
             </Tooltip>
           </Stack>
         )}
-        <PostsList documents={documents} />
+        <PostsList
+          // documents={like == '' ? documents : currentUser?.uPostLikes?.length > 0 ? currentUser.uPostLikes : documents}
+          documents={documents}
+        />
 
         <ContentCardMasonryPosts />
       </Box>

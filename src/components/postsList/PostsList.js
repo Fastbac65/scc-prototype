@@ -31,6 +31,7 @@ const PostsList = ({ documents }) => {
             {documents.map((doc, indx) => (
               <PostExpandCard
                 key={doc.id}
+                user={currentUser}
                 doc={doc}
                 setOpen={setOpen}
                 setCurrentImageIndex={setCurrentImageIndex}

@@ -152,7 +152,8 @@ export const ContextProvider = ({ children }) => {
               .catch((error) => console.log('Error updated user roles', error));
           }
         });
-      }
+      } else setCurrentUser(null);
+
       return () => {
         unsubscribe();
       };
@@ -191,26 +192,27 @@ export const ContextProvider = ({ children }) => {
   };
 
   const signInEmail = (email, password) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const result = await signInWithEmailAndPassword(auth, email, password);
-        const user = result.user;
-        const docObject = {
-          userId: user.uid,
-          uName: user.displayName,
-          uAvatar: user?.profileURL || '',
-          uEmail: user?.email || '',
-          uMobile: '',
-          uRole: { basic: true },
-        };
-        await addDocument('Users', docObject, user.uid);
-        console.log('signin', result);
-        resolve(result);
-      } catch (error) {
-        console.log('signin', error);
-        reject(error);
-      }
-    });
+    return signInWithEmailAndPassword(auth, email, password);
+    // return new Promise(async (resolve, reject) => {
+    //   try {
+    //     const result = await signInWithEmailAndPassword(auth, email, password);
+    //     const user = result.user;
+    //     const docObject = {
+    //       userId: user.uid,
+    //       uName: user.displayName,
+    //       uAvatar: user?.profileURL || '',
+    //       uEmail: user?.email || '',
+    //       uMobile: '',
+    //       uRole: { basic: true },
+    //     };
+    //     await addDocument('Users', docObject, user.uid);
+    //     console.log('signin', result);
+    //     resolve(result);
+    //   } catch (error) {
+    //     console.log('signin', error);
+    //     reject(error);
+    //   }
+    // });
   };
 
   const signInGoogle = () => {

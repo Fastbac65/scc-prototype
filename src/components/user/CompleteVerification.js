@@ -27,7 +27,7 @@ const CompleteVerification = () => {
     verifyUser();
   }, []);
 
-  const [message, setMessage] = useState("Just a sec... we're verifing your details");
+  const message = "Just a sec... we're verifing your details";
 
   async function verifyUser() {
     const queryUrl = window.location.href; // get the browser URL
@@ -36,7 +36,6 @@ const CompleteVerification = () => {
       dispatch({ type: 'START_LOADING' });
 
       //  https://192.168.0.220:3000/verify?mode=verifyEmail&oobCode=FAF945mvNdlvlkVIDctQ__KUoUFz92R481LCiTa_ic4AAAGFqKbioQ&apiKey=AIzaSyBz4ew-AmtQGL0h6DNYJKhniipIK7eFBUM&lang=en
-      // ui=userID, un=user name, upp= user profile pic, at= access token, ft=firebase token, ra= re authentication
       var mode = queryUrl.split('mode=')[1].split('&')[0];
       var oobCode = queryUrl.split('oobCode=')[1].split('&')[0];
       var apiKey = queryUrl.split('apiKey=')[1].split('&')[0];
@@ -95,14 +94,22 @@ const CompleteVerification = () => {
           case 'recoverEmail': {
             const result = await checkActionCode(auth, oobCode);
             // const result = await applyActionCode(auth, oobCode);          dispatch({ type: 'END_LOADING' });
+            dispatch({ type: 'END_LOADING' });
+            console.log(result);
+            console.log(auth.currentUser);
+            console.log(currentUser);
+
             navigate('/');
 
             break;
           }
           case 'passwordReset': {
             // we would have to write a modal to get the users new password
-            const result = await confirmPasswordReset(auth, oobCode);
+            // const result = await confirmPasswordReset(auth, oobCode);
             dispatch({ type: 'END_LOADING' });
+            // console.log(result);
+            console.log(auth.currentUser);
+            console.log(currentUser);
             navigate('/');
 
             break;

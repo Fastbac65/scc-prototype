@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -20,6 +20,8 @@ import Fade from '@mui/material/Fade';
 import { ImageList, ImageListItem } from '@mui/material';
 import moment from 'moment';
 import PostOptions from '../uploadPost/PostOptions';
+import updateUserRecords from '../context/updateUserRecords';
+import { useValue } from '../context/ContextProvider';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -32,10 +34,21 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function PostExpandCard({ doc, setOpen, setCurrentImageIndex, setImages }) {
+export default function PostExpandCard({ user, doc, setOpen, setCurrentImageIndex, setImages }) {
+  const { login } = useValue();
+
   const [expanded, setExpanded] = useState(false);
 
-  const [like, setLike] = useState();
+  const [like, setLike] = useState('');
+
+  useEffect(() => {
+    //
+    if (user) {
+      let like = user?.uPostLikes?.indexOf(doc.id) >= 0 ? 'red' : '';
+      setLike(like);
+      console.log('setLikes initialised');
+    }
+  }, []);
 
   // const [images, setImages] = useState([]);
 
@@ -44,8 +57,38 @@ export default function PostExpandCard({ doc, setOpen, setCurrentImageIndex, set
   };
 
   const handleLikeClick = () => {
-    if (like === 'red') setLike('');
-    else setLike('red');
+    if (like === 'red') {
+      setLike('');
+      let newLikes = { uPostLikes: [...user.uPostLikes] };
+      newLikes.uPostLikes.splice(newLikes.uPostLikes.indexOf(doc.id), 1);
+      console.log(newLikes);
+      Object.assign(user, newLikes); // updates the currentUser object in memory
+      updateUserRecords('Users', user.uid, newLikes)
+        .then((result) => console.log('User post likes updated', result))
+        .catch((error) => console.log('Error updated user roles', error));
+    } else {
+      setLike('red');
+      let newLikes = {};
+      if (user?.uPostLikes?.length > 0) {
+        newLikes = { uPostLikes: [doc.id, ...user?.uPostLikes] };
+        let userUpdateObj = Object.assign(user, newLikes);
+
+        console.log(newLikes);
+      } else {
+        newLikes = { uPostLikes: [doc.id] };
+        console.log(newLikes);
+        let userUpdateObj = Object.assign(user, newLikes);
+        console.log(userUpdateObj);
+
+        // setCurrentUser(authUser);
+        // setCurrentUser(user);
+      }
+      updateUserRecords('Users', user.uid, newLikes)
+        .then((result) => console.log('User post likes updated', result))
+        .catch((error) => console.log('Error updated user roles', error));
+
+      console.log(user);
+    }
   };
 
   return (
@@ -139,13 +182,16 @@ export default function PostExpandCard({ doc, setOpen, setCurrentImageIndex, set
               </Typography>
             </CardContent>
             <CardActions disableSpacing sx={{ py: 0 }}>
-              <IconButton onClick={handleLikeClick} aria-label='add to favorites'>
-                <FavoriteIcon sx={{ color: like }} />
-              </IconButton>
-              <IconButton aria-label='share'>
-                <ShareIcon />
-              </IconButton>
-
+              {login && (
+                <>
+                  <IconButton onClick={handleLikeClick} aria-label='add to favorites'>
+                    <FavoriteIcon sx={{ color: like }} />
+                  </IconButton>
+                  <IconButton aria-label='share'>
+                    <ShareIcon />
+                  </IconButton>
+                </>
+              )}
               {doc.data.main.length > 1 && (
                 <ExpandMore
                   expand={expanded}
