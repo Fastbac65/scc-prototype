@@ -13,6 +13,7 @@
 
 # misc
 .DS_Store
+.VSCodeCounter
 .env.local
 .env.development.local
 .env.test.local
