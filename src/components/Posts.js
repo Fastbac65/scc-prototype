@@ -82,7 +82,7 @@ export default function Posts() {
           // documents={documents}
         />
 
-        <ContentCardMasonryPosts />
+        {/* <ContentCardMasonryPosts /> */}
       </Box>
     </div>
   );

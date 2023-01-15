@@ -6,6 +6,7 @@ import { getAuth, signInWithCustomToken, updateProfile } from 'firebase/auth';
 import { setDoc, doc, serverTimestamp, collection, getFirestore } from 'firebase/firestore';
 import { Container, Box, Typography, CardMedia } from '@mui/material';
 import scc1 from '../../static/imgs/scc-fb-grp.jpeg';
+import defaultInstagramProfilePic from '../../static/imgs/
 import { firebaseConfig, auth } from '../context/FireBase';
 // import axios from 'axios';
 

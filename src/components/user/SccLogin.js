@@ -42,10 +42,10 @@ const SccLogin = () => {
 
     !email && setEmailErr(true);
     !password && setPasswordErr(true);
-    password.length < 6 && setPasswordErr(true);
+    password.length < 8 && setPasswordErr(true);
 
     try {
-      if (emailErr || passwordErr || password.length < 6) {
+      if (emailErr || passwordErr || password.length < 8) {
         dispatch({
           type: 'UPDATE_ALERT',
           payload: {
@@ -58,7 +58,7 @@ const SccLogin = () => {
         });
       } else {
         await signInEmail(email, password);
-        navigate(-1);
+        navigate('/');
         dispatch({
           type: 'UPDATE_ALERT',
           payload: {
@@ -88,7 +88,10 @@ const SccLogin = () => {
 
   const handleResetPassword = () => {
     //
-    dispatch({ type: 'MODAL', payload: { ...modal, open: true, content: <ResetPassword />, title: 'Reset Password' } });
+    dispatch({
+      type: 'MODAL',
+      payload: { ...modal, open: true, content: <ResetPassword />, title: 'Forgot Password' },
+    });
   };
 
   const useGoogle = async () => {

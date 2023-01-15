@@ -22,6 +22,8 @@ const ChangePassword = () => {
     const confirmPassword = confirmPasswordRef.current.value;
     try {
       if (password !== confirmPassword) throw new Error('Passwords do not match!');
+      if (password.length < 8) throw new Error('Passwords must be a minimum of 8 characters!');
+
       await updatePassword(currentUser, password);
       dispatch({ type: 'MODAL', payload: { ...modal, open: false } });
       dispatch({

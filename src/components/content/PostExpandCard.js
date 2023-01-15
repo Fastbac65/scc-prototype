@@ -98,7 +98,7 @@ export default function PostExpandCard({ user, doc, setOpen, setCurrentImageInde
           <div id={doc.id} style={{ position: 'absolute', top: '-100px' }}></div>
         </div>
 
-        <Fade timeout={100} in={true}>
+        <Fade timeout={500} in={true}>
           <Card sx={{ maxWidth: 345 }}>
             <CardHeader
               avatar={

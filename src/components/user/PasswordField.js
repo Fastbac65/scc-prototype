@@ -32,7 +32,7 @@ const PasswordField = ({
       required
       error={error}
       inputRef={inputRef}
-      inputProps={{ minLength: 6 }}
+      // inputProps={{ minLength: 6 }}
       InputProps={{
         endAdornment: (
           <InputAdornment position='end'>

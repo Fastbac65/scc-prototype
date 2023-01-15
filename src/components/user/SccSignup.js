@@ -55,13 +55,13 @@ const SccSignup = () => {
     !fname && setFnameErr(true);
     !email && setEmailErr(true);
     !password && setPasswordErr(true);
-    password.length < 6 && setPasswordErr(true);
+    password.length < 8 && setPasswordErr(true);
     !confirmPassword && setConfirmPasswordErr(true);
-    confirmPassword.length < 6 && setConfirmPasswordErr(true);
+    confirmPassword.length < 8 && setConfirmPasswordErr(true);
 
     try {
       //check for empty fields
-      if (!fname || !email || !password || !confirmPassword || password.length < 6) {
+      if (!fname || !email || !password || !confirmPassword || password.length < 8) {
         dispatch({
           type: 'UPDATE_ALERT',
           payload: {
@@ -224,7 +224,7 @@ const SccSignup = () => {
                     required
                     error={confirmPasswordErr}
                     inputRef={confirmPasswordRef}
-                    helperText={'minimum 6 characters'}
+                    helperText={'minimum 8 characters'}
                   />
 
                   {/* <TextField color='secondary' 

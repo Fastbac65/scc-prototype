@@ -29,7 +29,7 @@ const NewPost = () => {
   const postDocumentId = currentUser?.uid + '_' + uuidv4();
   const date = new Date();
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const defaultDate = months[date.getMonth()] + ' ' + date.getDate() + ' ,' + date.getFullYear();
+  const defaultDate = months[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
 
   const uploadPostImages = () => {
     //FILE_NAME AND DATABASE DOCUMENT ID ARE THE SAME

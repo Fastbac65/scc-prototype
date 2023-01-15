@@ -26,8 +26,8 @@ const ResetPassword = () => {
           ...alert,
           open: true,
           severity: 'success',
-          message: 'Reset link sent to your inbox, please check your email',
-          duration: 5000,
+          message: 'Reset password link sent to your inbox, please check your email',
+          duration: 6000,
         },
       });
     } catch (error) {
@@ -39,7 +39,7 @@ const ResetPassword = () => {
           open: true,
           severity: 'error',
           message: error.message,
-          duration: 5000,
+          duration: 6000,
         },
       });
     }
@@ -49,11 +49,11 @@ const ResetPassword = () => {
     <form onSubmit={handleSubmit}>
       <DialogContent sx={{ minWidth: 350 }}>
         <TextField color='secondary' size='small' fullWidth inputRef={emailRef} label='Email' />
-        <DialogContentText mt={1}>Please confirm your email address:</DialogContentText>
+        <DialogContentText mt={1}>Please confirm email address for password reset</DialogContentText>
       </DialogContent>
       <DialogActions sx={{ justifyContent: 'center' }}>
         <Button type='submit' sx={{ mb: 2, borderRadius: 25 }} variant='contained' endIcon={<SendIcon />}>
-          Submit
+          Send
         </Button>
       </DialogActions>
     </form>

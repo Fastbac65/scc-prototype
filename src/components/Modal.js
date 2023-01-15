@@ -1,5 +1,6 @@
 import { Close } from '@mui/icons-material';
 import { Box, Dialog, DialogTitle, IconButton } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { useValue } from './context/ContextProvider';
 
 const Modal = () => {
@@ -7,14 +8,20 @@ const Modal = () => {
     state: { modal },
     dispatch,
   } = useValue();
+  const navigate = useNavigate();
 
   const handleClose = () => {
+    if (modal.title === 'Reset Password') {
+      //  a user has just closed the reset password verification windown
+      navigate('/');
+    }
     dispatch({ type: 'MODAL', payload: { ...modal, open: false } });
   };
 
   return (
-    <Dialog open={modal.open} onClose={handleClose} disableEscapeKeyDown={true} PaperProps={{ elevation: 2 }}>
-      <DialogTitle sx={{ pb: 1 }}>
+    // removing onClose={handleClose} from Dialog stopped background clicking from closing the modal
+    <Dialog open={modal.open} disableEscapeKeyDown={true} PaperProps={{ elevation: 2 }}>
+      <DialogTitle sx={{ pb: 0 }}>
         {modal.title}
         <IconButton
           aria-label='Close'
