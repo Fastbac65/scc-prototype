@@ -87,38 +87,47 @@ const SccSignup = () => {
         //sign up
       } else {
         dispatch({ type: 'START_LOADING' });
-        await signUpEmail(email, password, mobile);
-        const randomAvatar = 'https://i.pravatar.cc/250?u=' + email;
-        const updatePromises = [];
-        updatePromises.push(
-          updateProfile(auth.currentUser, {
-            displayName: fname,
-            photoURL: randomAvatar,
-          })
-        );
-        updatePromises.push(updateEmail(auth.currentUser, email));
-        await Promise.all(updatePromises);
+        await signUpEmail(fname, email, password, mobile);
+
         dispatch({ type: 'END_LOADING' });
 
         navigate(-1);
         dispatch({
           type: 'UPDATE_ALERT',
-          payload: { ...alert, open: true, severity: 'success', message: 'Registration Successful', duration: 6000 },
+          payload: {
+            ...alert,
+            open: true,
+            severity: 'info',
+            message:
+              'Awesome!!!  Your account has been created successfully. For fun we have picked a random profile pic. You can manage your account and profile setting top right, just click on the photo. To complete the account registration process you will need to confirm & verify your email. Once verified you will have full access to SCC Members content and services. Welcome to South Curl Curl members!',
+            duration: 30000,
+          },
         });
       }
     } catch (error) {
-      dispatch({ type: 'END_LOADING', loading: false });
+      dispatch({ type: 'END_LOADING' });
       console.log(error.message);
     }
   };
 
   const useGoogle = async () => {
     try {
-      await signInGoogle();
+      const newUser = await signInGoogle();
+      let message = 'Welcome back to SCC Members!!';
+      if (newUser)
+        message =
+          'Awesome!!!  Your account has been created successfully. You can manage your account setting top right. To complete the account registration process you will need to confirm & verify your email. Once verified you will have full access to SCC Members content and services. Welcome to South Curl Curl members!';
       navigate(-1);
       dispatch({
         type: 'UPDATE_ALERT',
-        payload: { ...alert, open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 6000 },
+        payload: {
+          ...alert,
+          open: true,
+          severity: newUser ? 'info' : 'success',
+          message: message,
+          // variant: '',
+          duration: newUser ? 30000 : 6000,
+        },
       });
     } catch (error) {
       console.log(error);
@@ -131,12 +140,22 @@ const SccSignup = () => {
 
   const useFacebook = async () => {
     try {
-      await signInFacebook();
-
+      const newUser = await signInFacebook();
+      let message = 'Welcome back to SCC Members!!';
+      if (newUser)
+        message =
+          'Awesome!!!  Your account has been created successfully. You can manage your account setting top right. To complete the account registration process you will need to confirm & verify your email. Once verified you will have full access to SCC Members content and services. Welcome to South Curl Curl members!';
       navigate(-1);
       dispatch({
         type: 'UPDATE_ALERT',
-        payload: { ...alert, open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 6000 },
+        payload: {
+          ...alert,
+          open: true,
+          severity: newUser ? 'info' : 'success',
+          message: message,
+          // variant: '',
+          duration: newUser ? 30000 : 6000,
+        },
       });
     } catch (error) {
       console.log(error);
@@ -150,11 +169,22 @@ const SccSignup = () => {
   const useInstagram = async () => {
     dispatch({ type: 'START_LOADING' });
     try {
-      await signInInstagram();
+      const newUser = await signInInstagram();
+      let message = 'Welcome back to SCC Members!!';
+      if (newUser)
+        message =
+          'Awesome!!!  Your account has been created successfully. You can manage your account setting top right. To complete the account registration process you will need to confirm & verify your email. Once verified you will have full access to SCC Members content and services. Welcome to South Curl Curl members!';
+
       navigate(-1);
       dispatch({
         type: 'UPDATE_ALERT',
-        payload: { ...alert, open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 6000 },
+        payload: {
+          ...alert,
+          open: true,
+          severity: newUser ? 'info' : 'success',
+          message: message,
+          duration: newUser ? 30000 : 6000,
+        },
       });
       dispatch({ type: 'END_LOADING' });
     } catch (error) {

@@ -6,9 +6,10 @@ import { storage } from './FireBase';
 // uploading without progress feedback
 // returns the URL to the file in storage as resolve
 
-const uploadFile = (file, storageFilePath) => {
+const uploadFile = (file, storageFilePath, defStorage = storage) => {
+  // allowing for a temp instance of storage to be provided
   return new Promise(async (resolve, reject) => {
-    const storageRef = ref(storage, storageFilePath);
+    const storageRef = ref(defStorage, storageFilePath);
     try {
       await uploadBytes(storageRef, file);
       const url = await getDownloadURL(storageRef);

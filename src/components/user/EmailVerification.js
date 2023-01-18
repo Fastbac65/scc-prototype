@@ -17,9 +17,15 @@ const EmailVerification = () => {
   const [isClicked, setIsClicked] = useState(false);
 
   const accountSettings = () => {
+    setIsClicked(true);
     dispatch({
       type: 'MODAL',
-      payload: { ...modal, open: true, title: 'Update Account', content: <AccountSettings /> },
+      payload: {
+        ...modal,
+        open: true,
+        title: 'Update Account',
+        content: <AccountSettings />,
+      },
     });
   };
 
@@ -80,8 +86,9 @@ const EmailVerification = () => {
             // }
             sx={{ pt: 2 }}
           >
-            Hi {currentUser?.displayName}. Please verify your email:&nbsp;
-            {currentUser?.email}&nbsp; &nbsp;
+            {isClicked
+              ? `Hi ${currentUser?.displayName}. Please check your email and verify. `
+              : `Hi ${currentUser?.displayName}. Please verify your email: ${currentUser?.email} `}
             <Button
               variant='contained'
               size='small'
@@ -109,12 +116,12 @@ const EmailVerification = () => {
             // }
             sx={{ pt: 2 }}
           >
-            Hi {currentUser?.displayName}. Please update your email in 'My Account' then verify your email &nbsp;
+            Hi {currentUser?.displayName}. Please update your email to continue registration.&nbsp;
             <Button
               variant='contained'
               size='small'
               onClick={accountSettings}
-              // disabled={true} //avoid double click
+              // disabled={isClicked} //avoid double click or is disabled
               sx={{ lineHeight: 'initial', color: '#f9de00' }}
             >
               My Account

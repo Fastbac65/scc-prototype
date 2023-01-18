@@ -130,7 +130,7 @@ const NewPost = () => {
 
   return (
     <form onSubmit={handleSubmitPost}>
-      <DialogContent sx={{ pt: 0, px: { xs: 1, sm: 2 }, width: { xs: 300, sm: 350 }, minHeight: 420 }}>
+      <DialogContent sx={{ pt: 0, px: { xs: 0, sm: 1 }, width: { xs: 350, sm: 360 }, minHeight: 440 }}>
         <DialogActions sx={{ my: 0, justifyContent: 'space-around' }}>
           <AddImages files={files} setFiles={setFiles} />
 

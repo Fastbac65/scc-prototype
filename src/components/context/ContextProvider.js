@@ -16,6 +16,7 @@ import {
   sendPasswordResetEmail,
   updateEmail,
   getAdditionalUserInfo,
+  updateProfile,
   // FacebookAuthProvider,
 } from 'firebase/auth';
 
@@ -24,6 +25,7 @@ import { addDocument } from './addDocument';
 import { doc, getDoc } from 'firebase/firestore';
 import updateUserRecords from './updateUserRecords';
 import useFirestoreGetUser from './useFirestoreGetUser';
+import axios from 'axios';
 
 export const GlobalContext = createContext();
 
@@ -68,7 +70,7 @@ export function ScrollTop(props) {
 
 export const ContextProvider = ({ children }) => {
   const initialstate = {
-    alert: { open: false, severity: 'info', message: '', duration: 1000 },
+    alert: { open: false, severity: 'info', message: '', variant: 'filled', duration: 1000 },
     modal: { open: false, title: '', content: '' },
     loading: false,
     lightbox: { open: false, currentIndx: 0 },
@@ -79,12 +81,12 @@ export const ContextProvider = ({ children }) => {
   const [mode, setMode] = useState('light');
   const [login, setLogin] = useState(false);
 
-  // const newUser = false;
+  const newUser = false;
 
   const instagramLoginServer = 'https://192.168.0.220:5001';
   // const instagramLoginServer = 'https://scc-auth.cyclic.app';
-  // https://scc-auth.cyclic.app
-  const imageProxyServer = 'https://scc-auth.cyclic.app/image/';
+  const imageProxyServer = 'https://192.168.0.220:5001/image/';
+  // const imageProxyServer = 'https://scc-auth.cyclic.app/image/';
 
   var theme = createTheme({
     breakpoints: {
@@ -168,20 +170,33 @@ export const ContextProvider = ({ children }) => {
     setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
   };
 
-  const signUpEmail = (email, password, mobile) => {
+  const signUpEmail = (fname, email, password, mobile) => {
     return new Promise(async (resolve, reject) => {
       try {
         const result = await createUserWithEmailAndPassword(auth, email, password);
         const user = result.user;
+
+        const randomAvatar = 'https://i.pravatar.cc/250?u=' + email;
+        const updatePromises = [];
+        updatePromises.push(
+          updateProfile(user, {
+            displayName: fname,
+            photoURL: randomAvatar,
+          })
+        );
+        // updatePromises.push(updateEmail(auth.currentUser, email));
+
         const docObject = {
           userId: user.uid,
-          uName: user.displayName,
-          uAvatar: user?.profileURL || '',
+          uName: fname,
+          uAvatar: randomAvatar,
           uEmail: user?.email || '',
           uMobile: mobile,
           uRole: { basic: true },
         };
-        await addDocument('Users', docObject, user.uid);
+        updatePromises.push(addDocument('Users', docObject, user.uid));
+        await Promise.all(updatePromises);
+
         console.log('signin', result);
         resolve(result);
       } catch (error) {
@@ -200,7 +215,7 @@ export const ContextProvider = ({ children }) => {
     //     const docObject = {
     //       userId: user.uid,
     //       uName: user.displayName,
-    //       uAvatar: user?.profileURL || '',
+    //       uAvatar: user?.photoURL || '',
     //       uEmail: user?.email || '',
     //       uMobile: '',
     //       uRole: { basic: true },
@@ -229,8 +244,8 @@ export const ContextProvider = ({ children }) => {
           const docObject = {
             userId: user.uid,
             uName: user.displayName,
-            uAvatar: user?.profileURL || '',
-            uEmail: user?.email || '',
+            uAvatar: user.photoURL || '',
+            uEmail: user.email || '',
             uMobile: '',
             uRole: {
               basic: true,
@@ -240,7 +255,7 @@ export const ContextProvider = ({ children }) => {
           await addDocument('Users', docObject, user.uid);
         }
         // we can use this to determine a new user
-        resolve(result);
+        resolve(userInfo.isNewUser);
       } catch (error) {
         console.log('signin', error);
         reject(error);
@@ -258,17 +273,19 @@ export const ContextProvider = ({ children }) => {
         const userInfo = getAdditionalUserInfo(result);
         if (userInfo.isNewUser) {
           // first time FB login we need to copy the email from providerData into the user
-          if (result.user.email === null) {
-            await updateEmail(result.user, result.user.providerData[0].email);
-            console.log('email updated in profile');
-          }
+          // UPDATE this will break if a user logged in and verified their email via google
+          // if (result.user.email === null) {
+          //   await updateEmail(result.user, result.user.providerData[0].email);
+          //   console.log('email updated in profile');
+          // }
+
           // write the user record
           const user = result.user;
           const docObject = {
             userId: user.uid,
             uName: user.displayName,
             uAvatar: user?.photoURL || '',
-            uEmail: user?.email || '',
+            uEmail: user?.email || user.providerData[0].email,
             uMobile: '',
             uRole: {
               basic: true,
@@ -285,7 +302,7 @@ export const ContextProvider = ({ children }) => {
         // userCreds = { ...credential };
         // console.log(userCreds);
         // console.log(accessToken);
-        resolve(result);
+        resolve(userInfo.isNewUser);
       } catch (error) {
         console.log('signin', error);
         reject(error);
@@ -312,9 +329,11 @@ export const ContextProvider = ({ children }) => {
             if (localStorage.getItem('instaLoginState') === 'true') {
               // console.log(currentUser.uid, currentUser.displayName);
               // reauth success
+              const newUser = localStorage.getItem('newUser') === 'true' ? true : false;
               localStorage.removeItem('instaLoginState');
+              localStorage.removeItem('newUser');
               clearInterval(checkAuth);
-              resolve(true);
+              resolve(newUser);
             } else {
               // user closed the window
               localStorage.removeItem('instaLoginState');
@@ -337,7 +356,8 @@ export const ContextProvider = ({ children }) => {
       localStorage.setItem('instaReauthState', 'false');
       // store the currentUser id so that AuthInsta can check against this when verifying the reAuth
       localStorage.setItem('currentUser', `${currentUser.uid}`);
-      const authWindow = window.open('', 'SCC SLSC', 'height=500, width=400');
+      const authWindow = window.open('', 'SCC SLSC', 'height=600, width=400, popup=1');
+
       authWindow.location.assign(`${instagramLoginServer}/redirect?ra=true`);
 
       let checkAuth = setInterval(() => {
@@ -398,6 +418,7 @@ export const ContextProvider = ({ children }) => {
         resetPassword,
         instagramLoginServer,
         imageProxyServer,
+        newUser,
       }}
     >
       {children}

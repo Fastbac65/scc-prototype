@@ -112,7 +112,7 @@ const Profile = () => {
               onChange={handleChange}
             />
             <Avatar
-              sx={{ width: 50, height: 50, cursor: 'pointer', bgcolor: '#f9de00', color: 'black' }}
+              sx={{ width: 80, height: 80, cursor: 'pointer', bgcolor: '#f9de00', color: 'black' }}
               src={photoURL}
               alt={currentUser?.displayName}
               aria-label='profile photo'

@@ -70,7 +70,7 @@ const CompleteVerification = () => {
           case 'verifyAndChangeEmail': {
             // const result = await checkActionCode(auth, oobCode);
             await applyActionCode(auth, oobCode);
-            await reload(auth.currentUser);
+            // await reload(auth.currentUser);
             // console.log(result);
             console.log(auth.currentUser);
             console.log(currentUser);

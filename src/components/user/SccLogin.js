@@ -96,11 +96,22 @@ const SccLogin = () => {
 
   const useGoogle = async () => {
     try {
-      await signInGoogle();
+      const newUser = await signInGoogle();
+      let message = 'Welcome back to SCC Members!!';
+      if (newUser)
+        message =
+          'Awesome!!!  Your account has been created successfully. You can manage your account setting top right. To complete the account registration process you will need to confirm & verify your email. Once verified you will have full access to SCC Members content and services. Welcome to South Curl Curl members!';
       navigate(-1);
       dispatch({
         type: 'UPDATE_ALERT',
-        payload: { ...alert, open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 6000 },
+        payload: {
+          ...alert,
+          open: true,
+          severity: newUser ? 'info' : 'success',
+          message: message,
+          // variant: '',
+          duration: newUser ? 30000 : 6000,
+        },
       });
     } catch (error) {
       console.log(error);
@@ -113,12 +124,22 @@ const SccLogin = () => {
 
   const useFacebook = async () => {
     try {
-      await signInFacebook();
-
+      const newUser = await signInFacebook();
+      let message = 'Welcome back to SCC Members!!';
+      if (newUser)
+        message =
+          'Awesome!!!  Your account has been created successfully. You can manage your account setting top right. To complete the account registration process you will need to confirm & verify your email. Once verified you will have full access to SCC Members content and services. Welcome to South Curl Curl members!';
       navigate(-1);
       dispatch({
         type: 'UPDATE_ALERT',
-        payload: { ...alert, open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 6000 },
+        payload: {
+          ...alert,
+          open: true,
+          severity: newUser ? 'info' : 'success',
+          message: message,
+          // variant: '',
+          duration: newUser ? 30000 : 6000,
+        },
       });
     } catch (error) {
       console.log(error);
@@ -132,11 +153,22 @@ const SccLogin = () => {
   const useInstagram = async () => {
     dispatch({ type: 'START_LOADING' });
     try {
-      await signInInstagram();
+      const newUser = await signInInstagram();
+      let message = 'Welcome back to SCC Members!!';
+      if (newUser)
+        message =
+          'Awesome!!!  Your account has been created successfully. You can manage your account setting top right. To complete the account registration process you will need to confirm & verify your email. Once verified you will have full access to SCC Members content and services. Welcome to South Curl Curl members!';
+
       navigate(-1);
       dispatch({
         type: 'UPDATE_ALERT',
-        payload: { ...alert, open: true, severity: 'success', message: 'Welcome to SCC Members!!', duration: 6000 },
+        payload: {
+          ...alert,
+          open: true,
+          severity: newUser ? 'info' : 'success',
+          message: message,
+          duration: newUser ? 30000 : 6000,
+        },
       });
       dispatch({ type: 'END_LOADING' });
     } catch (error) {

@@ -68,7 +68,7 @@ export function ImageCarousel(props) {
             ))}
           </Carousel>
         )}
-        <Box sx={{ background: 'rgba(0,0,0,0.2)', borderRadius: 2 }}>
+        <Box sx={{ background: 'rgba(0,0,0,0.3)', borderRadius: 2 }}>
           <Typography
             color='white'
             textAlign='center'
@@ -76,9 +76,9 @@ export function ImageCarousel(props) {
             py={3}
             mt={1}
             mx={2}
-            sx={{ background: 'rgba()' }}
+            // sx={{ background: 'rgba()' }}
           >
-            South Curl Curl Surf Life Saving Club has been in existence since 1909 and no lives have been lost whilst
+            South Curl Curl Surf Life Saving Club has been in existence since 1918 and no lives have been lost whilst
             the beach has been patrolled. The Club places great emphasis on training club members in life saving skills
             to ensure this tradition is maintained. The South Curl Curl Surf Life Saving Club is a volunteer
             organisation whose basic objective is to provide the highest possible level of water safety for our locals,

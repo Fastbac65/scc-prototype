@@ -1,9 +1,10 @@
-import { Box } from '@mui/material';
+import { Box, CardMedia, Stack, Typography } from '@mui/material';
 import { Container } from '@mui/system';
 
 import { useValue } from './context/ContextProvider';
 
 import scc1 from '../static/imgs/scc-fb-grp.jpeg';
+import insta from '../static/imgs/Instagram-logo-small.png';
 
 const Test = () => {
   const { theme } = useValue();
@@ -29,13 +30,42 @@ const Test = () => {
   return (
     <>
       <Container maxWidth='lg' sx={{ textAlign: 'center', justifyContent: 'center' }}>
-        <Box sx={{ backgroundImage: `url(${scc1})` }}>
-          <Box sx={{ background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.2)' }}>
-            <p>************ Component Test Page *****************</p>
+        <Box>
+          <CardMedia component='img' src={scc1} height='500' />
+          <Box
+            sx={{
+              background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.1)',
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              left: 0,
+              bottom: 100,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Stack>
+              <Typography paragraph variant='h5' component='div'>
+                Almost there...
+              </Typography>
+              <div>
+                <img src={insta} />
+              </div>
+            </Stack>
+          </Box>
+          <Box sx={{ height: '500', backgroundImage: `url(${scc1})` }}>
+            <Box sx={{ background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.2)' }}>
+              <p>************ Component Test Page *****************</p>
 
-            <div>
-              <img src={server + url} />
-            </div>
+              {/* <div>
+              <img src={insta} />
+            </div> */}
+              <Typography paragraph variant='h5' component='div'>
+                Almost there...
+              </Typography>
+              <img src={insta} />
+            </Box>
           </Box>
         </Box>
       </Container>

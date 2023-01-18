@@ -11,7 +11,7 @@ const Notification = () => {
     if (reason === 'clickaway') {
       return;
     }
-    dispatch({ type: 'UPDATE_ALERT', payload: { ...alert, open: false } });
+    dispatch({ type: 'UPDATE_ALERT', payload: { ...alert, open: false, variant: 'filled' } }); // everytime we close we revert default variant to 'filled'
   };
   return (
     <Snackbar
@@ -21,7 +21,13 @@ const Notification = () => {
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       // sx={{ width: { xs: 400, sm: 'auto' } }}
     >
-      <Alert onClose={handleClose} severity={alert.severity} sx={{ width: '100%' }} variant='filled' elevation={10}>
+      <Alert
+        onClose={handleClose}
+        severity={alert.severity}
+        sx={{ width: '100%' }}
+        variant={alert.variant}
+        elevation={10}
+      >
         {alert.message}
       </Alert>
     </Snackbar>
