@@ -33,7 +33,7 @@ const Footer = () => {
             ))}
           </Grid>
         </Paper>
-        <Paper sx={{ boxShadow: 2, borderRadius: 0 }}>
+        <Paper sx={{ boxShadow: 0, borderRadius: 0 }}>
           <Typography pt={1} mb={1} paragraph color='text-primary' variant='caption'>
             Email:{' '}
             <Link color='secondary' href='mailto:mail@southcurlcurlslsc.org'>
