@@ -81,7 +81,7 @@ export const ContextProvider = ({ children }) => {
   const [mode, setMode] = useState('light');
   const [login, setLogin] = useState(false);
 
-  const newUser = false;
+  const [newUserUnverified, setNewUserUnverified] = useState(false);
 
   const instagramLoginServer = 'https://192.168.0.220:5001';
   // const instagramLoginServer = 'https://scc-auth.cyclic.app';
@@ -122,6 +122,7 @@ export const ContextProvider = ({ children }) => {
     'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fscc-beach-sunrise.jpeg?alt=media&token=9bc45d92-b866-4905-b199-7f751f8b5175',
   ];
 
+  // The user original account creation info and roles are in the User doc
   const getUserDoc = async (uid) => {
     //
     const docRef = doc(db, 'Users', uid);
@@ -133,7 +134,7 @@ export const ContextProvider = ({ children }) => {
   //sets the login global true when logged in. Used for routing and conditional rendering - its Boolean
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
-      authUser ? setLogin(true) : setLogin(false);
+      authUser && authUser?.emailVerified == true ? setLogin(true) : setLogin(false);
 
       if (authUser) {
         getUserDoc(authUser.uid).then((userDoc) => {
@@ -205,7 +206,6 @@ export const ContextProvider = ({ children }) => {
       }
     });
   };
-
   const signInEmail = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
     // return new Promise(async (resolve, reject) => {
@@ -229,7 +229,6 @@ export const ContextProvider = ({ children }) => {
     //   }
     // });
   };
-
   const signInGoogle = () => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -309,7 +308,6 @@ export const ContextProvider = ({ children }) => {
       }
     });
   };
-
   const signInInstagram = () => {
     return new Promise((resolve, reject) => {
       console.log('window opening');
@@ -381,7 +379,6 @@ export const ContextProvider = ({ children }) => {
       }, 500);
     });
   };
-
   const signOutUser = () => {
     signOut(auth).then(() => {
       localStorage.clear();
@@ -390,7 +387,6 @@ export const ContextProvider = ({ children }) => {
       console.log('logged out ', currentUser);
     });
   };
-
   const resetPassword = (email) => {
     return sendPasswordResetEmail(auth, email);
   };
@@ -418,7 +414,7 @@ export const ContextProvider = ({ children }) => {
         resetPassword,
         instagramLoginServer,
         imageProxyServer,
-        newUser,
+        // newUser,
       }}
     >
       {children}

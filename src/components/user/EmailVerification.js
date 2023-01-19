@@ -64,8 +64,8 @@ const EmailVerification = () => {
     //
   };
   return (
-    login &&
-    auth.currentUser?.emailVerified === false && (
+    currentUser &&
+    auth?.currentUser?.emailVerified === false && (
       // auth.currentUser will be updated after email verification process via reload(auth.currentUser)
       // unless we write the code currentUser maybe out of sync..   not sure yet as the clone process was a reference base
       <Box>
@@ -87,8 +87,8 @@ const EmailVerification = () => {
             sx={{ pt: 2 }}
           >
             {isClicked
-              ? `Hi ${currentUser?.displayName}. Please check your email and verify. `
-              : `Hi ${currentUser?.displayName}. Please verify your email: ${currentUser?.email} `}
+              ? `Verification email sent! Please check your email to complete account setup. `
+              : `Members access restricted! Please verify your email to complete account setup: ${currentUser?.email} `}
             <Button
               variant='contained'
               size='small'
@@ -116,7 +116,7 @@ const EmailVerification = () => {
             // }
             sx={{ pt: 2 }}
           >
-            Hi {currentUser?.displayName}. Please update your email to continue registration.&nbsp;
+            Members access restricted. Please update and verify your email to complete account setup.&nbsp;
             <Button
               variant='contained'
               size='small'

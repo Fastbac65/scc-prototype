@@ -100,7 +100,7 @@ const SccLogin = () => {
       let message = 'Welcome back to SCC Members!!';
       if (newUser)
         message =
-          'Awesome!!!  Your account has been created successfully. You can manage your account setting top right. To complete the account registration process you will need to confirm & verify your email. Once verified you will have full access to SCC Members content and services. Welcome to South Curl Curl members!';
+          'Awesome!!!  Your South Curl Curl members account has been created successfully. To complete the account registration process you will need to confirm & verify your email. Once verified you will have full access to SCC Members content and services. To manage your account and profile settings, just click on the photo top right. Welcome to South Curl Curl members!';
       navigate(-1);
       dispatch({
         type: 'UPDATE_ALERT',
@@ -128,7 +128,7 @@ const SccLogin = () => {
       let message = 'Welcome back to SCC Members!!';
       if (newUser)
         message =
-          'Awesome!!!  Your account has been created successfully. You can manage your account setting top right. To complete the account registration process you will need to confirm & verify your email. Once verified you will have full access to SCC Members content and services. Welcome to South Curl Curl members!';
+          'Awesome!!!  Your South Curl Curl members account has been created successfully. To complete the account registration process you will need to confirm & verify your email. Once verified you will have full access to SCC Members content and services. To manage your account and profile settings, just click on the photo top right. Welcome to South Curl Curl members!';
       navigate(-1);
       dispatch({
         type: 'UPDATE_ALERT',
@@ -157,7 +157,7 @@ const SccLogin = () => {
       let message = 'Welcome back to SCC Members!!';
       if (newUser)
         message =
-          'Awesome!!!  Your account has been created successfully. You can manage your account setting top right. To complete the account registration process you will need to confirm & verify your email. Once verified you will have full access to SCC Members content and services. Welcome to South Curl Curl members!';
+          'Awesome!!!  Your South Curl Curl members account has been created successfully. To complete the account registration process you will need to confirm & verify your email. Once verified you will have full access to SCC Members content and services. To manage your account and profile settings, just click on the photo top right. Welcome to South Curl Curl members!';
 
       navigate(-1);
       dispatch({

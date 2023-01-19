@@ -230,8 +230,16 @@ function ResponsiveAppBar() {
               </Tooltip>
 
               <Tooltip title='Sign In' arrow placement='bottom-start'>
-                <IconButton sx={{ p: 0 }} component={RouterLink} to='/login' color='inherit'>
-                  {!login ? <LoginIcon /> : null}
+                <IconButton
+                  sx={{
+                    p: 0,
+                    display: !currentUser ? 'in-line' : 'none',
+                  }}
+                  component={RouterLink}
+                  to='/login'
+                  color='inherit'
+                >
+                  <LoginIcon />
                 </IconButton>
               </Tooltip>
 
@@ -240,7 +248,7 @@ function ResponsiveAppBar() {
                   size='small'
                   onClick={handleOpenUserMenu}
                   sx={{
-                    display: login ? 'in-line' : 'none',
+                    display: currentUser ? 'in-line' : 'none',
                     p: 0,
                   }}
                 >
