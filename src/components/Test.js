@@ -1,71 +1,77 @@
-import { Box, CardMedia, Stack, Typography } from '@mui/material';
+import { Box, CardMedia, Checkbox, FormControlLabel, FormGroup, Stack, Typography } from '@mui/material';
 import { Container } from '@mui/system';
+import CalendarList, { deletedEv } from './content/CalendarList';
 
 import { useValue } from './context/ContextProvider';
 
 import scc1 from '../static/imgs/scc-fb-grp.jpeg';
 import insta from '../static/imgs/Instagram-logo-small.png';
+import { useRef, useState } from 'react';
 
 const Test = () => {
-  const { theme } = useValue();
+  const [holidays, setHolidays] = useState(true);
+  const [important, setImportant] = useState(true);
+  const [patrolTraining, setPatrolTraining] = useState(true);
+  const [social, setSocial] = useState(true);
 
-  // const profile = 'https://www.instagram.com/fastbac65/channel/?__a=1&__d=dis';
-  // const serverx = 'https://192.168.0.220:5001/image/';
-  const server = 'https://scc-auth.cyclic.app/image/';
+  const handleChange = (event) => {
+    if (event.target.labels[0].innerText === 'View All') {
+      setHolidays(true);
+      setImportant(true);
+      setPatrolTraining(true);
+      setSocial(true);
+    } else if (event.target.labels[0].innerText === 'NSW Holidays') {
+      setHolidays(!holidays);
+    } else if (event.target.labels[0].innerText === 'Important Dates') {
+      setImportant(!important);
+    } else if (event.target.labels[0].innerText === 'Patrol/Training') {
+      setPatrolTraining(!patrolTraining);
+    } else if (event.target.labels[0].innerText === 'Social Events') {
+      setSocial(!social);
+    }
 
-  // const resp = fetch(serverx + profile, {
-  //   method: 'GET',
-  //   mode: 'no-cors',
-  // });
-
-  const url =
-    'https://instagram.fsyd7-1.fna.fbcdn.net/v/t51.2885-19/319599394_1294096694657733_2010438183614683485_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.fsyd7-1.fna.fbcdn.net&_nc_cat=109&_nc_ohc=lb_dpEPL-AQAX9_ti2L&edm=AAWvnRQBAAAA&ccb=7-5&oh=00_AfBhnDdv-bSyVCG-IS2mHQm9gs94tNRGL3uSHwgGTQj7eA&oe=63BFA451&_nc_sid=e7738c';
-
-  // const urlx =
-  //   'https://scontent.fsyd8-1.fna.fbcdn.net/v/t51.2885-15/319599394_1294096694657733_2010438183614683485_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=86c713&_nc_ohc=BNx9YwzkbtQAX8ZxSWM&_nc_ht=scontent.fsyd8-1.fna&oh=00_AfC1AAuFsDxVlyFbN8yFG4CAIywNrO2k63I0Jas72qNsgg&oe=63C34839';
-
-  // const urly =
-  //   'https://instagram.fsyd8-1.fna.fbcdn.net/v/t51.2885-19/319599394_1294096694657733_2010438183614683485_n.jpg?stp=dst-jpg_s320x320&_nc_ht=instagram.fsyd8-1.fna.fbcdn.net&_nc_cat=109&_nc_ohc=SGHjI4V5ZIAAX-_cjbG&edm=AAWvnRQBAAAA&ccb=7-5&oh=00_AfB7y5Lb6ImFB3OICIMFPvCn-oG5Eu0WDPEW-kLIrZPsIg&oe=63C398D1&_nc_sid=e7738c';
+    event.target = null;
+  };
 
   return (
     <>
-      <Container maxWidth='lg' sx={{ textAlign: 'center', justifyContent: 'center' }}>
-        <Box>
-          <CardMedia component='img' src={scc1} height='500' />
-          <Box
-            sx={{
-              background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.1)',
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              left: 0,
-              bottom: 100,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Stack>
-              <Typography paragraph variant='h5' component='div'>
-                Almost there...
+      <Container maxWidth='lg' sx={{ px: '6px', textAlign: 'center', justifyContent: 'center' }}>
+        <Box sx={{ display: 'flex', my: 3 }}>
+          <Box sx={{ pt: 1 }}>
+            <FormGroup>
+              <Typography sx={{ fontWeight: '700', fontSize: '1.25em' }} variant='h5'>
+                Filter
               </Typography>
-              <div>
-                <img src={insta} />
-              </div>
-            </Stack>
+              <FormControlLabel
+                onChange={handleChange}
+                control={<Checkbox checked={holidays && important && patrolTraining && social} color='primary' />}
+                label='View All'
+                disabled={holidays && important && patrolTraining && social}
+              />
+              <FormControlLabel
+                onChange={handleChange}
+                control={<Checkbox checked={holidays} color='info' />}
+                label='NSW Holidays'
+              />
+              <FormControlLabel
+                onChange={handleChange}
+                control={<Checkbox checked={important} color='success' />}
+                label='Important Dates'
+              />
+              <FormControlLabel
+                onChange={handleChange}
+                control={<Checkbox checked={patrolTraining} color='error' />}
+                label='Patrol/Training'
+              />
+              <FormControlLabel
+                onChange={handleChange}
+                control={<Checkbox checked={social} color='warning' />}
+                label='Social Events'
+              />
+            </FormGroup>
           </Box>
-          <Box sx={{ height: '500', backgroundImage: `url(${scc1})` }}>
-            <Box sx={{ background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.2)' }}>
-              <p>************ Component Test Page *****************</p>
-
-              {/* <div>
-              <img src={insta} />
-            </div> */}
-              <Typography paragraph variant='h5' component='div'>
-                Almost there...
-              </Typography>
-              <img src={insta} />
-            </Box>
+          <Box sx={{ flexGrow: 1 }}>
+            <CalendarList holidays={holidays} important={important} patrolTraining={patrolTraining} social={social} />
           </Box>
         </Box>
       </Container>

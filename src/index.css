@@ -8,3 +8,35 @@ body {
 .imgup {
   width:0;
 }
+
+/* CSS Over-rides for the FullCalendar components */
+.wrapper .fc .fc-button {
+  border-radius: 2em;
+  padding: 0.2em 0.5em;
+}
+.wrapper .fc .fc-toolbar-title {
+  font-size: 1.25em;
+}
+@media (min-width: 576px) {
+  .wrapper .fc .fc-toolbar-title {
+    font-size: 1em;
+  }
+}@media (min-width: 630px) {
+  .wrapper .fc .fc-toolbar-title {
+    font-size: 1.25em;
+  }
+}
+.wrapper .fc-direction-ltr .fc-list-day-side-text, .wrapper .fc-direction-rtl .fc-list-day-text {
+float: right;
+color: white;
+}
+.wrapper .fc .fc-list-event:hover td {
+  background-color: #acacac
+}
+.wrapper .fc-direction-ltr .fc-list-day-text, .wrapper .fc-direction-rtl .fc-list-day-side-text {
+  float: left;
+  color: white;
+}
+.wrapper .fc-theme-standard .fc-list-day-cushion {
+  background-color: #004c98;
+}
