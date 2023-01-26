@@ -7,7 +7,6 @@ import { useValue } from './context/ContextProvider';
 import scc1 from '../static/imgs/scc-fb-grp.jpeg';
 import insta from '../static/imgs/Instagram-logo-small.png';
 import { useRef, useState } from 'react';
-
 const Test = () => {
   const [holidays, setHolidays] = useState(true);
   const [important, setImportant] = useState(true);

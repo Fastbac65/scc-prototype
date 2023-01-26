@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -31,24 +31,18 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function CmplxReviewCardHist() {
+const CmplxReviewCardHist = () => {
   const [expanded, setExpanded] = useState(false);
   const { imglib, currentUser } = useValue();
 
   const [like, setLike] = useState();
 
-  const [url, setUrl] = useState(
-    ''
-    // 'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader7.jpeg?alt=media&token=9ff47599-4360-4649-bf48-a60730cea6c5'
-    // 'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader5.jpeg?alt=media&token=8acd48ec-9c4c-404b-b242-9031eb2c7a0a'
-    // 'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader4.jpeg?alt=media&token=f2ede123-a80e-468a-bff7-ce5c26d094c9'
-    // 'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader3.jpeg?alt=media&token=fac14bdd-3a36-49f7-ad50-07f414230716'
-  );
+  const [url, setUrl] = useState('');
 
-  useEffect(() => {
+  useMemo(() => {
     const indx = Math.floor(Math.random() * 8);
     setUrl(imglib[indx]);
-  }, [imglib]);
+  }, []);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -152,4 +146,6 @@ export default function CmplxReviewCardHist() {
       </div>
     </>
   );
-}
+};
+
+export default CmplxReviewCardHist;

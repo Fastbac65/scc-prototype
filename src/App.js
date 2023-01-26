@@ -25,7 +25,7 @@ import AuthInsta from './components/user/AuthInsta';
 import CompleteVerification from './components/user/CompleteVerification';
 
 function App() {
-  const { login, theme } = useValue();
+  const { login, theme, currentUser } = useValue();
 
   return (
     <>
@@ -47,8 +47,8 @@ function App() {
           <Route exact path='/gallery' element={<Gallery />}></Route>
           <Route exact path='/hire' element={<VenueHire />}></Route>
           {login && <Route exact path='/training' element={<Training />}></Route>}
-          {!login && <Route exact path='/login' element={<SccLogin />}></Route>}
-          {!login && <Route exact path='/signup' element={<SccSignup />}></Route>}
+          {!currentUser && <Route exact path='/login' element={<SccLogin />}></Route>}
+          {!currentUser && <Route exact path='/signup' element={<SccSignup />}></Route>}
           <Route exact path='/test' element={<Test />}></Route>
           <Route exact path='/*' element={<Home />}></Route>
           {/* <Route path='*' element={<Home />}></Route> */}

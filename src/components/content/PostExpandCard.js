@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -34,7 +34,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function PostExpandCard({ user, doc, setOpen, setCurrentImageIndex, setImages }) {
+function PostExpandCard({ user, doc, setOpen, setCurrentImageIndex, setImages }) {
   const { login } = useValue();
 
   const [expanded, setExpanded] = useState(false);
@@ -99,7 +99,7 @@ export default function PostExpandCard({ user, doc, setOpen, setCurrentImageInde
         </div>
 
         <Fade timeout={500} in={true}>
-          <Card sx={{ maxWidth: 345 }}>
+          <Card sx={{ maxWidth: 380 }}>
             <CardHeader
               avatar={
                 <Tooltip placement='top' title={doc.data?.uName}>
@@ -119,7 +119,7 @@ export default function PostExpandCard({ user, doc, setOpen, setCurrentImageInde
             />
             <ImageList
               gap={1}
-              sx={{ my: -1, width: 'auto', height: 'auto', maxHeight: 301, maxWidth: 350 }} // height 301 allows for 1px gap so no scroll bars show up
+              sx={{ my: -1, width: 'auto', height: 'auto', maxHeight: 301, maxWidth: 400 }} // height 301 allows for 1px gap so no scroll bars show up
               rowHeight={150}
               // cols={layout[files.length - 1]}
               cols={doc.data.images.length === 1 ? 1 : 2}
@@ -247,3 +247,4 @@ export default function PostExpandCard({ user, doc, setOpen, setCurrentImageInde
     </>
   );
 }
+export default memo(PostExpandCard);

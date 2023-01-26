@@ -24,7 +24,7 @@ const useFirestore = (collectionName = 'Gallery') => {
           docs.push({ id: doc.id, data: doc.data() });
         });
         setDocuments(docs);
-        console.log('reading from the db');
+        console.log('reading from the db ', collectionName);
       },
       (error) => {
         dispatch({

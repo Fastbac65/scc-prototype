@@ -3,17 +3,15 @@ import { Link as RouterLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import HomeIcon from '@mui/icons-material/Home';
-import EditIcon from '@mui/icons-material/Edit';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-
-import ContentCardMasonryPosts from './content/ContentCardMasonryPosts';
 import { Stack, Tooltip } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useValue } from './context/ContextProvider';
 import NewPost from './uploadPost/NewPost';
 import useFirestore from './context/useFirestore';
 import PostsList from './postsList/PostsList';
-import { Add } from '@mui/icons-material';
+import { Add, FacebookOutlined, Instagram } from '@mui/icons-material';
+import NewSocialPost from './uploadPost/NewSocialPost';
 
 export default function Posts() {
   const {
@@ -26,11 +24,12 @@ export default function Posts() {
   // const [files, setFiles] = useState([]);
   const [like, setLike] = useState('');
   const [likePostDocs, setLikePostDocs] = useState([]);
+  // TODO  move this up a level and pass docs as prop
   const { documents } = useFirestore('Posts');
 
-  useEffect(() => {
-    //
-  }, [currentUser?.uPostLikes?.length]);
+  // useEffect(() => {
+  //   //
+  // }, [currentUser?.uPostLikes?.length]);
 
   const handleFavsClick = () => {
     if (like === 'red') setLike('');
@@ -47,6 +46,13 @@ export default function Posts() {
       setLikePostDocs(likes);
       console.log('liked posts', likes);
     }
+  };
+
+  const handleCreateSocialPost = () => {
+    dispatch({
+      type: 'MODAL',
+      payload: { ...modal, open: true, title: 'Create Social Post', content: <NewSocialPost /> },
+    });
   };
 
   const handleCreatePost = () => {
@@ -69,7 +75,16 @@ export default function Posts() {
                 <Add />
               </Fab>
             </Tooltip>
-
+            <Tooltip arrow placement='top-start' title='instagram post' enterDelay={2000}>
+              <Fab size='small' color='secondary' aria-label='edit' onClick={handleCreateSocialPost}>
+                <Instagram />
+              </Fab>
+            </Tooltip>
+            <Tooltip arrow placement='top-start' title='facebook post' enterDelay={2000}>
+              <Fab size='small' color='secondary' aria-label='edit' onClick={handleCreateSocialPost}>
+                <FacebookOutlined />
+              </Fab>
+            </Tooltip>
             <Tooltip arrow placement='top-start' title='favourites' enterDelay={2000}>
               <Fab color='secondary' id='favourite' size='small' aria-label='like' onClick={handleFavsClick}>
                 <FavoriteIcon sx={{ color: like }} />
@@ -78,7 +93,7 @@ export default function Posts() {
           </Stack>
         )}
         <PostsList
-          documents={like == '' ? documents : likePostDocs}
+          documents={like === '' ? documents : likePostDocs}
           // documents={documents}
         />
 
