@@ -48,10 +48,10 @@ export default function Posts() {
     }
   };
 
-  const handleCreateSocialPost = () => {
+  const handleCreateSocialPost = (type) => {
     dispatch({
       type: 'MODAL',
-      payload: { ...modal, open: true, title: 'Create Social Post', content: <NewSocialPost /> },
+      payload: { ...modal, open: true, title: 'Create Social Post', content: <NewSocialPost type={type} /> },
     });
   };
 
@@ -76,12 +76,12 @@ export default function Posts() {
               </Fab>
             </Tooltip>
             <Tooltip arrow placement='top-start' title='instagram post' enterDelay={2000}>
-              <Fab size='small' color='secondary' aria-label='edit' onClick={handleCreateSocialPost}>
+              <Fab size='small' color='secondary' aria-label='edit' onClick={() => handleCreateSocialPost('Instagram')}>
                 <Instagram />
               </Fab>
             </Tooltip>
             <Tooltip arrow placement='top-start' title='facebook post' enterDelay={2000}>
-              <Fab size='small' color='secondary' aria-label='edit' onClick={handleCreateSocialPost}>
+              <Fab size='small' color='secondary' aria-label='edit' onClick={() => handleCreateSocialPost('Facebook')}>
                 <FacebookOutlined />
               </Fab>
             </Tooltip>

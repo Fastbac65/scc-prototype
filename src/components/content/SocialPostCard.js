@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -20,60 +20,8 @@ import updateUserRecords from '../context/updateUserRecords';
 import { useValue } from '../context/ContextProvider';
 import { DialogContent, Paper } from '@mui/material';
 
-function SocialPostCard({ socialUrl }) {
+function SocialPostCard({ socialUrl, script }) {
   // const { login } = useValue();
-
-  // const [like, setLike] = useState('');
-  // const [embedToggle, setEmbedToggle] = useState(true);
-  // const socialUrl = 'https://www.instagram.com/p/CmVLatKPpip/';
-
-  // useEffect(() => {
-  //   //
-  //   if (user) {
-  //     let like = user?.uPostLikes?.indexOf(doc.id) >= 0 ? 'red' : '';
-  //     setLike(like);
-  //     // console.log('setLikes initialised');
-  //   }
-
-  //   // setTimeout(() => {
-  //   //   setEmbedToggle(true);
-  //   // }, 100);
-  // }, []);
-
-  // const handleLikeClick = () => {
-  //   if (like === 'red') {
-  //     setLike('');
-  //     let newLikes = { uPostLikes: [...user.uPostLikes] };
-  //     newLikes.uPostLikes.splice(newLikes.uPostLikes.indexOf(doc.id), 1);
-  //     console.log(newLikes);
-  //     Object.assign(user, newLikes); // updates the currentUser object in memory
-  //     updateUserRecords('Users', user.uid, newLikes)
-  //       .then((result) => console.log('User post likes updated', result))
-  //       .catch((error) => console.log('Error updated user roles', error));
-  //   } else {
-  //     setLike('red');
-  //     let newLikes = {};
-  //     if (user?.uPostLikes?.length > 0) {
-  //       newLikes = { uPostLikes: [doc.id, ...user?.uPostLikes] };
-  //       let userUpdateObj = Object.assign(user, newLikes);
-
-  //       console.log(newLikes);
-  //     } else {
-  //       newLikes = { uPostLikes: [doc.id] };
-  //       console.log(newLikes);
-  //       let userUpdateObj = Object.assign(user, newLikes);
-  //       console.log(userUpdateObj);
-
-  //       // setCurrentUser(authUser);
-  //       // setCurrentUser(user);
-  //     }
-  //     updateUserRecords('Users', user.uid, newLikes)
-  //       .then((result) => console.log('User post likes updated', result))
-  //       .catch((error) => console.log('Error updated user roles', error));
-
-  //     console.log(user);
-  //   }
-  // };
 
   return (
     <Paper
@@ -94,8 +42,12 @@ function SocialPostCard({ socialUrl }) {
           justifyContent: 'center',
         }}
       >
-        {socialUrl.includes('instagram') && <InstagramEmbed url={socialUrl} width={'100%'} captioned />}
-        {socialUrl.includes('facebook') && <FacebookEmbed url={socialUrl} width={'100%'} />}
+        {socialUrl.includes('instagram') && (
+          <InstagramEmbed url={socialUrl} width={'100%'} captioned placeholderDisabled scriptLoadDisabled={script} />
+        )}
+        {socialUrl.includes('facebook') && (
+          <FacebookEmbed url={socialUrl} width={'100%'} placeholderDisabled scriptLoadDisabled={script} />
+        )}
       </div>
       {/* <Box sx={{ display: 'flex', justifyContent: 'center' }}>
           <Stack spacing={0} sx={{ width: '92%' }}>

@@ -266,32 +266,14 @@ const CalendarList = ({ holidays, important, patrolTraining, social }) => {
   const handleEventClick = (eventInfo) => {
     console.log(eventInfo, eventInfo.event.title);
     var eventObj = eventInfo.event;
-
-    // if (eventObj.url) {
-    //   eventInfo.jsEvent.preventDefault(); // prevents browser from following link in current tab.
-
-    //   if (
-    //     window.confirm(
-    //       'Clicked ' + eventObj.title + '.\n' + 'Will open ' + eventObj.extendedProps.location + ' in a new tab'
-    //     )
-    //   ) {
-    //     window.open(eventObj.url);
-    //   }
-    // } else {
-    //   alert('Clicked ' + eventObj.title);
-    // }
-
-    // eventInfo.event.remove();
-    // getCalendarEvents(eventsTest, 'fastbac65@gmail.com');
   };
 
-  const handleEventSourceSuccess = (rawEvents, response) => {
-    // clearing the google url - cleans the UI
-    // console.log(rawEvents);
-    rawEvents.forEach((event) => {
-      event.url = '';
-    });
-  };
+  // const handleEventSourceSuccess = (rawEvents, response) => {
+  //   // clearing the google url - cleans the UI
+  //   rawEvents.forEach((event) => {
+  //     event.url = '';
+  //   });
+  // };
 
   const handleEventDidMount = (calEventInfo) => {
     if (!holidays) {

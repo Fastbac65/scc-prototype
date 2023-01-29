@@ -7,25 +7,20 @@ import { useValue } from './context/ContextProvider';
 import scc1 from '../static/imgs/scc-fb-grp.jpeg';
 import insta from '../static/imgs/Instagram-logo-small.png';
 import { useRef, useState } from 'react';
-const Test = () => {
+
+const CalendarDefault = () => {
   const [holidays, setHolidays] = useState(true);
   const [important, setImportant] = useState(true);
-  const [patrolTraining, setPatrolTraining] = useState(true);
+  const [patrolTraining, setPatrolTraining] = useState(false);
   const [social, setSocial] = useState(true);
 
   const handleChange = (event) => {
-    console.log('clicked', event.target.labels[0].innerText);
-    console.log('clicked', event.target.labels[0].innerText);
-    console.log(event.target.labels[0].innerText === 'NSW Holidays');
-
     if (event.target.labels[0].innerText.includes('View')) {
       setHolidays(true);
       setImportant(true);
       setPatrolTraining(true);
       setSocial(true);
     } else if (event.target.labels[0].innerText.includes('NSW')) {
-      // } else if (event.target.labels[0].innerText.includes === 'NSW Holidays') {
-      console.log('clicked hols');
       setHolidays(!holidays);
     } else if (event.target.labels[0].innerText.includes('Important')) {
       setImportant(!important);
@@ -41,7 +36,7 @@ const Test = () => {
   return (
     <>
       <Container maxWidth='lg' sx={{ px: '6px', textAlign: 'center', justifyContent: 'center' }}>
-        <Box sx={{ display: 'flex', my: 3 }}>
+        <Box sx={{ display: 'flex', py: 1 }}>
           <Box sx={{ pt: 1, display: { xs: 'none', md: 'inline' } }}>
             <FormGroup>
               <Typography sx={{ fontWeight: '700', fontSize: '1.25em' }} variant='h5'>
@@ -84,4 +79,4 @@ const Test = () => {
   );
 };
 
-export default Test;
+export default CalendarDefault;

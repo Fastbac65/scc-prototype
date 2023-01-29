@@ -3,6 +3,10 @@ import { Box, Button, Card, CardHeader, CardMedia, Grid, TextField, Stack } from
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 
 import { useValue } from '../context/ContextProvider';
+import './flatpickr_material_blue.css';
+import Flatpickr from 'react-flatpickr';
+import DatePicker from './DatePicker';
+import { useNavigate } from 'react-router-dom';
 
 const HireForm = () => {
   // const navigate = useNavigate();
@@ -13,31 +17,32 @@ const HireForm = () => {
   const fnameRef = useRef('');
   const mobileRef = useRef('');
   const emailRef = useRef('');
-  const confirmEmailRef = useRef('');
+  const dateRef = useRef('');
   const [fnameErr, setFnameErr] = useState(false);
   const [emailErr, setEmailErr] = useState(false);
   const [mobileErr, setMobileErr] = useState(false);
-  const [confirmEmailErr, setConfirmEmailErr] = useState(false);
+  const [dateErr, setDateErr] = useState(false);
+  const [date, setDate] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const fname = fnameRef.current.value;
     const mobile = mobileRef.current.value;
     const email = emailRef.current.value;
-    const confirmEmail = confirmEmailRef.current.value;
     setFnameErr(false);
+    setMobileErr(false);
     setEmailErr(false);
-    setConfirmEmailErr(false);
+    setDateErr(false);
 
-    // if (email && password) console.log(email, password);
-    //user feedback on empty fields - can be enhanced later to test password strength for example
     !fname && setFnameErr(true);
+    !mobile && setMobileErr(true);
     !email && setEmailErr(true);
-    !confirmEmail && setConfirmEmailErr(true);
+    !date && setDateErr(true);
 
     try {
       //check for empty fields
-      if (!fname || !email || !mobile || !confirmEmail) {
+      if (!fname || !email || !mobile || !date) {
         dispatch({
           type: 'UPDATE_ALERT',
           payload: {
@@ -49,29 +54,18 @@ const HireForm = () => {
           },
         });
         //check email match
-      } else if (email !== confirmEmail) {
-        dispatch({
-          type: 'UPDATE_ALERT',
-          payload: {
-            ...alert,
-            open: true,
-            severity: 'error',
-            message: 'Emails do not match!!',
-            duration: 3000,
-          },
-        });
-        //send details somewhere
       } else {
+        //send details somewhere
         dispatch({ type: 'END_LOADING' });
 
-        // navigate(-1);
+        navigate('/');
         dispatch({
           type: 'UPDATE_ALERT',
           payload: {
             ...alert,
             open: true,
             severity: 'success',
-            message: "We'll be back to you in in a tick",
+            message: "Thank you. We'll be back to you in in a tick",
             duration: 6000,
           },
         });
@@ -80,6 +74,10 @@ const HireForm = () => {
       dispatch({ type: 'END_LOADING', loading: false });
       console.log(error.message);
     }
+  };
+
+  const handleOnChangeDate = (datePick) => {
+    setDate(datePick[0]);
   };
 
   return (
@@ -93,6 +91,7 @@ const HireForm = () => {
                   color='secondary'
                   size='small'
                   label='Full Name'
+                  type='text'
                   required
                   error={fnameErr}
                   inputRef={fnameRef}
@@ -101,21 +100,42 @@ const HireForm = () => {
                   color='secondary'
                   size='small'
                   label='Mobile Number'
+                  type='text'
+                  required
                   error={mobileErr}
                   inputRef={mobileRef}
                 />
               </Box>
-
-              <TextField color='secondary' size='small' label='Email' required error={emailErr} inputRef={emailRef} />
+              {/* <Box spacing={2} sx={{ display: 'flex', justifyContent: 'space-between' }}> */}
               <TextField
                 color='secondary'
                 size='small'
-                label='Confirm Email'
+                label='Email'
                 type='text'
                 required
-                error={confirmEmailErr}
-                inputRef={confirmEmailRef}
+                error={emailErr}
+                inputRef={emailRef}
               />
+              {/* <TextField
+                  color='secondary'
+                  size='small'
+                  label='Event date'
+                  required
+                  error={dateErr}
+                  inputRef={dateRef}
+                /> */}
+              <DatePicker
+                input={{ label: 'Select a date', required: true, value: date, error: dateErr }}
+                value={date}
+                onChange={handleOnChangeDate}
+                options={{
+                  minDate: 'today',
+                  altInput: true,
+                  altFormat: 'F j, Y',
+                  dateFormat: 'Y-m-d',
+                }}
+              />
+              {/* </Box> */}
             </Stack>
           </Box>
 

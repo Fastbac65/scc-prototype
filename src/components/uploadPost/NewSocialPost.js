@@ -15,10 +15,10 @@ import SendIcon from '@mui/icons-material/Send';
 import { useValue } from '../context/ContextProvider';
 import { uuidv4 } from '@firebase/util';
 import { addDocument } from '../context/addDocument';
-import { InstagramEmbed } from 'react-social-media-embed';
+import { InstagramEmbed, FacebookEmbed } from 'react-social-media-embed';
 import { Send } from '@mui/icons-material';
 
-const NewSocialPost = () => {
+const NewSocialPost = ({ type }) => {
   const {
     theme,
     currentUser,
@@ -98,23 +98,21 @@ const NewSocialPost = () => {
         <DialogActions sx={{ my: 0, justifyContent: 'space-around' }}>
           <TextField
             color='secondary'
-            // defaultValue={'Please paste your instagram URL here'}
             sx={{ mb: 3 }}
             variant='standard'
             size='small'
             type='text'
             fullWidth
             inputRef={urlRef}
-            label='Instagram URL'
+            label={type === 'Instagram' ? 'Instagram URL' : 'Facebook URL'}
             required
             multiline
-            // InputProps={{ style: { fontSize: 14 } }}
             InputProps={{
               style: { fontSize: 14 },
               endAdornment: (
                 <InputAdornment position='end'>
                   <IconButton
-                    aria-label='toggle password visibility'
+                    aria-label='add social URL'
                     onClick={handleClickShowSocial}
                     onMouseDown={handleMouseDown}
                     edge='end'
@@ -130,7 +128,12 @@ const NewSocialPost = () => {
           elevation={15}
           sx={{ px: 0, pt: 0, border: theme.palette.mode === 'dark' ? 0 : 1, borderColor: 'lightgray' }}
         >
-          {embedToggle && <InstagramEmbed url={socialUrl} width={'100%'} captioned />}
+          {embedToggle && socialUrl.includes('facebook') && (
+            <FacebookEmbed url={socialUrl} width={'100%'} scriptLoadDisabled={true} />
+          )}
+          {embedToggle && socialUrl.includes('instagram') && (
+            <InstagramEmbed url={socialUrl} width={'100%'} scriptLoadDisabled={true} captioned />
+          )}
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Stack spacing={0} sx={{ width: '92%' }}>
               <TextField
@@ -154,7 +157,7 @@ const NewSocialPost = () => {
           {/* <AddImages files={files} setFiles={setFiles} /> */}
 
           <Button
-            disabled={true}
+            // disabled={true}
             type='submit'
             size='small'
             sx={{ borderRadius: 25 }}
@@ -164,7 +167,10 @@ const NewSocialPost = () => {
             Post
           </Button>
         </DialogActions>
-        <DialogContentText variant='caption'>Browse to your social post and copy URL</DialogContentText>
+        <DialogContentText variant='caption'>Browse Insta post and copy URL</DialogContentText>
+        <DialogContentText variant='caption'>
+          Browse FB, three dots menu, Embed and "advanced settings", URL of post
+        </DialogContentText>
         <DialogContentText variant='caption'>Add optional caption on SCC website</DialogContentText>
       </DialogContent>
     </form>

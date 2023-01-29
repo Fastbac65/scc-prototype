@@ -8,31 +8,20 @@ import PostsLightBox from '../imagesList/PostsLightBox';
 import { doc } from 'firebase/firestore';
 import SocialPostCard from '../content/SocialPostCard';
 
-const RecentSocialPosts = ({ recentSocialDocs }) => {
-  const { dispatch, login, currentUser } = useValue();
-  // const PostTypeSelect = ({ doc, user }) => {
-  //   //
-  //   if (doc.data.postType === '') {
-  //     return null;
-  //   } else if (doc.data.postType === 'Instagram') {
-  //     console.log('insta post:');
-  //     return <SocialPostCard user={user} doc={doc} />;
-  //   } else return null;
-  // };
-
+const RecentSocialPosts = ({ recentSocialDocs, script }) => {
   return (
     <div>
       <Box component='section' mx={1}>
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
           <Grid container spacing={{ xs: 1 }}>
-            <Grid key={doc.id} item xs={12} sm={6} md={4} lg={4}>
-              <SocialPostCard socialUrl={recentSocialDocs[0]} />
+            <Grid key={doc.id} item xs={12} sm={6} md={6} lg={4}>
+              <SocialPostCard socialUrl={recentSocialDocs[0].postUrl} script={recentSocialDocs[0].script} />
             </Grid>
-            <Grid key={doc.id} item xs={12} sm={6} md={4} lg={4}>
-              <SocialPostCard socialUrl={recentSocialDocs[1]} />
+            <Grid key={doc.id} item xs={12} sm={6} md={6} lg={4}>
+              <SocialPostCard socialUrl={recentSocialDocs[1].postUrl} script={recentSocialDocs[1].script} />
             </Grid>
-            <Grid key={doc.id} item xs={12} sm={6} md={4} lg={4}>
-              <SocialPostCard socialUrl={recentSocialDocs[2]} />
+            <Grid key={doc.id} item xs={12} sm={6} md={6} lg={4}>
+              <SocialPostCard socialUrl={recentSocialDocs[2].postUrl} script={recentSocialDocs[2].script} />
             </Grid>
           </Grid>
         </Box>

@@ -16,9 +16,14 @@ const PostsList = ({ documents }) => {
   const [open, setOpen] = useState(false);
 
   const recentSocialDocs = [
-    'https://www.facebook.com/permalink.php?story_fbid=pfbid0xJbBbDzP1juDtCUvcMknnSC5x3KSvxqK81z3Wx8ftvoeeyjQ8uM8diiJJextVprTl&id=792346234174867',
-    'https://www.instagram.com/p/CndCI7hhIVe/',
-    'https://www.instagram.com/p/CmVLatKPpip/',
+    {
+      postUrl:
+        'https://www.facebook.com/permalink.php?story_fbid=pfbid0xJbBbDzP1juDtCUvcMknnSC5x3KSvxqK81z3Wx8ftvoeeyjQ8uM8diiJJextVprTl&id=792346234174867',
+      postType: 'facebook',
+      script: false,
+    },
+    { postUrl: 'https://www.instagram.com/p/CndCI7hhIVe/', postType: 'instagram', script: false },
+    { postUrl: 'https://www.instagram.com/p/CmVLatKPpip/', postType: 'instagram', script: true },
   ];
 
   return (
