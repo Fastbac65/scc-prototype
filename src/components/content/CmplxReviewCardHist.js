@@ -61,7 +61,7 @@ const CmplxReviewCardHist = () => {
         </div>
 
         <Fade timeout={500} in={true}>
-          <Card sx={{ maxWidth: 345 }}>
+          <Card sx={{ maxWidth: 550 }}>
             <CardHeader
               avatar={
                 <Tooltip placement='top' title={currentUser?.displayName}>

@@ -1,24 +1,9 @@
-/**
-=========================================================
-* Material Kit 2 React - v2.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-kit-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 // @mui material components
 import TextField from '@mui/material/TextField';
 import { styled } from '@mui/material/styles';
 
 export default styled(TextField)(({ theme, ownerState }) => {
-  const { palette, functions } = theme;
+  const { palette } = theme;
   const { error, success, disabled } = ownerState;
 
   const { grey, error: colorError, success: colorSuccess } = palette;

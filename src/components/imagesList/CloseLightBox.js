@@ -1,7 +1,5 @@
-import { Close } from '@mui/icons-material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Box, Fab, Tooltip } from '@mui/material';
-import { borderColor } from '@mui/system';
 import { useValue } from '../context/ContextProvider';
 
 const CloseLightBox = () => {
@@ -51,16 +49,16 @@ const CloseLightBox = () => {
     </Box>
   );
 };
-const backDrop = {
-  position: 'absolute',
-  top: 0,
-  bottom: 0,
-  left: 0,
-  right: 0,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  background: 'rgba(0,0,0,0.5)',
-};
+// const backDrop = {
+//   position: 'absolute',
+//   top: 0,
+//   bottom: 0,
+//   left: 0,
+//   right: 0,
+//   display: 'flex',
+//   alignItems: 'center',
+//   justifyContent: 'center',
+//   background: 'rgba(0,0,0,0.5)',
+// };
 
 export default CloseLightBox;

@@ -7,7 +7,6 @@ import uploadFile from '../context/uploadFile';
 import deleteFile from '../context/deleteFile';
 import updateUserRecords from '../context/updateUserRecords';
 import resizeImage from '../context/resizeImage';
-import { auth } from '../context/FireBase';
 
 const Profile = () => {
   const {

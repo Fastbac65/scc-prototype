@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 import Flatpickr from 'react-flatpickr';
 import './flatpickr_material_blue.css';
 // Material Kit 2 React component

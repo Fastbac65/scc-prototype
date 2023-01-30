@@ -1,18 +1,16 @@
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import ThreeDRotation from '@mui/icons-material/ThreeDRotation';
 import Api from '@mui/icons-material/Api';
 import IconBloc from '../utils/IconBloc';
 import { Button } from '@mui/material';
-import CmplxReviewCard from './CmplxReviewCard';
 import MediaCardHist from './MediaCardHist';
 import { useValue } from '../context/ContextProvider';
 import CmplxReviewCardHist from './CmplxReviewCardHist';
 
-const Content2Cards = () => {
+const Content2CardsNippers = () => {
   const { theme } = useValue();
   return (
     <Box component='section' sx={{ borderRadius: 0, flexGrow: 1 }} mx={1} py={{ xs: 1, md: 2 }}>
@@ -28,14 +26,13 @@ const Content2Cards = () => {
           sm={6}
         >
           <Typography variant='h5' pt={1} m={2}>
-            Our Club, Our History
+            Welcome to South Curl Curl Nippers..
           </Typography>
           <Typography variant='body2' color='text.secondary' m={2} mb={4}>
-            The knives seemed to move of their own accord, gliding with a luminous digital display wired to a
-            subcutaneous chip. It was chambered for .22 long rifle, and Case would’ve preferred lead azide explosives to
-            the Tank War.
+            The best place to be on a Sunday morning, maximum fun and the highest level of competitive and water safety
+            training for our little ones.
           </Typography>
-          <Box sx={{ border: 0, display: 'flex', justifyContent: 'center' }}>
+          <Box sx={{ mx: 1, border: 0, display: 'flex', justifyContent: 'center' }}>
             <CmplxReviewCardHist />
           </Box>
           <Button href='#' sx={{ m: 2 }} size='small'>
@@ -73,7 +70,7 @@ const Content2Cards = () => {
               </Typography>
             </Grid>
           </Grid>
-          <Box m={2} sx={{ border: 0, display: 'flex', justifyContent: 'center' }}>
+          <Box m={1} sx={{ border: 0, display: 'flex', justifyContent: 'center' }}>
             <MediaCardHist />
           </Box>
         </Grid>
@@ -82,4 +79,4 @@ const Content2Cards = () => {
   );
 };
 
-export default Content2Cards;
+export default Content2CardsNippers;

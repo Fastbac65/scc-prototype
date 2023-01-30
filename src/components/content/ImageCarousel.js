@@ -1,5 +1,5 @@
 import Carousel from 'react-material-ui-carousel';
-import { Paper, Button, CardMedia, Box, Typography } from '@mui/material';
+import { CardMedia, Box, Typography } from '@mui/material';
 
 import img2 from '../../static/imgs/header2.jpeg';
 import img3 from '../../static/imgs/header3.jpeg';

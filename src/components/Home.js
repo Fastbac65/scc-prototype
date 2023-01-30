@@ -1,11 +1,10 @@
-import Content2Cards from './content/Content2Cards';
+import Content2CardsHist from './content/Content2CardsHist';
 import { Box } from '@mui/material';
 import scc1 from '../static/imgs/scc-fb-grp.jpeg';
 import { useValue } from './context/ContextProvider';
 import { ImageCarousel } from './content/ImageCarousel';
-import ContentCardMasonryPosts from './content/ContentCardMasonryPosts';
-import PostsList from './postsList/PostsList';
-import Posts from './Posts';
+
+import RecentPosts from './RecentPosts';
 
 // const Item = styled(Paper)(({ theme }) => ({
 //   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#f0f0f0',
@@ -26,12 +25,12 @@ function Home() {
       </Box>
       <Box sx={{ backgroundImage: `url(${scc1}) `, backgroundSize: 'cover' }}>
         <Box sx={{ background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.2)' }}>
-          <Posts />
+          <RecentPosts />
         </Box>
       </Box>
       <Box sx={{ backgroundImage: `url(${scc1}) `, backgroundSize: 'cover' }}>
         <Box sx={{ background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.2)' }}>
-          <Content2Cards />
+          <Content2CardsHist />
         </Box>
       </Box>
     </>

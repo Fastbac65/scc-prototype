@@ -8,8 +8,6 @@ import { styled } from '@mui/material/styles';
 import { FacebookLoginButton, GoogleLoginButton, InstagramLoginButton } from 'react-social-login-buttons';
 import { useValue } from '../context/ContextProvider';
 import PasswordField from './PasswordField';
-import { updateEmail, updateProfile } from 'firebase/auth';
-import { auth } from '../context/FireBase';
 
 // import { async } from '@firebase/util';
 

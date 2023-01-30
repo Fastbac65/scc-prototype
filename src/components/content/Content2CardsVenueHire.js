@@ -1,14 +1,11 @@
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import ThreeDRotation from '@mui/icons-material/ThreeDRotation';
 import Api from '@mui/icons-material/Api';
 import IconBloc from '../utils/IconBloc';
-import { Button, CardMedia, Stack, TextField } from '@mui/material';
-import CmplxReviewCard from './CmplxReviewCard';
-import MediaCardHist from './MediaCardHist';
+import { CardMedia } from '@mui/material';
 import { useValue } from '../context/ContextProvider';
 import scc1 from '../../static/imgs/scc-party2.jpg';
 import HireForm from './HireForm';

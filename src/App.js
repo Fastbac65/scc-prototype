@@ -23,6 +23,7 @@ import Footer from './components/Footer';
 import EmailVerification from './components/user/EmailVerification';
 import AuthInsta from './components/user/AuthInsta';
 import CompleteVerification from './components/user/CompleteVerification';
+import Nippers from './components/Nippers';
 
 function App() {
   const { login, theme, currentUser } = useValue();
@@ -43,6 +44,7 @@ function App() {
           <Route path='/auth' element={<AuthInsta />}></Route>
           <Route path='/verify' element={<CompleteVerification />}></Route>
           <Route exact path='/posts' element={<Posts />}></Route>
+          <Route exact path='/nippers' element={<Nippers />}></Route>
           <Route exact path='/history' element={<History />}></Route>
           <Route exact path='/gallery' element={<Gallery />}></Route>
           <Route exact path='/hire' element={<VenueHire />}></Route>

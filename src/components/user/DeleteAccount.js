@@ -1,5 +1,4 @@
-import { Button, DialogActions, DialogContent, DialogContentText, TextField } from '@mui/material';
-import { useRef } from 'react';
+import { Button, DialogActions, DialogContent, DialogContentText } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { useValue } from '../context/ContextProvider';
 import { deleteUser } from 'firebase/auth';

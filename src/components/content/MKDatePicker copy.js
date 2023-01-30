@@ -6,12 +6,6 @@ import PropTypes from 'prop-types';
 import Flatpickr from 'react-flatpickr';
 import './flatpickr_material_blue.css';
 
-// // react-flatpickr styles
-// import 'flatpickr/dist/flatpickr.css';
-
-// Material Kit 2 React components
-// import MKInput from 'components/MKInput';
-
 function DatePicker({ options, size, color, label, inputRef, required, error, ...rest }) {
   console.log(options, { ...options });
   return (

@@ -1,10 +1,5 @@
-import { Box, Grid, Tooltip, Typography } from '@mui/material';
-// import Options from './Options';
-import { useValue } from '../context/ContextProvider';
-import PostExpandCard from '../content/PostExpandCard';
-import { Masonry } from '@mui/lab';
-import { memo, useState } from 'react';
-import PostsLightBox from '../imagesList/PostsLightBox';
+import { Box, Grid } from '@mui/material';
+import { memo } from 'react';
 import { doc } from 'firebase/firestore';
 import SocialPostCard from '../content/SocialPostCard';
 
@@ -20,7 +15,15 @@ const RecentSocialPosts = ({ recentSocialDocs, script }) => {
             <Grid key={doc.id} item xs={12} sm={6} md={6} lg={4}>
               <SocialPostCard socialUrl={recentSocialDocs[1].postUrl} script={recentSocialDocs[1].script} />
             </Grid>
-            <Grid key={doc.id} item xs={12} sm={6} md={6} lg={4}>
+            <Grid
+              key={doc.id}
+              item
+              xs={12}
+              sm={6}
+              md={6}
+              lg={4}
+              sx={{ display: { xs: 'inline', sm: 'none', lg: 'inline' } }}
+            >
               <SocialPostCard socialUrl={recentSocialDocs[2].postUrl} script={recentSocialDocs[2].script} />
             </Grid>
           </Grid>

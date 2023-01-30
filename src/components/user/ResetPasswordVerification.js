@@ -1,15 +1,14 @@
-import { Button, DialogActions, DialogContent, DialogContentText, Modal, TextField } from '@mui/material';
+import { Button, DialogActions, DialogContent } from '@mui/material';
 import { useRef } from 'react';
 import PasswordField from './PasswordField';
 import SendIcon from '@mui/icons-material/Send';
 import { useValue } from '../context/ContextProvider';
-import { checkActionCode, confirmPasswordReset, updatePassword } from 'firebase/auth';
+import { checkActionCode, confirmPasswordReset } from 'firebase/auth';
 import { auth } from '../context/FireBase';
 import { useNavigate } from 'react-router-dom';
 
 const ResetPasswordVerification = ({ oobCode }) => {
   const {
-    currentUser,
     dispatch,
     state: { alert, modal },
   } = useValue();

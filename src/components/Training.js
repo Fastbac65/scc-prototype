@@ -1,5 +1,5 @@
 import ContentCardTraining from './content/ContentCardTraining';
-import Content2Cards from './content/Content2Cards';
+import Content2CardsHist from './content/Content2CardsHist';
 
 const Training = () => {
   return (
@@ -7,7 +7,7 @@ const Training = () => {
       {/* <Zoom in={1}> */}
       <ContentCardTraining />
       {/* </Zoom> */}
-      <Content2Cards />
+      <Content2CardsHist />
     </>
   );
 };

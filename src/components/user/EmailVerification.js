@@ -1,15 +1,13 @@
 import { Alert, Button, Box } from '@mui/material';
 import { sendEmailVerification } from 'firebase/auth';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useValue } from '../context/ContextProvider';
 import { auth } from '../context/FireBase';
-import useFirestoreGetUser from '../context/useFirestoreGetUser';
 import AccountSettings from './AccountSettings';
 
 const EmailVerification = () => {
   const {
     currentUser,
-    login,
     dispatch,
     state: { alert, modal },
   } = useValue();

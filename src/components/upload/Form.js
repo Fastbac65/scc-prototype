@@ -1,5 +1,10 @@
-import { Add } from '@mui/icons-material';
-import { Box, Fab, Input, Tooltip } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+import { Add, Collections } from '@mui/icons-material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import HomeIcon from '@mui/icons-material/Home';
+import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
+
+import { Box, Fab, Input, Stack, Tooltip } from '@mui/material';
 import React, { useRef } from 'react';
 
 const Form = ({ setFiles }) => {
@@ -29,11 +34,29 @@ const Form = ({ setFiles }) => {
           inputProps={{ accept: 'image/*', multiple: true }}
           onChange={handleChange}
         />
-        <Tooltip followCursor arrow placement='top-start' title='add photos' enterDelay={1000}>
-          <Fab size='small' color='primary' aria-label='add' onClick={handleClick}>
-            <Add />
-          </Fab>
-        </Tooltip>
+        <Stack spacing={1} direction='row' sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Tooltip arrow placement='top-start' title='home' enterDelay={2000}>
+            <Fab size='small' component={RouterLink} to='/' color='primary' aria-label='add'>
+              <HomeIcon />
+            </Fab>
+          </Tooltip>
+
+          <Tooltip followCursor arrow placement='top-start' title='add photos' enterDelay={1000}>
+            <Fab size='small' color='secondary' aria-label='add' onClick={handleClick}>
+              <Add />
+            </Fab>
+          </Tooltip>
+          <Tooltip arrow placement='top-start' title='view posts' enterDelay={2000}>
+            <Fab component={RouterLink} to='/posts' size='small' color='secondary' aria-label='see all posts'>
+              <DynamicFeedIcon />
+            </Fab>
+          </Tooltip>
+          <Tooltip arrow placement='top-start' title='favourites' enterDelay={2000}>
+            <Fab color='secondary' id='favourite' size='small' aria-label='like'>
+              <FavoriteIcon />
+            </Fab>
+          </Tooltip>
+        </Stack>
       </form>
     </Box>
   );

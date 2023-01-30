@@ -1,12 +1,8 @@
-import { Box, CardMedia, Checkbox, FormControlLabel, FormGroup, Stack, Typography } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material';
 import { Container } from '@mui/system';
-import CalendarList, { deletedEv } from './content/CalendarList';
+import CalendarList from './content/CalendarList';
 
-import { useValue } from './context/ContextProvider';
-
-import scc1 from '../static/imgs/scc-fb-grp.jpeg';
-import insta from '../static/imgs/Instagram-logo-small.png';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 const Test = () => {
   const [holidays, setHolidays] = useState(true);
   const [important, setImportant] = useState(true);

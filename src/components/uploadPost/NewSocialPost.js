@@ -169,7 +169,7 @@ const NewSocialPost = ({ type }) => {
         </DialogActions>
         <DialogContentText variant='caption'>Browse Insta post and copy URL</DialogContentText>
         <DialogContentText variant='caption'>
-          Browse FB, three dots menu, Embed and "advanced settings", URL of post
+          Browse FB, three dots menu, Embed and "Advanced settings", URL of post
         </DialogContentText>
         <DialogContentText variant='caption'>Add optional caption on SCC website</DialogContentText>
       </DialogContent>

@@ -2,8 +2,7 @@ import { Button, DialogActions, DialogContent, TextField, Typography } from '@mu
 import { useRef } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import { useValue } from '../context/ContextProvider';
-import { sendEmailVerification, updateEmail, verifyBeforeUpdateEmail } from 'firebase/auth';
-import { auth } from '../context/FireBase';
+import { sendEmailVerification, updateEmail } from 'firebase/auth';
 
 const ChangeEmail = () => {
   const {
@@ -37,11 +36,11 @@ const ChangeEmail = () => {
     } catch (error) {
       console.log(error.message);
       let errorMsg = '';
-      if (error.message == 'Firebase: Error (auth/email-already-in-use).') {
+      if (error.message === 'Firebase: Error (auth/email-already-in-use).') {
         //
         errorMsg =
           'An account with this email already exists. You may already have another account using a different sign in method.';
-      } else if (error.message == 'Firebase: Error (auth/requires-recent-login).') {
+      } else if (error.message === 'Firebase: Error (auth/requires-recent-login).') {
         //
         errorMsg = 'For security reasons a recent reauthentication is required. Please restart the update process';
       }

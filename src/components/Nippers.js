@@ -3,14 +3,15 @@ import scc1 from '../static/imgs/Archives-March-Past-1024x669.jpeg';
 import { Box } from '@mui/material';
 import { useValue } from './context/ContextProvider';
 import RecentPosts from './RecentPosts';
+import Content2CardsNippers from './content/Content2CardsNippers';
 
-const History = () => {
+const Nippers = () => {
   const { theme } = useValue();
   return (
     <>
       <Box sx={{ backgroundImage: `url(${scc1}) `, backgroundSize: 'cover' }}>
         <Box sx={{ background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.2)' }}>
-          <Content2CardsHist />
+          <Content2CardsNippers />
         </Box>
       </Box>
       <Box sx={{ mb: 2, backgroundImage: `url(${scc1}) `, backgroundSize: 'cover' }}>
@@ -22,4 +23,4 @@ const History = () => {
   );
 };
 
-export default History;
+export default Nippers;

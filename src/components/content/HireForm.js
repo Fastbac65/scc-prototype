@@ -1,10 +1,9 @@
 import { useState, useRef } from 'react';
-import { Box, Button, Card, CardHeader, CardMedia, Grid, TextField, Stack } from '@mui/material';
+import { Box, Button, Card, TextField, Stack } from '@mui/material';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 
 import { useValue } from '../context/ContextProvider';
-import './flatpickr_material_blue.css';
-import Flatpickr from 'react-flatpickr';
+// import './flatpickr_material_blue.css';
 import DatePicker from './DatePicker';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,7 +16,6 @@ const HireForm = () => {
   const fnameRef = useRef('');
   const mobileRef = useRef('');
   const emailRef = useRef('');
-  const dateRef = useRef('');
   const [fnameErr, setFnameErr] = useState(false);
   const [emailErr, setEmailErr] = useState(false);
   const [mobileErr, setMobileErr] = useState(false);

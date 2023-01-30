@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useValue } from '../context/ContextProvider';
 
 // import { initializeApp, deleteApp } from 'firebase/app';
@@ -6,8 +6,8 @@ import { useValue } from '../context/ContextProvider';
 // import { setDoc, doc, serverTimestamp, collection, getFirestore } from 'firebase/firestore';
 import { Container, Box, Typography, CardMedia } from '@mui/material';
 import scc1 from '../../static/imgs/scc-fb-grp.jpeg';
-import { firebaseConfig, auth } from '../context/FireBase';
-import { applyActionCode, checkActionCode, confirmPasswordReset, reload } from 'firebase/auth';
+import { auth } from '../context/FireBase';
+import { applyActionCode, reload } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import ResetPasswordVerification from './ResetPasswordVerification';
 // import axios from 'axios';

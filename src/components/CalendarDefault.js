@@ -1,12 +1,8 @@
-import { Box, CardMedia, Checkbox, FormControlLabel, FormGroup, Stack, Typography } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material';
 import { Container } from '@mui/system';
-import CalendarList, { deletedEv } from './content/CalendarList';
+import CalendarList from './content/CalendarList';
 
-import { useValue } from './context/ContextProvider';
-
-import scc1 from '../static/imgs/scc-fb-grp.jpeg';
-import insta from '../static/imgs/Instagram-logo-small.png';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 const CalendarDefault = () => {
   const [holidays, setHolidays] = useState(true);
@@ -37,7 +33,7 @@ const CalendarDefault = () => {
     <>
       <Container maxWidth='lg' sx={{ px: '6px', textAlign: 'center', justifyContent: 'center' }}>
         <Box sx={{ display: 'flex', py: 1 }}>
-          <Box sx={{ pt: 1, display: { xs: 'none', md: 'inline' } }}>
+          <Box sx={{ pt: 1, display: { xs: 'none', sm: 'inline' } }}>
             <FormGroup>
               <Typography sx={{ fontWeight: '700', fontSize: '1.25em' }} variant='h5'>
                 Filter

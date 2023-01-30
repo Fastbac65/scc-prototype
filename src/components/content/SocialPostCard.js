@@ -1,31 +1,15 @@
-import { memo, useEffect, useRef, useState } from 'react';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-
-import Fade from '@mui/material/Fade';
+import { memo } from 'react';
 
 import { InstagramEmbed, FacebookEmbed } from 'react-social-media-embed';
 
-import PostOptions from '../uploadPost/PostOptions';
-import updateUserRecords from '../context/updateUserRecords';
-import { useValue } from '../context/ContextProvider';
-import { DialogContent, Paper } from '@mui/material';
+import { Paper } from '@mui/material';
 
 function SocialPostCard({ socialUrl, script }) {
   // const { login } = useValue();
 
   return (
     <Paper
-      elevation={24}
+      elevation={6}
       sx={{
         py: 0,
         px: 0,

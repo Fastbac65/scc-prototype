@@ -1,5 +1,4 @@
 import { Button, DialogActions, DialogContent, DialogContentText } from '@mui/material';
-import { useRef } from 'react';
 import PasswordField from './PasswordField';
 import SendIcon from '@mui/icons-material/Send';
 

@@ -1,5 +1,5 @@
 import { Close } from '@mui/icons-material';
-import { Box, Dialog, DialogTitle, IconButton } from '@mui/material';
+import { Dialog, DialogTitle, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useValue } from './context/ContextProvider';
 

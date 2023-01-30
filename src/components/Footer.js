@@ -22,7 +22,7 @@ const Footer = () => {
     //sponsors
     <>
       <Box sx={{ textAlign: 'center', justifyContent: 'center' }}>
-        <Paper elevation={6} sx={{ background: 'white', boxShadow: 0, borderRadius: 0 }}>
+        <Paper sx={{ background: 'white', boxShadow: 0, borderRadius: 0 }}>
           <Grid container sx={{ px: 2, display: 'flex', alignItems: 'center' }}>
             {sponsors.map((sponsor) => (
               <Grid item key={sponsor.src} xs={12} sm={4}>
@@ -44,7 +44,7 @@ const Footer = () => {
             Postal address P.O. Box 18, Freshwater NSW 2096
           </Typography>
           <Typography color='text-primary' pb={1} paragraph variant='caption'>
-            © Copyright 2022 | South Curl Curl Surf Lifesaving club &nbsp;&nbsp;&nbsp;&nbsp;{' '}
+            © Copyright 2023 | South Curl Curl Surf Lifesaving club &nbsp;&nbsp;&nbsp;&nbsp;{' '}
             <Link color='secondary' target='_blank' href='https://southcurlcurlslsc.org/terms-conditions'>
               Terms & Conditions
             </Link>{' '}

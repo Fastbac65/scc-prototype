@@ -9,11 +9,13 @@ import { useState } from 'react';
 import { useValue } from './context/ContextProvider';
 import NewPost from './uploadPost/NewPost';
 import useFirestore from './context/useFirestore';
-import PostsList from './postsList/PostsList';
 import { Add, FacebookOutlined, Instagram } from '@mui/icons-material';
-import NewSocialPost from './uploadPost/NewSocialPost';
+import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
 
-export default function Posts() {
+import NewSocialPost from './uploadPost/NewSocialPost';
+import RecentPostsList from './postsList/RecentPostsList';
+
+export default function RecentPosts() {
   const {
     currentUser,
     login,
@@ -27,15 +29,10 @@ export default function Posts() {
   // TODO  move this up a level and pass docs as prop
   const { documents } = useFirestore('Posts');
 
-  // useEffect(() => {
-  //   //
-  // }, [currentUser?.uPostLikes?.length]);
-
   const handleFavsClick = () => {
     if (like === 'red') setLike('');
     else setLike('red');
 
-    console.log(currentUser?.uPostLikes);
     if (currentUser?.uPostLikes?.length > 0) {
       let likes = [];
       documents.forEach((doc) => {
@@ -75,6 +72,11 @@ export default function Posts() {
                 <Add />
               </Fab>
             </Tooltip>
+            <Tooltip arrow placement='top-start' title='Show all posts' enterDelay={2000}>
+              <Fab component={RouterLink} to='/posts' size='small' color='secondary' aria-label='see all posts'>
+                <DynamicFeedIcon />
+              </Fab>
+            </Tooltip>
             <Tooltip arrow placement='top-start' title='instagram post' enterDelay={2000}>
               <Fab size='small' color='secondary' aria-label='edit' onClick={() => handleCreateSocialPost('Instagram')}>
                 <Instagram />
@@ -92,12 +94,7 @@ export default function Posts() {
             </Tooltip>
           </Stack>
         )}
-        <PostsList
-          documents={like === '' ? documents : likePostDocs}
-          // documents={documents}
-        />
-
-        {/* <ContentCardMasonryPosts /> */}
+        <RecentPostsList documents={like === '' ? documents : likePostDocs} />
       </Box>
     </div>
   );

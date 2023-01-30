@@ -1,5 +1,3 @@
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 import { Button, Box } from '@mui/material';
 import CmplxReviewCard from './CmplxReviewCard';
 import MediaCard from './MediaCard';

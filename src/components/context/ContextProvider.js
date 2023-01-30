@@ -14,18 +14,14 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
-  updateEmail,
   getAdditionalUserInfo,
   updateProfile,
-  // FacebookAuthProvider,
 } from 'firebase/auth';
 
 import reducer from './reducer';
 import { addDocument } from './addDocument';
 import { doc, getDoc } from 'firebase/firestore';
 import updateUserRecords from './updateUserRecords';
-import useFirestoreGetUser from './useFirestoreGetUser';
-import axios from 'axios';
 
 export const GlobalContext = createContext();
 

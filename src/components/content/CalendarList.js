@@ -1,10 +1,9 @@
 import FullCalendar from '@fullcalendar/react';
 import listPlugin from '@fullcalendar/list';
-// import interactionPlugin from '@fullcalendar/interaction';
 import googleCalendarPlugin from '@fullcalendar/google-calendar';
 
 import { Box } from '@mui/system';
-import { memo, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useValue } from '../context/ContextProvider';
 import axios from 'axios';
 
@@ -71,9 +70,10 @@ const CalendarList = ({ holidays, important, patrolTraining, social }) => {
   const allEvents = useRef([]); // Will be a copy of all events so we can filter
 
   // responsive workaround for buttons on the FC header
-  var endStr = '';
-  var startStr = '';
-  const screenWidth = { xs: 0, sm: 576, md: 768, lg: 992, xl: 1400 };
+  const [endStr, setEndStr] = useState('');
+  const [startStr, setStartStr] = useState('');
+  // const screenWidth = { xs: 0, sm: 576, md: 768, lg: 992, xl: 1400 };  //  for some reason the app is still using default breakpoints
+  const screenWidth = { xs: 0, sm: 700, md: 900, lg: 1200 }; // sm default is 600  but I'm using 700 to fit filter in
 
   // to stop FC rerendering and re-fetching events everytime a state change occurs on the page
   const memoizeGetCalendarEvents = useMemo(() => {
@@ -251,13 +251,31 @@ const CalendarList = ({ holidays, important, patrolTraining, social }) => {
     },
   ];
 
-  if (window.innerWidth < screenWidth.sm) {
-    startStr = '';
-    endStr = 'prev,next';
-  } else {
-    startStr = 'listMonth,list3Months';
-    endStr = 'today prev,next';
+  function useWindowSize() {
+    const [size, setSize] = useState(0);
+    useLayoutEffect(() => {
+      function updateSize() {
+        setTimeout(() => {
+          setSize(window.innerWidth);
+          if (window.innerWidth < screenWidth.sm) {
+            setStartStr('');
+            setEndStr('prev,next');
+          } else {
+            setStartStr('listMonth,list3Months');
+            setEndStr('today prev,next');
+          }
+        }, 500);
+      }
+      window.addEventListener('resize', updateSize);
+      updateSize();
+      return () => window.removeEventListener('resize', updateSize);
+    }, []);
+    return size;
   }
+
+  var winWidth = useWindowSize(); // dynamically sets the calendar list menu statefully
+  if (winWidth < screenWidth.sm) console.log('win < sm');
+  else console.log('win > sm');
 
   const handleEventSet = (events) => {
     allEvents.current = [...events];
@@ -324,6 +342,7 @@ const CalendarList = ({ holidays, important, patrolTraining, social }) => {
             center: 'title',
             end: endStr,
           }}
+          titleFormat={{ year: 'numeric', month: 'short' }}
           eventClick={handleEventClick}
           eventsSet={handleEventSet} // called after events are initialized/added/changed/removed
           // eventSourceSuccess={handleEventSourceSuccess}
@@ -334,3 +353,4 @@ const CalendarList = ({ holidays, important, patrolTraining, social }) => {
   );
 };
 export default memo(CalendarList);
+//

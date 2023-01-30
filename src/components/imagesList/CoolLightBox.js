@@ -1,4 +1,4 @@
-import { Fab, Tooltip } from '@mui/material';
+import { Fab } from '@mui/material';
 import Lightbox from 'react-spring-lightbox';
 import { useValue } from '../context/ContextProvider';
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
@@ -16,7 +16,7 @@ const CoolLightbox = ({ documents }) => {
   // initialise the images array to pass into lightbox
   useEffect(() => {
     var imageArray = [];
-    documents.map((doc) => {
+    documents.forEach((doc) => {
       imageArray.push({ src: doc.data.imageURL, alt: doc.data.uName, loading: 'lazy' });
       setImages(imageArray);
     });

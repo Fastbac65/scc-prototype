@@ -26,6 +26,7 @@ import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
+import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 import logo from '../static/imgs/scc-logo-blue-sm2.png';
 
 import Profile from './user/Profile';
@@ -63,15 +64,15 @@ function ResponsiveAppBar() {
       primary: 'Venue Hire',
       icon: <CelebrationIcon />,
       to: '/hire',
-      color: location.pathname == '/hire' ? '#f9de00' : 'white',
+      color: location.pathname === '/hire' ? '#f9de00' : 'white',
       members: true,
     },
 
     {
-      primary: 'Posts',
-      icon: <NewspaperIcon />,
-      to: '/posts',
-      color: location.pathname == '/posts' ? '#f9de00' : 'white',
+      primary: 'Nippers',
+      icon: <BeachAccessIcon />,
+      to: '/nippers',
+      color: location.pathname === '/nippers' ? '#f9de00' : 'white',
 
       members: true,
     },
@@ -79,7 +80,7 @@ function ResponsiveAppBar() {
       primary: 'Gallery',
       icon: <LocalActivityIcon />,
       to: '/gallery',
-      color: location.pathname == '/gallery' ? '#f9de00' : 'white',
+      color: location.pathname === '/gallery' ? '#f9de00' : 'white',
 
       members: true,
     },
@@ -87,7 +88,7 @@ function ResponsiveAppBar() {
       primary: 'History',
       icon: <MilitaryTechIcon />,
       to: '/history',
-      color: location.pathname == '/history' ? '#f9de00' : 'white',
+      color: location.pathname === '/history' ? '#f9de00' : 'white',
 
       members: true,
     },
@@ -95,13 +96,11 @@ function ResponsiveAppBar() {
       primary: 'Training',
       icon: <FitnessCenterIcon />,
       to: '/training',
-      color: location.pathname == '/training' ? '#f9de00' : 'white',
+      color: location.pathname === '/training' ? '#f9de00' : 'white',
 
       members: login,
     },
   ];
-
-  const navigate = useNavigate();
 
   // ListItemLink Component
   function ListItemLink(props) {

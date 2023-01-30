@@ -7,7 +7,7 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { styled } from '@mui/material/styles';
 import { FacebookLoginButton, GoogleLoginButton, InstagramLoginButton } from 'react-social-login-buttons';
 import { useValue } from '../context/ContextProvider';
-import Content2Cards from '../content/Content2Cards';
+import Content2CardsHist from '../content/Content2CardsHist';
 import PasswordField from './PasswordField';
 import ResetPassword from './ResetPassword';
 
@@ -233,7 +233,7 @@ const SccLogin = () => {
           <CardMedia onLoad={handleOnload} sx={{ opacity: 0.6 }} component='img' src={scc2} alt='scc-ocean' />
         </Grid>
       </Grid>
-      <Content2Cards />
+      <Content2CardsHist />
     </>
   );
 };
