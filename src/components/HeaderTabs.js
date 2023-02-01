@@ -22,7 +22,7 @@ function HeaderTabs() {
   // This means that if you have nested routes like:
   // users, users/new, users/edit.
   // Then the order should be ['users/add', 'users/edit', 'users'].
-  const routeMatch = useRouteMatch(['/history', '/training', '/blog', '/']);
+  const routeMatch = useRouteMatch(['/history', '/patrol', '/blog', '/']);
   const currentTab = routeMatch.path;
 
   return (
@@ -30,7 +30,7 @@ function HeaderTabs() {
       <Tabs value={currentTab}>
         <Tab label='Home' value='/' to='/' component={RouterLink} />
         <Tab label='Blogs' value='/blog' to='/blog' component={RouterLink} />
-        <Tab label='Training' value='/training' to='/training' component={RouterLink} />
+        <Tab label='Training' value='/patrol' to='/patrol' component={RouterLink} />
         <Tab label='History' value='/history' to='/history' component={RouterLink} />
       </Tabs>
     </Box>

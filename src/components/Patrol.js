@@ -1,7 +1,7 @@
 import ContentCardTraining from './content/ContentCardTraining';
 import Content2CardsHist from './content/Content2CardsHist';
 
-const Training = () => {
+const Patrol = () => {
   return (
     <>
       {/* <Zoom in={1}> */}
@@ -12,4 +12,4 @@ const Training = () => {
   );
 };
 
-export default Training;
+export default Patrol;

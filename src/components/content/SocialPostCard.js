@@ -9,7 +9,7 @@ function SocialPostCard({ socialUrl, script }) {
 
   return (
     <Paper
-      elevation={6}
+      elevation={1}
       sx={{
         py: 0,
         px: 0,

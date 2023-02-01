@@ -33,7 +33,7 @@ const Item = styled(Paper)(({ theme }) => ({
       sx={{ fontSize: '12px' }}
       size='small'
       component={RouterLink}
-      to='/training'
+      to='/patrol'
       variant='contained'
       color='primary'
       endIcon={<KeyboardArrowRight />}
@@ -88,7 +88,7 @@ const Item = styled(Paper)(({ theme }) => ({
   <Paper elevation={4}>
     <List aria-label='main mailbox folders'>
       <ListItemLink to='/' primary='Home' icon={<InboxIcon />} />
-      <ListItemLink to='/training' primary='Training' icon={<DraftsIcon />} />
+      <ListItemLink to='/patrol' primary='Patrol' icon={<DraftsIcon />} />
     </List>
     <Divider />
     <List aria-label='secondary mailbox folders'>

@@ -41,7 +41,6 @@ export default function RecentPosts() {
         }
       });
       setLikePostDocs(likes);
-      console.log('liked posts', likes);
     }
   };
 
@@ -72,7 +71,7 @@ export default function RecentPosts() {
                 <Add />
               </Fab>
             </Tooltip>
-            <Tooltip arrow placement='top-start' title='Show all posts' enterDelay={2000}>
+            <Tooltip arrow placement='top-start' title='..all posts' enterDelay={2000}>
               <Fab component={RouterLink} to='/posts' size='small' color='secondary' aria-label='see all posts'>
                 <DynamicFeedIcon />
               </Fab>

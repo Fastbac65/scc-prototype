@@ -13,7 +13,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { ButtonGroup, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 import { useValue } from './context/ContextProvider';
@@ -25,6 +25,8 @@ import CelebrationIcon from '@mui/icons-material/Celebration';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
+import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags';
+import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 import logo from '../static/imgs/scc-logo-blue-sm2.png';
@@ -76,13 +78,31 @@ function ResponsiveAppBar() {
 
       members: true,
     },
+
     {
-      primary: 'Gallery',
-      icon: <LocalActivityIcon />,
+      primary: 'Competitors',
+      icon: <FitnessCenterIcon />,
       to: '/gallery',
       color: location.pathname === '/gallery' ? '#f9de00' : 'white',
 
       members: true,
+    },
+
+    {
+      primary: 'Patrol',
+      icon: <EmojiFlagsIcon />,
+      to: '/patrol',
+      color: location.pathname === '/patrol' ? '#f9de00' : 'white',
+
+      members: login,
+    },
+    {
+      primary: 'Members',
+      icon: <CardMembershipIcon />,
+      to: '/members',
+      color: location.pathname === '/members' ? '#f9de00' : 'white',
+
+      members: login,
     },
     {
       primary: 'History',
@@ -91,14 +111,6 @@ function ResponsiveAppBar() {
       color: location.pathname === '/history' ? '#f9de00' : 'white',
 
       members: true,
-    },
-    {
-      primary: 'Training',
-      icon: <FitnessCenterIcon />,
-      to: '/training',
-      color: location.pathname === '/training' ? '#f9de00' : 'white',
-
-      members: login,
     },
   ];
 
@@ -146,10 +158,10 @@ function ResponsiveAppBar() {
         <Container maxWidth='xl'>
           <Toolbar disableGutters>
             {/* nav menu small screens */}
-            <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'none' } }}>
+            <Box sx={{ display: { xs: 'flex', sm: 'none' } }}>
               <IconButton
                 size='large'
-                aria-label='account of current user'
+                aria-label='menu items'
                 aria-controls='menu-appbar'
                 aria-haspopup='true'
                 onClick={handleOpenNavMenu}
@@ -190,34 +202,48 @@ function ResponsiveAppBar() {
             <Box component={RouterLink} to='/'>
               <Box
                 ml={-3}
-                mr={1}
+                mr={-1}
                 component='img'
                 src={logo}
-                sx={{ height: 70, display: { xs: 'none', sm: 'flex' } }}
+                sx={{ height: 60, display: { xs: 'none', sm: 'flex' } }}
               ></Box>
             </Box>
             {/* logo small screen */}
-            <Box flexGrow={1} component={RouterLink} to='/'>
-              <Box mr={1} component='img' src={logo} sx={{ height: 70, display: { xs: 'flex', sm: 'none' } }}></Box>
+            <Box
+              component={RouterLink}
+              to='/'
+              sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'none' }, justifyContent: 'center' }}
+            >
+              <Box mr={1} component='img' src={logo} sx={{ height: 60 }}></Box>
             </Box>
             {/* main menu large screen */}
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'flex' } }}>
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: { xs: 'none', sm: 'flex' },
+                flexWrap: 'nowrap',
+                justifyContent: 'center',
+                // overflow: 'hidden',
+              }}
+            >
               {pages.map(
                 (page) =>
                   page.members && (
                     <Button
+                      size='small'
                       key={page.primary}
                       component={RouterLink}
                       to={page.to}
                       onClick={handleCloseNavMenu}
-                      sx={{ my: 2, color: page.color, display: 'block' }}
+                      sx={{ mx: 0.25, color: page.color, display: 'block', whiteSpace: 'nowrap' }}
                     >
                       {page.primary}
                     </Button>
                   )
               )}
             </Box>
-            <Box sx={{ flexGrow: 0 }}>
+            {/* night mode and login/avatar area */}
+            <Box sx={{ display: 'flex', flexGrow: 0, flexWrap: 'nowrap' }}>
               <Tooltip title={theme.palette.mode === 'dark' ? 'Light Mode' : 'Dark Mode'} arrow placement='bottom-end'>
                 <IconButton sx={{ mr: 2, p: 0 }} onClick={toggleColorMode} color='inherit'>
                   {theme.palette.mode === 'dark' ? (

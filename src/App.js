@@ -10,7 +10,7 @@ import Posts from './components/Posts';
 import SccLogin from './components/user/SccLogin';
 import SccSignup from './components/user/SccSignup';
 import History from './components/History';
-import Training from './components/Training';
+import Patrol from './components/Patrol';
 import { useValue } from './components/context/ContextProvider';
 import ScrollRouteTop from './components/utils/ScrollRouteTop';
 import Notification from './components/Notification';
@@ -48,7 +48,7 @@ function App() {
           <Route exact path='/history' element={<History />}></Route>
           <Route exact path='/gallery' element={<Gallery />}></Route>
           <Route exact path='/hire' element={<VenueHire />}></Route>
-          {login && <Route exact path='/training' element={<Training />}></Route>}
+          {login && <Route exact path='/patrol' element={<Patrol />}></Route>}
           {!currentUser && <Route exact path='/login' element={<SccLogin />}></Route>}
           {!currentUser && <Route exact path='/signup' element={<SccSignup />}></Route>}
           <Route exact path='/test' element={<Test />}></Route>

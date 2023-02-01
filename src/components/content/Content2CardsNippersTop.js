@@ -6,12 +6,11 @@ import ThreeDRotation from '@mui/icons-material/ThreeDRotation';
 import Api from '@mui/icons-material/Api';
 import IconBloc from '../utils/IconBloc';
 import { Button } from '@mui/material';
-import MediaCardHist from './MediaCardHist';
 import { useValue } from '../context/ContextProvider';
-import CmplxReviewCardNippers from './CmplxReviewCardNippers';
 import MediaCardNippers from './MediaCardNippers';
+import CmplxReviewCardNippersInfo from './CmplxReviewCardNippersInfo';
 
-const Content2CardsNippers = () => {
+const Content2CardsNippersTop = () => {
   const { theme } = useValue();
   return (
     <Box component='section' sx={{ borderRadius: 0, flexGrow: 1 }} mx={1} py={{ xs: 1, md: 2 }}>
@@ -27,14 +26,14 @@ const Content2CardsNippers = () => {
           sm={6}
         >
           <Typography variant='h5' pt={1} m={2}>
-            Nippers & Rippers
+            Welcome to South Curl Curl Nippers 2023/2024
           </Typography>
           <Typography variant='body2' color='text.secondary' m={2} mb={4}>
             The best place to be on a Sunday morning, maximum fun and the highest level of competitive and water safety
             training for our little ones.
           </Typography>
           <Box sx={{ mx: 1, border: 0, display: 'flex', justifyContent: 'center' }}>
-            <CmplxReviewCardNippers />
+            <CmplxReviewCardNippersInfo />
           </Box>
           <Button href='#' sx={{ m: 2 }} size='small'>
             Learn More
@@ -90,4 +89,4 @@ const Content2CardsNippers = () => {
   );
 };
 
-export default Content2CardsNippers;
+export default Content2CardsNippersTop;

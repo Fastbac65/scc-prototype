@@ -31,7 +31,6 @@ const RecentPostsList = ({ documents }) => {
   ];
 
   const recentPosts = documents.slice(0, 6);
-  console.log(recentPosts);
 
   return (
     <div>
