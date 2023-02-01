@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -15,6 +15,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import scc1 from '../../static/imgs/Club-Photo-2-1024x428.jpeg';
 
 import Fade from '@mui/material/Fade';
 
@@ -31,24 +32,18 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function CmplxReviewCard() {
+const CmplxReviewCardMembers1 = () => {
   const [expanded, setExpanded] = useState(false);
   const { imglib, currentUser } = useValue();
 
   const [like, setLike] = useState();
 
-  const [url, setUrl] = useState(
-    ''
-    // 'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader7.jpeg?alt=media&token=9ff47599-4360-4649-bf48-a60730cea6c5'
-    // 'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader5.jpeg?alt=media&token=8acd48ec-9c4c-404b-b242-9031eb2c7a0a'
-    // 'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader4.jpeg?alt=media&token=f2ede123-a80e-468a-bff7-ce5c26d094c9'
-    // 'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader3.jpeg?alt=media&token=fac14bdd-3a36-49f7-ad50-07f414230716'
-  );
+  const [url, setUrl] = useState('');
 
-  useEffect(() => {
+  useMemo(() => {
     const indx = Math.floor(Math.random() * 8);
     setUrl(imglib[indx]);
-  }, [imglib]);
+  }, []);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -68,32 +63,26 @@ export default function CmplxReviewCard() {
 
         <Fade timeout={500} in={true}>
           <Card sx={{ maxWidth: 550 }}>
-            <CardHeader
-              avatar={
-                <Tooltip placement='top' title={currentUser?.displayName}>
-                  <Avatar
-                    sx={{ bgcolor: red[500] }}
-                    src={currentUser?.photoURL}
-                    alt={currentUser?.displayName}
-                    aria-label={currentUser?.displayName}
-                  >
-                    {currentUser?.displayName?.charAt(0)}
-                  </Avatar>
-                </Tooltip>
-              }
-              action={
-                <IconButton aria-label='settings'>
-                  <MoreVertIcon />
-                </IconButton>
-              }
-              title='Profiencies and 2022 Update'
-              subheader='September 18, 2022'
-            />
-            <CardMedia component='img' height='150' src={url} alt='scc-ocean' />
+            <CardMedia component='img' height='150' src={scc1} alt='scc-ocean' />
             <CardContent>
               <Typography variant='body2' color='text.secondary'>
-                None of that prepared him for the arena, the crowd, the tense hush, the towering puppets of light from a
-                half-open service hatch framed.
+                All members will need to join or renew via the SLS Members Portal.
+                <br />
+                <br />
+              </Typography>
+              <Typography variant='body2' color='text.secondary'>
+                To process memberships we need an online application, payment and ID for all new members. Please supply
+                ID to mail@southcurlcurlslsc.org and use the{' '}
+                <a
+                  href='https://members.sls.com.au/SLSA_Online/modules/login/index.php'
+                  target='_blank'
+                  style={{ color: '#336fac' }}
+                >
+                  SLS Members Portal
+                </a>{' '}
+                to join the club or renew your membership. Renewing members please note – take the Create Account
+                pathway and it will advise if you already have an account and from there you can have user name and
+                passwords reset...
               </Typography>
             </CardContent>
             <CardActions disableSpacing>
@@ -110,23 +99,35 @@ export default function CmplxReviewCard() {
             </CardActions>
             <Collapse in={expanded} timeout='auto' unmountOnExit>
               <CardContent>
-                <Typography paragraph>What you need to know:</Typography>
-                <Typography paragraph>This year there are updates to ART and Bronzies.</Typography>
-                <Typography paragraph>
-                  A narrow wedge of light from a half-open service hatch framed a heap of discarded fiber optics and the
-                  chassis of a skyscraper canyon. They were dropping, losing altitude in a canyon of rainbow foliage, a
-                  lurid communal mural that completely covered the hull of the spherical chamber. Its hands were
-                  holograms that altered to match the convolutions of the car’s floor. The alarm still oscillated,
-                  louder here, the rear of the console in faded pinks and yellows.
+                <Typography variant='body2' paragraph color='text.secondary'>
+                  <h3>Download the SCCSLSC Team App to keep up to date with all the latest information.</h3>
+                  <p>
+                    1. Download Team App to your smartphone from the Apple App Store or Google Play. Create an
+                    email-based login and associated password (remember this for future use).
+                  </p>
+                  <p>2. Search for &#8216;South Curl Curl SLSC&#8217; or &#8216;SCCSLSC&#8217;</p>
+                  <p>3. Register for South Curl Curl Surf Life Saving Club</p>
+                  <p>
+                    Note &#8211; to access the App through a computer (i.e. not on your phone/tablet), paste the
+                    following link into your browser: https://sccslsc.teamapp.com/
+                  </p>
+                  <p>
+                    4. Select all of the relevant groups to join e.g. U6s, U11s etc Where relevant also select
+                    &#8216;Bronze&#8217;, &#8216;Age Manager&#8217; or &#8216;Official&#8217; if relevant (these ones
+                    require validation to join)
+                  </p>
+                  <p>
+                    For further tips and tricks re the App, check out the Nippers Handbook{' '}
+                    <a
+                      href='https://southcurlcurlslsc.org/wp-content/uploads/2018/09/Nippers-Information-Booklet-Season-18_19-v2-11092018.pdf'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
+                      here
+                    </a>
+                  </p>
                 </Typography>
-                <Typography paragraph>
-                  Add rice and stir very gently to distribute. Top with artichokes and peppers, and cook without
-                  stirring, until most of the liquid is absorbed, 15 to 18 minutes. Reduce heat to medium-low, add
-                  reserved shrimp and mussels, tucking them down into the rice, and cook again without stirring, until
-                  mussels have opened and rice is just tender, 5 to 7 minutes more. (Discard any mussels that don't
-                  open.)
-                </Typography>
-                <Typography>Set aside off of the heat to let rest for 10 minutes, and then serve.</Typography>
+
                 <CardActions disableSpacing>
                   <IconButton onClick={handleLikeClick} aria-label='add to favorites'>
                     <FavoriteIcon sx={{ color: like }} />
@@ -152,4 +153,6 @@ export default function CmplxReviewCard() {
       </div>
     </>
   );
-}
+};
+
+export default CmplxReviewCardMembers1;

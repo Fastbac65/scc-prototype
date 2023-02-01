@@ -282,6 +282,7 @@ const CalendarList = ({ holidays, important, patrolTraining, social }) => {
   };
 
   const handleEventClick = (eventInfo) => {
+    eventInfo.jsEvent.preventDefault();
     console.log(eventInfo, eventInfo.event.title);
     var eventObj = eventInfo.event;
   };

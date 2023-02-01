@@ -28,7 +28,7 @@ export default function MediaCard() {
   return (
     <>
       <Fade timeout={700} in={true}>
-        <Card sx={{ maxWidth: 345 }}>
+        <Card sx={{ maxWidth: 550 }}>
           <CardMedia id='gimg' component='img' height='140' image={url} alt='rowing' />
           <CardContent>
             <Typography gutterBottom variant='h5' component='div'>
