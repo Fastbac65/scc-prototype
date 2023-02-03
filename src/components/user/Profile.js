@@ -91,7 +91,7 @@ const Profile = () => {
         <Box sx={{ mt: -2, width: '100%', display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
           <TextField
             // autoFocus
-            color='secondary'
+            color='info'
             margin='normal'
             type='text'
             inputProps={{ minLength: 2 }}

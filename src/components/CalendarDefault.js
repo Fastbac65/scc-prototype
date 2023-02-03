@@ -3,25 +3,26 @@ import { Container } from '@mui/system';
 import CalendarList from './content/CalendarList';
 
 import { useState } from 'react';
+import CalendarVenueHire from './content/CalendarVenueHire';
 
 const CalendarDefault = () => {
   const [holidays, setHolidays] = useState(true);
   const [important, setImportant] = useState(true);
-  const [patrolTraining, setPatrolTraining] = useState(false);
+  // const [patrolTraining, setPatrolTraining] = useState(false);
   const [social, setSocial] = useState(true);
 
   const handleChange = (event) => {
     if (event.target.labels[0].innerText.includes('View')) {
       setHolidays(true);
       setImportant(true);
-      setPatrolTraining(true);
+      // setPatrolTraining(true);
       setSocial(true);
     } else if (event.target.labels[0].innerText.includes('NSW')) {
       setHolidays(!holidays);
     } else if (event.target.labels[0].innerText.includes('Important')) {
       setImportant(!important);
-    } else if (event.target.labels[0].innerText.includes('Patrol')) {
-      setPatrolTraining(!patrolTraining);
+      // } else if (event.target.labels[0].innerText.includes('Patrol')) {
+      //   setPatrolTraining(!patrolTraining);
     } else if (event.target.labels[0].innerText === 'Social Events') {
       setSocial(!social);
     }
@@ -40,9 +41,9 @@ const CalendarDefault = () => {
               </Typography>
               <FormControlLabel
                 onChange={handleChange}
-                control={<Checkbox checked={holidays && important && patrolTraining && social} color='primary' />}
+                control={<Checkbox checked={holidays && important && social} color='primary' />}
                 label='View All'
-                disabled={holidays && important && patrolTraining && social}
+                disabled={holidays && important && social}
               />
               <FormControlLabel
                 onChange={handleChange}
@@ -54,11 +55,11 @@ const CalendarDefault = () => {
                 control={<Checkbox checked={important} color='success' />}
                 label='Important Dates'
               />
-              <FormControlLabel
+              {/* <FormControlLabel
                 onChange={handleChange}
                 control={<Checkbox checked={patrolTraining} color='error' />}
                 label='Patrol/Training'
-              />
+              /> */}
               <FormControlLabel
                 onChange={handleChange}
                 control={<Checkbox checked={social} color='warning' />}
@@ -67,7 +68,12 @@ const CalendarDefault = () => {
             </FormGroup>
           </Box>
           <Box sx={{ flexGrow: 1 }}>
-            <CalendarList holidays={holidays} important={important} patrolTraining={patrolTraining} social={social} />
+            <CalendarVenueHire
+              holidays={holidays}
+              important={important}
+              // patrolTraining={patrolTraining}
+              social={social}
+            />
           </Box>
         </Box>
       </Container>

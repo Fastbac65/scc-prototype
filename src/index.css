@@ -26,6 +26,34 @@ body {
     font-size: 1.25em;
   }
 } */
+.wrapper .fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
+  min-height: 0.3em;
+}
+.wrapper .fc .fc-button-primary {
+  background-color: #336fac;
+  border-color: #336fac;
+}
+.wrapper .fc .fc-button-primary:hover {
+  background-color: #004c98;
+  border-color:#004c98;
+}
+.wrapper .fc .fc-button {
+
+  font-size: .9em;
+}
+
+.wrapper .fc .fc-button-primary:not(:disabled).fc-button-active,
+.wrapper .fc .fc-button-primary:not(:disabled):active {
+  background-color: #336fac;
+  border-color: #336fac;
+}
+
+.wrapper .fc table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: .9em;
+}
+
 .wrapper .fc-direction-ltr .fc-list-day-side-text, .wrapper .fc-direction-rtl .fc-list-day-text {
 float: right;
 color: white;
@@ -39,4 +67,9 @@ color: white;
 }
 .wrapper .fc-theme-standard .fc-list-day-cushion {
   background-color: #336fac;
+}
+
+.wrapper .fc-daygrid-dot-event.fc-event-mirror,
+.wrapper .fc-daygrid-dot-event:hover {
+  background: rgba(0, 0, 0, .4);
 }

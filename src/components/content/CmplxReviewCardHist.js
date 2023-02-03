@@ -57,7 +57,7 @@ const CmplxReviewCardHist = () => {
     <>
       <div>
         <div id='title-element' style={{ position: 'relative' }}>
-          <div id='top' style={{ position: 'absolute', top: '-100px' }}></div>
+          <div id='hist1' style={{ position: 'absolute', top: '-100px' }}></div>
         </div>
 
         <Fade timeout={500} in={true}>
@@ -130,7 +130,7 @@ const CmplxReviewCardHist = () => {
                   </IconButton>
 
                   <ExpandMore
-                    href='#top'
+                    href='#hist1'
                     expand={expanded}
                     onClick={handleExpandClick}
                     aria-expanded={expanded}

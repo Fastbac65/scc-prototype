@@ -77,7 +77,7 @@ export const ContextProvider = ({ children }) => {
   const [mode, setMode] = useState('light');
   const [login, setLogin] = useState(false);
 
-  const [newUserUnverified, setNewUserUnverified] = useState(false);
+  var [calEvents, setCalEvents] = useState([]);
 
   const instagramLoginServer = 'https://192.168.0.220:5001';
   // const instagramLoginServer = 'https://scc-auth.cyclic.app';
@@ -410,6 +410,8 @@ export const ContextProvider = ({ children }) => {
         resetPassword,
         instagramLoginServer,
         imageProxyServer,
+        calEvents,
+        setCalEvents,
       }}
     >
       {children}

@@ -59,7 +59,7 @@ const ChangeEmail = () => {
       <DialogContent sx={{ minWidth: 350, justifyContent: 'center' }}>
         {/* <DialogContentText noWrap> Email:&nbsp; </DialogContentText> */}
         <TextField
-          color='secondary'
+          color='info'
           fullWidth
           size='small'
           inputRef={emailRef}

@@ -218,25 +218,18 @@ const SccSignup = () => {
                 <Stack spacing={2} py={1} sx={{ width: '90%' }}>
                   <Box spacing={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <TextField
-                      color='secondary'
+                      color='info'
                       size='small'
                       label='Full Name'
                       required
                       error={fnameErr}
                       inputRef={fnameRef}
                     />
-                    <TextField color='secondary' size='small' label='Mobile Number' inputRef={mobileRef} />
+                    <TextField color='info' size='small' label='Mobile Number' inputRef={mobileRef} />
                   </Box>
 
-                  <TextField
-                    color='secondary'
-                    size='small'
-                    label='Email'
-                    required
-                    error={emailErr}
-                    inputRef={emailRef}
-                  />
-                  {/* <TextField color='secondary'  label='Password' type='password' required error={passwordErr} inputRef={passwordRef} /> */}
+                  <TextField color='info' size='small' label='Email' required error={emailErr} inputRef={emailRef} />
+                  {/* <TextField color='info'  label='Password' type='password' required error={passwordErr} inputRef={passwordRef} /> */}
                   <PasswordField
                     size='small'
                     label='Password'
@@ -255,7 +248,7 @@ const SccSignup = () => {
                     helperText={'minimum 8 characters'}
                   />
 
-                  {/* <TextField color='secondary' 
+                  {/* <TextField color='info' 
                   label='Confirm Password'
                   type='password'
                   required

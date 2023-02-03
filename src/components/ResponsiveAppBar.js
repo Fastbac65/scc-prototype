@@ -105,7 +105,7 @@ function ResponsiveAppBar() {
       members: login,
     },
     {
-      primary: 'History',
+      primary: 'Our Club',
       icon: <MilitaryTechIcon />,
       to: '/history',
       color: location.pathname === '/history' ? '#f9de00' : 'white',

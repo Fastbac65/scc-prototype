@@ -58,7 +58,7 @@ const CmplxReviewCardMembers1 = () => {
     <>
       <div>
         <div id='title-element' style={{ position: 'relative' }}>
-          <div id='top' style={{ position: 'absolute', top: '-100px' }}></div>
+          <div id='members1' style={{ position: 'absolute', top: '-100px' }}></div>
         </div>
 
         <Fade timeout={500} in={true}>
@@ -137,7 +137,7 @@ const CmplxReviewCardMembers1 = () => {
                   </IconButton>
 
                   <ExpandMore
-                    href='#top'
+                    href='#members1'
                     expand={expanded}
                     onClick={handleExpandClick}
                     aria-expanded={expanded}

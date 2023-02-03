@@ -86,7 +86,7 @@ const HireForm = () => {
             <Stack spacing={2} py={1} sx={{ width: '80%' }}>
               <Box spacing={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <TextField
-                  color='secondary'
+                  color='info'
                   size='small'
                   label='Full Name'
                   type='text'
@@ -95,7 +95,7 @@ const HireForm = () => {
                   inputRef={fnameRef}
                 />
                 <TextField
-                  color='secondary'
+                  color='info'
                   size='small'
                   label='Mobile Number'
                   type='text'
@@ -106,7 +106,7 @@ const HireForm = () => {
               </Box>
               {/* <Box spacing={2} sx={{ display: 'flex', justifyContent: 'space-between' }}> */}
               <TextField
-                color='secondary'
+                color='info'
                 size='small'
                 label='Email'
                 type='text'
@@ -115,7 +115,7 @@ const HireForm = () => {
                 inputRef={emailRef}
               />
               {/* <TextField
-                  color='secondary'
+                  color='info'
                   size='small'
                   label='Event date'
                   required

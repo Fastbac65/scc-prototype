@@ -156,7 +156,7 @@ const EditPost = ({ postDoc }) => {
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Stack spacing={0} sx={{ width: '92%' }}>
               <TextField
-                color='secondary'
+                color='info'
                 // sx={{ mb: 0 }}
                 variant='standard'
                 size='small'
@@ -170,7 +170,7 @@ const EditPost = ({ postDoc }) => {
                 InputProps={{ style: { fontSize: 18 } }}
               />
               <TextField
-                color='secondary'
+                color='info'
                 sx={{ mb: 1 }}
                 variant='standard'
                 size='small'
@@ -183,7 +183,7 @@ const EditPost = ({ postDoc }) => {
               />
               {/* <TextField size='small' type='text' fullWidth inputRef={summaryRef} label='Summary' required multiline /> */}
               <TextField
-                color='secondary'
+                color='info'
                 sx={{ mb: 3 }}
                 variant='standard'
                 size='small'

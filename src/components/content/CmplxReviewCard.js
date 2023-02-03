@@ -63,7 +63,7 @@ export default function CmplxReviewCard() {
     <>
       <div>
         <div id='title-element' style={{ position: 'relative' }}>
-          <div id='top' style={{ position: 'absolute', top: '-100px' }}></div>
+          <div id='crc1' style={{ position: 'absolute', top: '-100px' }}></div>
         </div>
 
         <Fade timeout={500} in={true}>
@@ -136,7 +136,7 @@ export default function CmplxReviewCard() {
                   </IconButton>
 
                   <ExpandMore
-                    href='#top'
+                    href='#crc1'
                     expand={expanded}
                     onClick={handleExpandClick}
                     aria-expanded={expanded}

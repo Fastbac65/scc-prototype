@@ -97,7 +97,7 @@ const NewSocialPost = ({ type }) => {
       <DialogContent sx={{ pt: 0, px: { xs: 0, sm: 1 }, width: { xs: 350, sm: 450 }, minHeight: 300 }}>
         <DialogActions sx={{ my: 0, justifyContent: 'space-around' }}>
           <TextField
-            color='secondary'
+            color='info'
             sx={{ mb: 3 }}
             variant='standard'
             size='small'
@@ -137,7 +137,7 @@ const NewSocialPost = ({ type }) => {
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Stack spacing={0} sx={{ width: '92%' }}>
               <TextField
-                color='secondary'
+                color='info'
                 sx={{ mb: 3 }}
                 variant='standard'
                 size='small'

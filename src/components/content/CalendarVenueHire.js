@@ -13,30 +13,18 @@ export const getCalendarEvents = (googleCalColors) => async (info, successCallba
   const googleCalIds = [
     '9p7plr8ugunp5eaj57krb1rcaco2fhnh@import.calendar.google.com',
     'o2lpae7ahjt1fjsielmk8535usqrr781@import.calendar.google.com',
-    'fastbac65@gmail.com',
-    'jcog90oln2bbrgi9kgrie57q93gr74fn@import.calendar.google.com',
+    // 'fastbac65@gmail.com',
   ];
 
   const start = encodeURIComponent(info.startStr);
   const end = encodeURIComponent(info.endStr);
-  // little util to get a date 9months from now
-  const getDaysInMonth = (year, month) => new Date(year, month, 0).getDate();
-  const addMonths = (input, months) => {
-    const date = new Date(input);
-    date.setDate(1);
-    date.setMonth(date.getMonth() + months);
-    date.setDate(Math.min(input.getDate(), getDaysInMonth(date.getFullYear(), date.getMonth() + 1)));
-    return date;
-  };
-
-  const newEndDate = encodeURIComponent(addMonths(new Date(), 9).toISOString());
 
   var allGetEvents = [];
   var allEvents = [];
   var getPromises = [];
 
   googleCalIds.forEach((calendarId) => {
-    const url = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=AIzaSyBz4ew-AmtQGL0h6DNYJKhniipIK7eFBUM&timeMin=${start}&timeMax=${newEndDate}&singleEvents=true&maxResults=999`;
+    const url = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=AIzaSyBz4ew-AmtQGL0h6DNYJKhniipIK7eFBUM&timeMin=${start}&timeMax=${end}&singleEvents=true&maxResults=999`;
     try {
       getPromises.push(axios.get(url));
     } catch (error) {
@@ -61,7 +49,6 @@ export const getCalendarEvents = (googleCalColors) => async (info, successCallba
         created: event?.created,
         creator: event?.creator,
         borderColor: googleCalColors[indx],
-        backgroundColor: googleCalColors[indx],
       }));
       allEvents = [...allEvents, ...events];
     }
@@ -71,15 +58,14 @@ export const getCalendarEvents = (googleCalColors) => async (info, successCallba
   successCallback(allEvents);
 };
 
-// const CalendarList = () => {
-const CalendarList = ({ holidays, important, patrolTraining, social }) => {
-  const { theme, calEvents } = useValue();
+// const CalendarVenueHire = () => {
+const CalendarVenueHire = ({ holidays, important, patrolTraining, social }) => {
+  const { theme } = useValue();
 
   const googleCalColors = [
     `${theme.palette.info.main}`,
-    `${theme.palette.secondary.main}`,
-    `${theme.palette.error.main}`,
     `${theme.palette.success.main}`,
+    `${theme.palette.error.main}`,
   ];
   const allEvents = useRef([]); // Will be a copy of all events so we can filter
 
@@ -93,13 +79,6 @@ const CalendarList = ({ holidays, important, patrolTraining, social }) => {
   const memoizeGetCalendarEvents = useMemo(() => {
     return getCalendarEvents(googleCalColors);
   }, []);
-
-  // const googleCalIds = [
-  //   '9p7plr8ugunp5eaj57krb1rcaco2fhnh@import.calendar.google.com',
-  //   'o2lpae7ahjt1fjsielmk8535usqrr781@import.calendar.google.com',
-  //   'fastbac65@gmail.com',
-  //   'jcog90oln2bbrgi9kgrie57q93gr74fn@import.calendar.google.com',
-  // ];
 
   useEffect(() => {
     console.log('useEffect');
@@ -141,23 +120,23 @@ const CalendarList = ({ holidays, important, patrolTraining, social }) => {
     }
   }, [important]);
 
-  useEffect(() => {
-    if (!patrolTraining) {
-      allEvents.current.forEach((event) => {
-        // if (event.borderColor === `${theme.palette.error.main}`) {
-        if (event?.extendedProps?.creator?.email === 'fastbac65@gmail.com') {
-          event.setProp('display', 'none');
-        }
-      });
-    } else if (patrolTraining) {
-      allEvents.current.forEach((event) => {
-        // if (event.borderColor === `${theme.palette.error.main}`) {
-        if (event?.extendedProps?.creator?.email === 'fastbac65@gmail.com') {
-          event.setProp('display', 'auto');
-        }
-      });
-    }
-  }, [patrolTraining]);
+  // useEffect(() => {
+  //   if (!patrolTraining) {
+  //     allEvents.current.forEach((event) => {
+  //       // if (event.borderColor === `${theme.palette.error.main}`) {
+  //       if (event?.extendedProps?.creator?.email === 'fastbac65@gmail.com') {
+  //         event.setProp('display', 'none');
+  //       }
+  //     });
+  //   } else if (patrolTraining) {
+  //     allEvents.current.forEach((event) => {
+  //       // if (event.borderColor === `${theme.palette.error.main}`) {
+  //       if (event?.extendedProps?.creator?.email === 'fastbac65@gmail.com') {
+  //         event.setProp('display', 'auto');
+  //       }
+  //     });
+  //   }
+  // }, [patrolTraining]);
 
   const eventsTest = [
     {
@@ -266,13 +245,6 @@ const CalendarList = ({ holidays, important, patrolTraining, social }) => {
     },
   ];
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setCalEvents([...allEvents.current]);
-  //     console.log('setCal', allEvents.current.length);
-  //   }, 1000);
-  // }, []);
-
   function useWindowSize() {
     const [size, setSize] = useState(0);
     useLayoutEffect(() => {
@@ -301,8 +273,6 @@ const CalendarList = ({ holidays, important, patrolTraining, social }) => {
 
   const handleEventSet = (events) => {
     allEvents.current = [...events];
-    // setCalEvents([...events]);
-    console.log('set');
   };
 
   const handleEventClick = (eventInfo) => {
@@ -337,28 +307,25 @@ const CalendarList = ({ holidays, important, patrolTraining, social }) => {
         calEventInfo.event.setProp('display', 'none');
       }
     }
-    if (!patrolTraining) {
-      // if (calEventInfo?.borderColor === `${theme.palette.error.main}`) {
-      if (calEventInfo.event?.extendedProps?.creator?.email === 'fastbac65@gmail.com') {
-        calEventInfo.event.setProp('display', 'none');
-      }
-    }
+    // if (!patrolTraining) {
+    //   // if (calEventInfo?.borderColor === `${theme.palette.error.main}`) {
+    //   if (calEventInfo.event?.extendedProps?.creator?.email === 'fastbac65@gmail.com') {
+    //     calEventInfo.event.setProp('display', 'none');
+    //   }
+    // }
   };
-
-  // jcog90oln2bbrgi9kgrie57q93gr74fn@import.calendar.google.com
 
   // className wrapper is used to override FC defauls CSS styles to SCC colors and work better with dark mode
   return (
     <div>
       <Box className='wrapper'>
         <FullCalendar
-          height={650}
+          // height='auto'
           // plugins={[listPlugin, interactionPlugin, googleCalendarPlugin]}
           plugins={[listPlugin, googleCalendarPlugin]}
           googleCalendarApiKey='AIzaSyBz4ew-AmtQGL0h6DNYJKhniipIK7eFBUM'
           // events={getCalendarEvents}
-          eventSources={[eventsTest, calEvents]}
-          // eventSources={[eventsTest, memoizeGetCalendarEvents]}
+          eventSources={[eventsTest, memoizeGetCalendarEvents]}
           initialView='list3Months'
           views={{
             listMonth: { buttonText: 'month' },
@@ -370,7 +337,7 @@ const CalendarList = ({ holidays, important, patrolTraining, social }) => {
             center: 'title',
             end: endStr,
           }}
-          titleFormat={{ month: 'short' }}
+          titleFormat={{ year: 'numeric', month: 'short' }}
           eventClick={handleEventClick}
           eventsSet={handleEventSet} // called after events are initialized/added/changed/removed
           // eventSourceSuccess={handleEventSourceSuccess}
@@ -380,5 +347,5 @@ const CalendarList = ({ holidays, important, patrolTraining, social }) => {
     </div>
   );
 };
-export default memo(CalendarList);
+export default memo(CalendarVenueHire);
 //

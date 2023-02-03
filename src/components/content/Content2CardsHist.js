@@ -40,7 +40,17 @@ const Content2CardsHist = () => {
             Learn More
           </Button>
         </Grid>
-        <Grid item sx={{ ml: 'auto', borderRadius: 1, boxShadow: '4' }} xs={12} sm={6}>
+        <Grid
+          item
+          sx={{
+            // ml: 'auto',
+            borderRadius: 1,
+            boxShadow: '4',
+            background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)',
+          }}
+          xs={12}
+          sm={6}
+        >
           <Grid container p={1} alignItems='center' justifyContent='space-around'>
             <IconBloc icon={AccessAlarmIcon} />
             <Grid item border={0} p={1} sx={{ width: '80%' }}>

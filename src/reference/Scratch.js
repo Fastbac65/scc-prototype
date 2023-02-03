@@ -24,7 +24,7 @@ const Item = styled(Paper)(({ theme }) => ({
       component={RouterLink}
       to='/blog'
       variant='contained'
-      color='secondary'
+      color='info'
       endIcon={<KeyboardArrowRight />}
     >
       Blog
@@ -68,14 +68,14 @@ const Item = styled(Paper)(({ theme }) => ({
         Yes
       </Button>
     </Typography>
-    <Button variant='contained' color='secondary' endIcon={<KeyboardArrowRight />}>
+    <Button variant='contained' color='info' endIcon={<KeyboardArrowRight />}>
       Yes
     </Button>
   </Grid>
   <Grid item xs={12} sm={6} backgroundColor='#f6f6f6' display='flex' alignItems='center' borderRadius={1} boxShadow={4}>
     <Typography variant='body2'>
       Hello
-      <Button variant='contained' color='secondary' endIcon={<KeyboardArrowRight />}>
+      <Button variant='contained' color='info' endIcon={<KeyboardArrowRight />}>
         Yes
       </Button>
     </Typography>

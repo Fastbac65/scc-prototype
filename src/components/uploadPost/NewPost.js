@@ -143,7 +143,7 @@ const NewPost = () => {
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Stack spacing={0} sx={{ width: '92%' }}>
               <TextField
-                color='secondary'
+                color='info'
                 // sx={{ mb: 0 }}
                 variant='standard'
                 size='small'
@@ -156,7 +156,7 @@ const NewPost = () => {
                 InputProps={{ style: { fontSize: 20 } }}
               />
               <TextField
-                color='secondary'
+                color='info'
                 sx={{ mb: 1 }}
                 variant='standard'
                 size='small'
@@ -169,7 +169,7 @@ const NewPost = () => {
               />
               {/* <TextField size='small' type='text' fullWidth inputRef={summaryRef} label='Summary' required multiline /> */}
               <TextField
-                color='secondary'
+                color='info'
                 sx={{ mb: 3 }}
                 variant='standard'
                 size='small'
