@@ -25,16 +25,12 @@ const Patrol = () => {
           <PatrolRoster />
         </Box>
       </Box>
-      <Box sx={{ backgroundImage: `url(${scc2}) `, backgroundSize: 'cover' }}>
-        <Box sx={{ background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)' }}>
-          <Content2CardsHist />
-        </Box>
-      </Box>
-      <Box sx={{ mb: '1px', backgroundImage: `url(${scc2}) `, backgroundSize: 'cover' }}>
+
+      {/* <Box sx={{ mb: '1px', backgroundImage: `url(${scc2}) `, backgroundSize: 'cover' }}>
         <Box sx={{ background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)' }}>
           <RecentPosts />
         </Box>
-      </Box>
+      </Box> */}
     </>
   );
 };

@@ -302,7 +302,6 @@ const CalendarList = ({ holidays, important, patrolTraining, social }) => {
   const handleEventSet = (events) => {
     allEvents.current = [...events];
     // setCalEvents([...events]);
-    console.log('set');
   };
 
   const handleEventClick = (eventInfo) => {

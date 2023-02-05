@@ -9,8 +9,9 @@ import { Button } from '@mui/material';
 import { useValue } from '../context/ContextProvider';
 import MediaCardNippers from './MediaCardNippers';
 import CmplxReviewCardNippersInfo from './CmplxReviewCardNippersInfo';
+import CmplxReviewCardBoatiesInfo from './CmplxReviewCardBoatiesInfo';
 
-const Content2CardsNippersTop = () => {
+const Content2CardsBoaties = () => {
   const { theme } = useValue();
   return (
     <Box component='section' sx={{ borderRadius: 0, flexGrow: 1 }} mx={1} py={{ xs: 1, md: 2 }}>
@@ -26,14 +27,14 @@ const Content2CardsNippersTop = () => {
           sm={6}
         >
           <Typography variant='h5' pt={1} m={2}>
-            Welcome to South Curl Curl Nippers 2023/2024
+            Welcome to South Curl Curl Rowing 2023/2024.. aka the 'boaties'
           </Typography>
           <Typography variant='body2' color='text.secondary' m={2} mb={4}>
             The best place to be on a Sunday morning, maximum fun and the highest level of competitive and water safety
             training for our little ones.
           </Typography>
           <Box sx={{ mx: 1, border: 0, display: 'flex', justifyContent: 'center' }}>
-            <CmplxReviewCardNippersInfo />
+            <CmplxReviewCardBoatiesInfo />
           </Box>
           <Button href='#' sx={{ m: 2 }} size='small'>
             Learn More
@@ -54,9 +55,9 @@ const Content2CardsNippersTop = () => {
             <IconBloc icon={AccessAlarmIcon} />
             <Grid item border={0} p={1} sx={{ width: '80%' }}>
               <Typography variant='body2' color='text.secondary'>
-                Age Manager Resources
+                Results and competitive calendar
                 <br />
-                To assist running your age groups.
+                Perth 2023
               </Typography>
             </Grid>
           </Grid>
@@ -66,7 +67,7 @@ const Content2CardsNippersTop = () => {
               <Typography variant='body2' color='text.secondary'>
                 General Information
                 <br />
-                2022/23 Nippers Season – Starts 16TH OCTOBER
+                2022/23 Competition schedule
               </Typography>
             </Grid>
           </Grid>
@@ -74,9 +75,9 @@ const Content2CardsNippersTop = () => {
             <IconBloc icon={Api} />
             <Grid item border={0} p={1} sx={{ width: '80%' }}>
               <Typography variant='body2' color='text.secondary'>
-                Committee & Age Managers
+                Boaties Captians
                 <br />
-                Contact details for the Nippers season 2022/2023.
+                Contact details for the season 2022/2023.
               </Typography>
             </Grid>
           </Grid>
@@ -89,4 +90,4 @@ const Content2CardsNippersTop = () => {
   );
 };
 
-export default Content2CardsNippersTop;
+export default Content2CardsBoaties;

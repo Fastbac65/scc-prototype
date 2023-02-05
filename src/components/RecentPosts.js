@@ -11,14 +11,15 @@ import NewPost from './uploadPost/NewPost';
 import useFirestore from './context/useFirestore';
 import { Add, FacebookOutlined, Instagram } from '@mui/icons-material';
 import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
-
 import NewSocialPost from './uploadPost/NewSocialPost';
 import RecentPostsList from './postsList/RecentPostsList';
+import scc1 from '../static/imgs/scc-fb-grp.jpeg';
 
 export default function RecentPosts() {
   const {
     currentUser,
     login,
+    theme,
     dispatch,
     state: { modal },
   } = useValue();
@@ -58,42 +59,54 @@ export default function RecentPosts() {
 
   return (
     <div>
-      <Box sx={{ borderRadius: 0, pt: 3 }}>
-        {login && (
-          <Stack spacing={1} direction='row' sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Tooltip arrow placement='top-start' title='home' enterDelay={2000}>
-              <Fab size='small' component={RouterLink} to='/' color='primary' aria-label='add'>
-                <HomeIcon />
-              </Fab>
-            </Tooltip>
-            <Tooltip arrow placement='top-start' title='add post' enterDelay={2000}>
-              <Fab size='small' color='secondary' aria-label='edit' onClick={handleCreatePost}>
-                <Add />
-              </Fab>
-            </Tooltip>
-            <Tooltip arrow placement='top-start' title='..all posts' enterDelay={2000}>
-              <Fab component={RouterLink} to='/posts' size='small' color='secondary' aria-label='see all posts'>
-                <DynamicFeedIcon />
-              </Fab>
-            </Tooltip>
-            <Tooltip arrow placement='top-start' title='instagram post' enterDelay={2000}>
-              <Fab size='small' color='secondary' aria-label='edit' onClick={() => handleCreateSocialPost('Instagram')}>
-                <Instagram />
-              </Fab>
-            </Tooltip>
-            <Tooltip arrow placement='top-start' title='facebook post' enterDelay={2000}>
-              <Fab size='small' color='secondary' aria-label='edit' onClick={() => handleCreateSocialPost('Facebook')}>
-                <FacebookOutlined />
-              </Fab>
-            </Tooltip>
-            <Tooltip arrow placement='top-start' title='favourites' enterDelay={2000}>
-              <Fab color='secondary' id='favourite' size='small' aria-label='like' onClick={handleFavsClick}>
-                <FavoriteIcon sx={{ color: like }} />
-              </Fab>
-            </Tooltip>
-          </Stack>
-        )}
-        <RecentPostsList documents={like === '' ? documents : likePostDocs} />
+      <Box sx={{ backgroundImage: `url(${scc1}) `, backgroundSize: 'cover', borderRadius: 0, pt: 0 }}>
+        <Box sx={{ background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.2)' }}>
+          {login && (
+            <Stack spacing={1} direction='row' sx={{ display: 'flex', justifyContent: 'center', pt: 3 }}>
+              <Tooltip arrow placement='top-start' title='home' enterDelay={2000}>
+                <Fab size='small' component={RouterLink} to='/' color='primary' aria-label='add'>
+                  <HomeIcon />
+                </Fab>
+              </Tooltip>
+              <Tooltip arrow placement='top-start' title='add post' enterDelay={2000}>
+                <Fab size='small' color='secondary' aria-label='edit' onClick={handleCreatePost}>
+                  <Add />
+                </Fab>
+              </Tooltip>
+              <Tooltip arrow placement='top-start' title='..all posts' enterDelay={2000}>
+                <Fab component={RouterLink} to='/posts' size='small' color='secondary' aria-label='see all posts'>
+                  <DynamicFeedIcon />
+                </Fab>
+              </Tooltip>
+              <Tooltip arrow placement='top-start' title='instagram post' enterDelay={2000}>
+                <Fab
+                  size='small'
+                  color='secondary'
+                  aria-label='edit'
+                  onClick={() => handleCreateSocialPost('Instagram')}
+                >
+                  <Instagram />
+                </Fab>
+              </Tooltip>
+              <Tooltip arrow placement='top-start' title='facebook post' enterDelay={2000}>
+                <Fab
+                  size='small'
+                  color='secondary'
+                  aria-label='edit'
+                  onClick={() => handleCreateSocialPost('Facebook')}
+                >
+                  <FacebookOutlined />
+                </Fab>
+              </Tooltip>
+              <Tooltip arrow placement='top-start' title='favourites' enterDelay={2000}>
+                <Fab color='secondary' id='favourite' size='small' aria-label='like' onClick={handleFavsClick}>
+                  <FavoriteIcon sx={{ color: like }} />
+                </Fab>
+              </Tooltip>
+            </Stack>
+          )}
+          <RecentPostsList documents={like === '' ? documents : likePostDocs} />
+        </Box>
       </Box>
     </div>
   );

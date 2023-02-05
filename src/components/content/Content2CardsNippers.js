@@ -21,7 +21,7 @@ const Content2CardsNippers = () => {
           sx={{
             borderRadius: 1,
             boxShadow: '4',
-            background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.5)',
+            background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)',
           }}
           xs={12}
           sm={6}
@@ -45,7 +45,7 @@ const Content2CardsNippers = () => {
           sx={{
             ml: 'auto',
             borderRadius: 1,
-            background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.8)' : 'rgba(255,255,255,0.5)',
+            background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)',
             boxShadow: '4',
           }}
           xs={12}

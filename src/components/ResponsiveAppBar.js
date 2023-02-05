@@ -82,8 +82,8 @@ function ResponsiveAppBar() {
     {
       primary: 'Competitors',
       icon: <FitnessCenterIcon />,
-      to: '/gallery',
-      color: location.pathname === '/gallery' ? '#f9de00' : 'white',
+      to: '/competitors',
+      color: location.pathname.includes('competitors') ? '#f9de00' : 'white',
 
       members: true,
     },
@@ -199,14 +199,17 @@ function ResponsiveAppBar() {
               </Menu>
             </Box>
             {/* logo large screen */}
+
             <Box component={RouterLink} to='/'>
-              <Box
-                ml={-3}
-                mr={-1}
-                component='img'
-                src={logo}
-                sx={{ height: 60, display: { xs: 'none', sm: 'flex' } }}
-              ></Box>
+              <Tooltip arrow placement='bottom' title='home' enterDelay={2000}>
+                <Box
+                  ml={-3}
+                  mr={-1}
+                  component='img'
+                  src={logo}
+                  sx={{ height: 60, display: { xs: 'none', sm: 'flex' } }}
+                ></Box>
+              </Tooltip>
             </Box>
             {/* logo small screen */}
             <Box

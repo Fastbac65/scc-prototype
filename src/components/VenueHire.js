@@ -20,7 +20,7 @@ const VenueHire = () => {
         <CalendarDefault />
       </Box>
 
-      <Box sx={{ backgroundImage: `url(${scc2}) `, backgroundSize: 'cover' }}>
+      {/* <Box sx={{ backgroundImage: `url(${scc2}) `, backgroundSize: 'cover' }}>
         <Box
           sx={{
             background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.7)' : 'rgba(200,200,200,0.7)',
@@ -29,7 +29,7 @@ const VenueHire = () => {
         >
           <RecentPosts />
         </Box>
-      </Box>
+      </Box> */}
     </>
   );
 };
