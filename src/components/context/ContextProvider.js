@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, useReducer } from 'react';
+import { createContext, useContext, useEffect, useState, useReducer, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
@@ -22,6 +22,7 @@ import reducer from './reducer';
 import { addDocument } from './addDocument';
 import { doc, getDoc } from 'firebase/firestore';
 import updateUserRecords from './updateUserRecords';
+import getGoogleCals from './getGoogleCals';
 
 export const GlobalContext = createContext();
 
@@ -130,7 +131,7 @@ export const ContextProvider = ({ children }) => {
   //sets the login global true when logged in. Used for routing and conditional rendering - its Boolean
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
-      authUser && authUser?.emailVerified == true ? setLogin(true) : setLogin(false);
+      authUser && authUser?.emailVerified === true ? setLogin(true) : setLogin(false);
 
       if (authUser) {
         getUserDoc(authUser.uid).then((userDoc) => {
@@ -156,6 +157,22 @@ export const ContextProvider = ({ children }) => {
       return () => {
         unsubscribe();
       };
+    });
+  }, []);
+
+  const googleCalColors = [
+    `${theme.palette.info.main}`,
+    `${theme.palette.secondary.main}`,
+    `${theme.palette.error.main}`,
+    `${theme.palette.success.main}`,
+  ];
+
+  const allCalEvents = useRef([]);
+  useMemo(() => {
+    console.log('getting cals');
+    getGoogleCals(googleCalColors).then((events) => {
+      allCalEvents.current = [...events];
+      // setCalEvents(events);
     });
   }, []);
 
@@ -410,6 +427,7 @@ export const ContextProvider = ({ children }) => {
         resetPassword,
         instagramLoginServer,
         imageProxyServer,
+        allCalEvents,
         calEvents,
         setCalEvents,
       }}

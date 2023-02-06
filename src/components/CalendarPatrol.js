@@ -1,20 +1,17 @@
-import { Box, Checkbox, FormControlLabel, FormGroup, Grid, Typography } from '@mui/material';
-import { Container } from '@mui/system';
+import { Box, Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material';
 import CalendarList from './content/CalendarList';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
-import listPlugin from '@fullcalendar/list';
 import daygrid from '@fullcalendar/daygrid';
 import { useValue } from './context/ContextProvider';
-import axios from 'axios';
 
 const CalendarPatrol = () => {
   const [holidays, setHolidays] = useState(true);
   const [important, setImportant] = useState(false);
   const [patrolTraining, setPatrolTraining] = useState(true);
   const [social, setSocial] = useState(false);
-  const { theme, calEvents, setCalEvents } = useValue();
+  const { theme, calEvents, setCalEvents, allCalEvents } = useValue();
 
   const eventsTest = [
     {
@@ -129,72 +126,6 @@ const CalendarPatrol = () => {
     `${theme.palette.success.main}`,
   ];
 
-  useEffect(() => {
-    getCalendarEvents(googleCalColors, setCalEvents);
-  }, []);
-
-  async function getCalendarEvents(googleCalColors, successCallback) {
-    const googleCalIds = [
-      '9p7plr8ugunp5eaj57krb1rcaco2fhnh@import.calendar.google.com',
-      'o2lpae7ahjt1fjsielmk8535usqrr781@import.calendar.google.com',
-      'fastbac65@gmail.com',
-      'jcog90oln2bbrgi9kgrie57q93gr74fn@import.calendar.google.com',
-    ];
-
-    const start = encodeURIComponent(new Date().toISOString());
-    // const end = encodeURIComponent(info.endStr);
-    // little util to get a date 9months from now
-    const getDaysInMonth = (year, month) => new Date(year, month, 0).getDate();
-    const addMonths = (input, months) => {
-      const date = new Date(input);
-      date.setDate(1);
-      date.setMonth(date.getMonth() + months);
-      date.setDate(Math.min(input.getDate(), getDaysInMonth(date.getFullYear(), date.getMonth() + 1)));
-      return date;
-    };
-
-    const newEndDate = encodeURIComponent(addMonths(new Date(), 12).toISOString());
-
-    var allGetEvents = [];
-    var allEvents = [];
-    var getPromises = [];
-
-    googleCalIds.forEach((calendarId) => {
-      const url = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=AIzaSyBz4ew-AmtQGL0h6DNYJKhniipIK7eFBUM&timeMin=${start}&timeMax=${newEndDate}&singleEvents=true&maxResults=999`;
-      try {
-        getPromises.push(axios.get(url));
-      } catch (error) {
-        console.log(error.message);
-        // failureCallback(new Error(error.message || 'Something went wrong.'));
-      }
-    });
-    allGetEvents = await Promise.all(getPromises);
-
-    allGetEvents.forEach((response, indx) => {
-      var events = [];
-
-      if (response.status === 200) {
-        events = response.data.items.map((event) => ({
-          //
-          id: event?.id,
-          title: event?.summary,
-          location: event?.location,
-          description: event?.description,
-          start: event.start?.dateTime || event.start?.date,
-          end: event.end?.dateTime || event.end?.date,
-          created: event?.created,
-          creator: event?.creator,
-          borderColor: googleCalColors[indx],
-          backgroundColor: googleCalColors[indx],
-        }));
-        allEvents = [...allEvents, ...events];
-      }
-    });
-
-    console.log(allEvents);
-    successCallback([...allEvents]);
-  }
-
   const handleChange = (event) => {
     if (event.target.labels[0].innerText.includes('View')) {
       setHolidays(true);
@@ -266,14 +197,9 @@ const CalendarPatrol = () => {
               aspectRatio={0.74}
               // googleCalendarApiKey='AIzaSyBz4ew-AmtQGL0h6DNYJKhniipIK7eFBUM'
               // events={calEvents}
-              eventSources={[calEvents]}
+              eventSources={[allCalEvents.current]}
               // eventSources={[eventsTest, memoizeGetCalendarEvents]}
               initialView='dayGridMonth'
-              // views={{
-              //   listMonth: { buttonText: 'month' },
-              //   list3Months: { type: 'listMonth', duration: { months: 3 }, buttonText: '3 months' },
-              //   listYear: { buttonText: 'Year' },
-              // }}
               headerToolbar={{
                 start: 'prev',
                 center: 'title',
@@ -292,82 +218,82 @@ const CalendarPatrol = () => {
           <CalendarList holidays={holidays} important={important} patrolTraining={patrolTraining} social={social} />
         </Box>
       </Box>
-      {/* <Box sx={{ py: 1, display: 'flex' }}>
-        <Grid container spacing={1}>
-          <Grid item xs={0} md={4}>
-            <Box className='wrapper' sx={{ pt: 1 }}>
-              <Box
-                sx={{ justifyContent: 'center', display: { xs: 'none', sm: 'flex' }, flexDirection: 'column', mb: 2 }}
-              >
-                <FormGroup>
-                  <Typography sx={{ fontWeight: '700', fontSize: '1.25em' }} variant='h5'>
-                    Filter
-                  </Typography>
-                  <FormControlLabel
-                    onChange={handleChange}
-                    control={<Checkbox checked={holidays && important && patrolTraining && social} color='primary' />}
-                    label='View All'
-                    disabled={holidays && important && patrolTraining && social}
-                  />
-                  <FormControlLabel
-                    onChange={handleChange}
-                    control={<Checkbox checked={holidays} color='info' />}
-                    label='NSW Holidays'
-                  />
-                  <FormControlLabel
-                    onChange={handleChange}
-                    control={<Checkbox checked={important} color='success' />}
-                    label='Important Dates'
-                  />
-                  <FormControlLabel
-                    onChange={handleChange}
-                    control={<Checkbox checked={patrolTraining} color='error' />}
-                    label='Patrol/Training'
-                  />
-                  <FormControlLabel
-                    onChange={handleChange}
-                    control={<Checkbox checked={social} color='warning' />}
-                    label='Social Events'
-                  />
-                </FormGroup>
-
-                <FullCalendar
-                  // plugins={[listPlugin, interactionPlugin, googleCalendarPlugin]}
-                  plugins={[daygrid]}
-                  // height={'auto'}
-                  aspectRatio={0.8}
-                  // googleCalendarApiKey='AIzaSyBz4ew-AmtQGL0h6DNYJKhniipIK7eFBUM'
-                  // events={getCalendarEvents}
-                  eventSources={[eventsTest]}
-                  // eventSources={[eventsTest, memoizeGetCalendarEvents]}
-                  initialView='dayGridMonth'
-                  // views={{
-                  //   listMonth: { buttonText: 'month' },
-                  //   list3Months: { type: 'listMonth', duration: { months: 3 }, buttonText: '3 months' },
-                  //   listYear: { buttonText: 'Year' },
-                  // }}
-                  headerToolbar={{
-                    start: 'prev',
-                    center: 'title',
-                    end: 'next',
-                  }}
-                  dayHeaderFormat={{ weekday: 'narrow' }}
-                  titleFormat={{ month: 'short', year: 'numeric' }}
-                  // eventClick={handleEventClick}
-                  // eventsSet={handleEventSet} // called after events are initialized/added/changed/removed
-                  // // eventSourceSuccess={handleEventSourceSuccess}
-                  // eventDidMount={handleEventDidMount}
-                />
-              </Box>
-            </Box>
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <CalendarList holidays={holidays} important={important} patrolTraining={patrolTraining} social={social} />
-          </Grid>
-        </Grid>
-      </Box> */}
     </>
   );
 };
 
 export default CalendarPatrol;
+
+// useEffect(() => {
+//   getCalendarEvents(googleCalColors, setCalEvents);
+//   console.log('getting cals');
+// }, []);
+
+// async function getCalendarEvents(successCallback) {
+//   const googleCalColors = [
+//     `${theme.palette.info.main}`,
+//     `${theme.palette.secondary.main}`,
+//     `${theme.palette.error.main}`,
+//     `${theme.palette.success.main}`,
+//   ];
+
+//   const googleCalIds = [
+//     '9p7plr8ugunp5eaj57krb1rcaco2fhnh@import.calendar.google.com',
+//     'o2lpae7ahjt1fjsielmk8535usqrr781@import.calendar.google.com',
+//     'fastbac65@gmail.com',
+//     'jcog90oln2bbrgi9kgrie57q93gr74fn@import.calendar.google.com',
+//   ];
+
+//   const start = encodeURIComponent(new Date().toISOString());
+//   // const end = encodeURIComponent(info.endStr);
+//   // little util to get a date 9months from now
+//   const getDaysInMonth = (year, month) => new Date(year, month, 0).getDate();
+//   const addMonths = (input, months) => {
+//     const date = new Date(input);
+//     date.setDate(1);
+//     date.setMonth(date.getMonth() + months);
+//     date.setDate(Math.min(input.getDate(), getDaysInMonth(date.getFullYear(), date.getMonth() + 1)));
+//     return date;
+//   };
+
+//   const newEndDate = encodeURIComponent(addMonths(new Date(), 12).toISOString());
+
+//   var allGetEvents = [];
+//   var allEvents = [];
+//   var getPromises = [];
+
+//   googleCalIds.forEach((calendarId) => {
+//     const url = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?key=AIzaSyBz4ew-AmtQGL0h6DNYJKhniipIK7eFBUM&timeMin=${start}&timeMax=${newEndDate}&singleEvents=true&maxResults=999`;
+//     try {
+//       getPromises.push(axios.get(url));
+//     } catch (error) {
+//       console.log(error.message);
+//       // failureCallback(new Error(error.message || 'Something went wrong.'));
+//     }
+//   });
+//   allGetEvents = await Promise.all(getPromises);
+
+//   allGetEvents.forEach((response, indx) => {
+//     var events = [];
+
+//     if (response.status === 200) {
+//       events = response.data.items.map((event) => ({
+//         //
+//         id: event?.id,
+//         title: event?.summary,
+//         location: event?.location,
+//         description: event?.description,
+//         start: event.start?.dateTime || event.start?.date,
+//         end: event.end?.dateTime || event.end?.date,
+//         created: event?.created,
+//         creator: event?.creator,
+//         borderColor: googleCalColors[indx],
+//         backgroundColor: googleCalColors[indx],
+//       }));
+//       allEvents = [...allEvents, ...events];
+//     }
+//   });
+
+//   console.log(allEvents);
+//   successCallback([...allEvents]);
+// }
