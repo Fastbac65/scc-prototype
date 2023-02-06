@@ -22,11 +22,11 @@ const Nippers = () => {
           <Content2CardsNippers />
         </Box>
       </Box>
-      <Box sx={{ mb: '1px', backgroundImage: `url(${scc1}) `, backgroundSize: 'cover' }}>
+      {/* <Box sx={{ mb: '1px', backgroundImage: `url(${scc1}) `, backgroundSize: 'cover' }}>
         <Box sx={{ background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)' }}>
           <RecentPosts />
         </Box>
-      </Box>
+      </Box> */}
     </>
   );
 };
