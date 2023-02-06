@@ -11,7 +11,7 @@ const CalendarPatrol = () => {
   const [important, setImportant] = useState(false);
   const [patrolTraining, setPatrolTraining] = useState(true);
   const [social, setSocial] = useState(false);
-  const { theme, calEvents, setCalEvents, allCalEvents } = useValue();
+  const { theme, allCalEvents } = useValue();
 
   const eventsTest = [
     {
@@ -197,7 +197,7 @@ const CalendarPatrol = () => {
               aspectRatio={0.74}
               // googleCalendarApiKey='AIzaSyBz4ew-AmtQGL0h6DNYJKhniipIK7eFBUM'
               // events={calEvents}
-              eventSources={[allCalEvents.current]}
+              eventSources={[eventsTest, allCalEvents.current]}
               // eventSources={[eventsTest, memoizeGetCalendarEvents]}
               initialView='dayGridMonth'
               headerToolbar={{
