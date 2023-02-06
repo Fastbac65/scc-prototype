@@ -6,17 +6,28 @@ import { useValue } from '../context/ContextProvider';
 // import { setDoc, doc, serverTimestamp, collection, getFirestore } from 'firebase/firestore';
 import { Container, Box, Typography, CardMedia } from '@mui/material';
 import scc1 from '../../static/imgs/scc-fb-grp.jpeg';
-import { auth } from '../context/FireBase';
+import { auth, db } from '../context/FireBase';
 import { applyActionCode, reload } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import ResetPasswordVerification from './ResetPasswordVerification';
+import updateUserRecords from '../context/updateUserRecords';
+import { doc, getDoc } from 'firebase/firestore';
 // import axios from 'axios';
+
+const getUserDoc = async (uid) => {
+  //
+  const docRef = doc(db, 'Users', uid);
+  return getDoc(docRef);
+  // const docSnap = await getDoc(docRef);
+  // console.log(docSnap.id, docSnap.data());
+};
 
 const CompleteVerification = () => {
   const {
     imageProxyServer,
     currentUser,
     signOutUser,
+    setLogin,
     dispatch,
     state: { alert, modal },
   } = useValue();
@@ -52,6 +63,7 @@ const CompleteVerification = () => {
             await reload(auth.currentUser);
             console.log(auth.currentUser);
             console.log(currentUser);
+            setLogin(true);
 
             navigate('/');
             dispatch({ type: 'END_LOADING' });
@@ -61,9 +73,22 @@ const CompleteVerification = () => {
                 ...alert,
                 open: true,
                 severity: 'success',
-                message: 'Your email has been verified. You now have full access to SCC Members',
-                duration: 8000,
+                message: 'Email verified. Welcome to SCC Members',
+                duration: 6000,
               },
+            });
+            getUserDoc(auth.currentUser.uid).then((userDoc) => {
+              let user = Object.assign(auth.currentUser, userDoc.data());
+
+              //TODO fix this
+              if (user?.emailVerified && user?.uRole?.createPost === undefined) {
+                // let x = { uRole: { ...user?.uRole, createPost: true, nippersEditor: false } };
+                updateUserRecords('Users', user.uid, {
+                  uRole: { ...user?.uRole, createPost: true, nippersEditor: false, email: false },
+                })
+                  .then((result) => console.log('User role updated', result))
+                  .catch((error) => console.log('Error updated user roles', error));
+              }
             });
             break;
           }

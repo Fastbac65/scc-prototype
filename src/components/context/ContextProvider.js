@@ -80,10 +80,10 @@ export const ContextProvider = ({ children }) => {
 
   var [calEvents, setCalEvents] = useState([]);
 
-  const instagramLoginServer = 'https://192.168.0.220:5001';
-  // const instagramLoginServer = 'https://scc-auth.cyclic.app';
-  const imageProxyServer = 'https://192.168.0.220:5001/image/';
-  // const imageProxyServer = 'https://scc-auth.cyclic.app/image/';
+  // const instagramLoginServer = 'https://192.168.0.220:5001';
+  const instagramLoginServer = 'https://scc-auth.cyclic.app';
+  // const imageProxyServer = 'https://192.168.0.220:5001/image/';
+  const imageProxyServer = 'https://scc-auth.cyclic.app/image/';
 
   var theme = createTheme({
     breakpoints: {

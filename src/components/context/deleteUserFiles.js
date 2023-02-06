@@ -34,16 +34,19 @@ const deleteUserFiles = (collectionList, currentUser) => {
                 }
               }
             }
-          } else {
+          } else if (collectionName === 'Gallery') {
             // we are deleting from Gallery
             const filePath = collectionName.toLowerCase() + '/' + currentUser.uid + '/' + doc.id;
             storagePromises.push(deleteFile(filePath));
           }
+
           databasePromises.push(deleteDocument(collectionName, doc.id));
         });
+
         await Promise.all(storagePromises);
         await Promise.all(databasePromises);
       } catch (error) {
+        console.log('rejected in deleteUserFiles');
         reject(error);
       }
     }); //  we're done with each collection within the list
