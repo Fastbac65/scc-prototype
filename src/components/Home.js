@@ -28,11 +28,11 @@ function Home() {
           <RecentPosts />
         </Box>
       </Box> */}
-      <Box sx={{ backgroundImage: `url(${scc1}) `, backgroundSize: 'cover' }}>
+      {/* <Box sx={{ backgroundImage: `url(${scc1}) `, backgroundSize: 'cover' }}>
         <Box sx={{ background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.2)' }}>
           <Content2CardsHist />
         </Box>
-      </Box>
+      </Box> */}
     </>
   );
 }

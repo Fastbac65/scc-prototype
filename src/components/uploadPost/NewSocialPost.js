@@ -9,6 +9,7 @@ import {
   Paper,
   Stack,
   TextField,
+  Tooltip,
 } from '@mui/material';
 import { useRef, useState } from 'react';
 import SendIcon from '@mui/icons-material/Send';
@@ -52,7 +53,7 @@ const NewSocialPost = ({ type }) => {
         uAvatar: currentUser?.photoURL || '',
         uMobile: currentUser?.phoneNumber || '',
         albumName: collectionName,
-        postType: 'Instagram',
+        postType: socialUrl.includes('instagram') ? 'Instagram' : 'Facebook',
         postUrl: socialUrl,
         title: '',
         subtitle: defaultDate,
@@ -111,14 +112,16 @@ const NewSocialPost = ({ type }) => {
               style: { fontSize: 14 },
               endAdornment: (
                 <InputAdornment position='end'>
-                  <IconButton
-                    aria-label='add social URL'
-                    onClick={handleClickShowSocial}
-                    onMouseDown={handleMouseDown}
-                    edge='end'
-                  >
-                    <Send />
-                  </IconButton>
+                  <Tooltip enterDelay={250} enterTouchDelay={200} placement='top-end' title='view post' followCursor>
+                    <IconButton
+                      aria-label='add social URL'
+                      onClick={handleClickShowSocial}
+                      onMouseDown={handleMouseDown}
+                      edge='end'
+                    >
+                      <Send />
+                    </IconButton>
+                  </Tooltip>
                 </InputAdornment>
               ),
             }}
@@ -145,7 +148,6 @@ const NewSocialPost = ({ type }) => {
                 fullWidth
                 inputRef={captionRef}
                 label='Add a reaction.. ❤️💕😂👍🏽'
-                required
                 multiline
                 InputProps={{ style: { fontSize: 14 } }}
               />

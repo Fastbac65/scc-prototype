@@ -16,8 +16,10 @@ const VenueHire = () => {
           <Content2CardsVenueHire />
         </Box>
       </Box>
-      <Box sx={{ background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.7)' : 'rgba(200,200,200,0.7)' }}>
-        <CalendarDefault />
+      <Box sx={{ backgroundImage: `url(${scc1}) `, backgroundSize: 'cover' }}>
+        <Box sx={{ background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.8)' : 'rgba(200,200,200,0.9)' }}>
+          <CalendarDefault />
+        </Box>
       </Box>
 
       {/* <Box sx={{ backgroundImage: `url(${scc2}) `, backgroundSize: 'cover' }}>

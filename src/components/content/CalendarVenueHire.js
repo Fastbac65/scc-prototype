@@ -6,6 +6,7 @@ import { Box } from '@mui/system';
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useValue } from '../context/ContextProvider';
 import axios from 'axios';
+import CalEvent from './CalEvent';
 
 //sample google cal url https://www.googleapis.com/calendar/v3/calendars/fastbac65%40gmail.com/events?key=AIzaSyBz4ew-AmtQGL0h6DNYJKhniipIK7eFBUM&timeMin=2023-01-01T00%3A00%3A00%2B11%3A00&timeMax=2023-02-01T00%3A00%3A00%2B11%3A00&singleEvents=true&maxResults=9999
 
@@ -60,7 +61,11 @@ export const getCalendarEvents = (googleCalColors) => async (info, successCallba
 
 // const CalendarVenueHire = () => {
 const CalendarVenueHire = ({ holidays, important, patrolTraining, social }) => {
-  const { theme } = useValue();
+  const {
+    theme,
+    dispatch,
+    state: { modal },
+  } = useValue();
 
   const googleCalColors = [
     `${theme.palette.info.main}`,
@@ -278,7 +283,15 @@ const CalendarVenueHire = ({ holidays, important, patrolTraining, social }) => {
   const handleEventClick = (eventInfo) => {
     eventInfo.jsEvent.preventDefault();
     console.log(eventInfo, eventInfo.event.title);
-    var eventObj = eventInfo.event;
+    dispatch({
+      type: 'MODAL',
+      payload: {
+        ...modal,
+        open: true,
+        title: 'Calendar Event',
+        content: <CalEvent eventInfo={eventInfo.event} />,
+      },
+    });
   };
 
   // const handleEventSourceSuccess = (rawEvents, response) => {
@@ -320,7 +333,7 @@ const CalendarVenueHire = ({ holidays, important, patrolTraining, social }) => {
     <div>
       <Box className='wrapper'>
         <FullCalendar
-          // height='auto'
+          height={600}
           // plugins={[listPlugin, interactionPlugin, googleCalendarPlugin]}
           plugins={[listPlugin, googleCalendarPlugin]}
           googleCalendarApiKey='AIzaSyBz4ew-AmtQGL0h6DNYJKhniipIK7eFBUM'

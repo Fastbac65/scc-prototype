@@ -75,7 +75,6 @@ function ResponsiveAppBar() {
       icon: <BeachAccessIcon />,
       to: '/nippers',
       color: location.pathname === '/nippers' ? '#f9de00' : 'white',
-
       members: true,
     },
 
@@ -84,16 +83,21 @@ function ResponsiveAppBar() {
       icon: <FitnessCenterIcon />,
       to: '/competitors',
       color: location.pathname.includes('competitors') ? '#f9de00' : 'white',
-
       members: true,
     },
 
+    {
+      primary: 'Our Club',
+      icon: <MilitaryTechIcon />,
+      to: '/history',
+      color: location.pathname === '/history' ? '#f9de00' : 'white',
+      members: true,
+    },
     {
       primary: 'Patrol',
       icon: <EmojiFlagsIcon />,
       to: '/patrol',
       color: location.pathname === '/patrol' ? '#f9de00' : 'white',
-
       members: login,
     },
     {
@@ -101,16 +105,7 @@ function ResponsiveAppBar() {
       icon: <CardMembershipIcon />,
       to: '/members',
       color: location.pathname === '/members' ? '#f9de00' : 'white',
-
       members: login,
-    },
-    {
-      primary: 'Our Club',
-      icon: <MilitaryTechIcon />,
-      to: '/history',
-      color: location.pathname === '/history' ? '#f9de00' : 'white',
-
-      members: true,
     },
   ];
 

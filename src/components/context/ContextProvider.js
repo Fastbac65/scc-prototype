@@ -38,7 +38,7 @@ export function ScrollTop(props) {
   const trigger = useScrollTrigger({
     target: window ? window() : undefined,
     disableHysteresis: true,
-    threshold: 200,
+    threshold: 2200,
   });
   const handleClick = (event) => {
     const anchor = (event.target.ownerDocument || document).querySelector(id);

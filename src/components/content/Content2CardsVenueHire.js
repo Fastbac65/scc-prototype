@@ -96,7 +96,7 @@ const Content2Cards = () => {
               </Typography>
             </Grid>
           </Grid>
-          <Box mx={2} mt={2}>
+          <Box m={2}>
             <CardMedia component='img' src={scc1} height={150} sx={{ borderRadius: 2 }} />
           </Box>
         </Grid>

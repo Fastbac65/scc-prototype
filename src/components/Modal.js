@@ -20,7 +20,7 @@ const Modal = () => {
 
   return (
     // removing onClose={handleClose} from Dialog stopped background clicking from closing the modal
-    <Dialog sx={{ mx: -4 }} open={modal.open} disableEscapeKeyDown={true} PaperProps={{ elevation: 2 }}>
+    <Dialog sx={{ mx: -4 }} open={modal.open} PaperProps={{ elevation: 2 }}>
       <DialogTitle sx={{ pb: 0 }}>
         {modal.title}
         <IconButton

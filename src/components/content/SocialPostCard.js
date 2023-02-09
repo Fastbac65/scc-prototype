@@ -30,7 +30,7 @@ function SocialPostCard({ socialUrl, script }) {
           <InstagramEmbed url={socialUrl} width={'100%'} captioned placeholderDisabled scriptLoadDisabled={script} />
         )}
         {socialUrl.includes('facebook') && (
-          <FacebookEmbed url={socialUrl} width={'100%'} placeholderDisabled scriptLoadDisabled={script} />
+          <FacebookEmbed url={socialUrl} width={'100%'} placeholderDisabled scriptLoadDisabled={false} />
         )}
       </div>
       {/* <Box sx={{ display: 'flex', justifyContent: 'center' }}>

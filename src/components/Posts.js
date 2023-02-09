@@ -1,4 +1,4 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Outlet } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
@@ -92,6 +92,7 @@ export default function Posts() {
             </Tooltip>
           </Stack>
         )}
+        <Outlet context={[documents]} />
         <PostsList
           documents={like === '' ? documents : likePostDocs}
           // documents={documents}

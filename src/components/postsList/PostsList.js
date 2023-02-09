@@ -6,8 +6,6 @@ import { Masonry } from '@mui/lab';
 import { useState } from 'react';
 import PostsLightBox from '../imagesList/PostsLightBox';
 
-import RecentSocialPosts from './RecentSocialPosts';
-
 const PostsList = ({ documents }) => {
   const { currentUser } = useValue();
 

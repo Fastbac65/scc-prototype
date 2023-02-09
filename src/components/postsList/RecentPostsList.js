@@ -24,17 +24,17 @@ const RecentPostsList = ({ documents }) => {
       postUrl:
         'https://www.facebook.com/permalink.php?story_fbid=pfbid0xJbBbDzP1juDtCUvcMknnSC5x3KSvxqK81z3Wx8ftvoeeyjQ8uM8diiJJextVprTl&id=792346234174867',
       postType: 'facebook',
-      script: false,
+      script: true,
     },
-    { postUrl: 'https://www.instagram.com/p/CndCI7hhIVe/', postType: 'instagram', script: false },
-    { postUrl: 'https://www.instagram.com/p/CmVLatKPpip/', postType: 'instagram', script: true },
+    { postUrl: 'https://www.instagram.com/p/CoSrZ6pBx-P/', postType: 'instagram', script: true },
+    { postUrl: 'https://www.instagram.com/p/CoQg4OdSzNs/', postType: 'instagram', script: true },
   ];
 
   const recentPosts = documents.slice(0, 6);
 
   return (
     <div>
-      <Box component='section' mx={1}>
+      <Box component='section' mx={1} pb='1px'>
         <Typography variant='h4' pt={1} mx={2}>
           The Latest News & Upcoming Activities
         </Typography>

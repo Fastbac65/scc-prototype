@@ -7,10 +7,15 @@ import scc3 from '../../static/imgs/header7.jpeg';
 import { Box } from '@mui/material';
 import { useValue } from '../context/ContextProvider';
 
-const ContentCompetitors = () => {
+const ContentCompetitorsSwim = () => {
   const { theme } = useValue();
   return (
     <div>
+      <Box sx={{ backgroundImage: `url(${scc1}) `, backgroundSize: 'cover' }}>
+        <Box sx={{ background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)' }}>
+          <Content2CardsSwimmers />
+        </Box>
+      </Box>
       <Box sx={{ backgroundImage: `url(${scc3}) `, backgroundSize: 'cover' }}>
         <Box sx={{ background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)' }}>
           <Content2CardsBoaties />
@@ -21,12 +26,7 @@ const ContentCompetitors = () => {
           <Content2CardsChamps />
         </Box>
       </Box>
-      <Box sx={{ backgroundImage: `url(${scc1}) `, backgroundSize: 'cover' }}>
-        <Box sx={{ background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)' }}>
-          <Content2CardsSwimmers />
-        </Box>
-      </Box>
     </div>
   );
 };
-export default ContentCompetitors;
+export default ContentCompetitorsSwim;

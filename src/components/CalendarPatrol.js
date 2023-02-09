@@ -5,13 +5,19 @@ import { useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import daygrid from '@fullcalendar/daygrid';
 import { useValue } from './context/ContextProvider';
+import CalEvent from './content/CalEvent';
 
 const CalendarPatrol = () => {
   const [holidays, setHolidays] = useState(true);
   const [important, setImportant] = useState(false);
   const [patrolTraining, setPatrolTraining] = useState(true);
   const [social, setSocial] = useState(false);
-  const { theme, allCalEvents } = useValue();
+  const {
+    theme,
+    allCalEvents,
+    dispatch,
+    state: { modal },
+  } = useValue();
 
   const eventsTest = [
     {
@@ -145,6 +151,20 @@ const CalendarPatrol = () => {
     event.target = null;
   };
 
+  const handleEventClick = (eventInfo) => {
+    eventInfo.jsEvent.preventDefault();
+    console.log(eventInfo, eventInfo.event.title);
+    dispatch({
+      type: 'MODAL',
+      payload: {
+        ...modal,
+        open: true,
+        title: 'Calendar Event',
+        content: <CalEvent eventInfo={eventInfo.event} />,
+      },
+    });
+  };
+
   return (
     <>
       <Box sx={{ display: 'flex', py: 1 }}>
@@ -207,7 +227,7 @@ const CalendarPatrol = () => {
               }}
               dayHeaderFormat={{ weekday: 'narrow' }}
               titleFormat={{ month: 'short', year: 'numeric' }}
-              // eventClick={handleEventClick}
+              eventClick={handleEventClick}
               // eventsSet={handleEventSet} // called after events are initialized/added/changed/removed
               // // eventSourceSuccess={handleEventSourceSuccess}
               // eventDidMount={handleEventDidMount}
