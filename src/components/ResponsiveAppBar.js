@@ -196,7 +196,7 @@ function ResponsiveAppBar() {
             {/* logo large screen */}
 
             <Box component={RouterLink} to='/'>
-              <Tooltip arrow placement='bottom' title='home' enterDelay={2000}>
+              <Tooltip arrow placement='bottom' title='home' enterDelay={100}>
                 <Box
                   ml={-3}
                   mr={-1}

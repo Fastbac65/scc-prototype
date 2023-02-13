@@ -20,6 +20,7 @@ export default function RecentPosts() {
     currentUser,
     login,
     theme,
+    globalDocs,
     dispatch,
     state: { modal },
   } = useValue();
@@ -29,6 +30,7 @@ export default function RecentPosts() {
   const [likePostDocs, setLikePostDocs] = useState([]);
   // TODO  move this up a level and pass docs as prop
   const { documents } = useFirestore('Posts');
+  globalDocs.current = [...documents];
 
   const handleFavsClick = () => {
     if (like === 'red') setLike('');

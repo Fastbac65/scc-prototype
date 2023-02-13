@@ -77,7 +77,7 @@ export const ContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState({});
   const [mode, setMode] = useState('light');
   const [login, setLogin] = useState(false);
-
+  var globalDocs = useRef([]);
   var [calEvents, setCalEvents] = useState([]);
 
   // const instagramLoginServer = 'https://192.168.0.220:5001';
@@ -430,6 +430,7 @@ export const ContextProvider = ({ children }) => {
         allCalEvents,
         calEvents,
         setCalEvents,
+        globalDocs,
       }}
     >
       {children}

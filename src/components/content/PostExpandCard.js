@@ -22,6 +22,7 @@ import moment from 'moment';
 import PostOptions from '../uploadPost/PostOptions';
 import updateUserRecords from '../context/updateUserRecords';
 import { useValue } from '../context/ContextProvider';
+import { useNavigate } from 'react-router-dom';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -38,7 +39,7 @@ function PostExpandCard({ user, doc, setOpen, setCurrentImageIndex, setImages, m
   const { login } = useValue();
 
   const [expanded, setExpanded] = useState(false);
-
+  const navigate = useNavigate();
   const [like, setLike] = useState('');
 
   useEffect(() => {
@@ -89,6 +90,11 @@ function PostExpandCard({ user, doc, setOpen, setCurrentImageIndex, setImages, m
 
       console.log(user);
     }
+  };
+
+  const handleShare = () => {
+    const postlink = '/posts/' + doc.id;
+    navigate(postlink);
   };
 
   return (
@@ -187,7 +193,7 @@ function PostExpandCard({ user, doc, setOpen, setCurrentImageIndex, setImages, m
                   <IconButton onClick={handleLikeClick} aria-label='add to favorites'>
                     <FavoriteIcon sx={{ color: like }} />
                   </IconButton>
-                  <IconButton aria-label='share'>
+                  <IconButton aria-label='share post' onClick={handleShare}>
                     <ShareIcon />
                   </IconButton>
                 </>
@@ -224,7 +230,7 @@ function PostExpandCard({ user, doc, setOpen, setCurrentImageIndex, setImages, m
                     <IconButton onClick={handleLikeClick} aria-label='add to favorites'>
                       <FavoriteIcon sx={{ color: like }} />
                     </IconButton>
-                    <IconButton aria-label='share'>
+                    <IconButton aria-label='share post' onClick={handleShare}>
                       <ShareIcon />
                     </IconButton>
                   </>

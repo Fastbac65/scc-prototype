@@ -30,6 +30,7 @@ import ContentCompetitors from './components/content/ContentCompetitors';
 import RecentPosts from './components/RecentPosts';
 import ContentCompetitorsSwim from './components/content/ContentCompetitorsSwim';
 import ContentCompetitorsCLS from './components/content/ContentCompetitorsCLS';
+import PostView from './components/PostView';
 
 function App() {
   const { login, theme, currentUser } = useValue();
@@ -51,7 +52,7 @@ function App() {
           <Route path='/auth' element={<AuthInsta />}></Route>
           <Route path='/verify' element={<CompleteVerification />}></Route>
           <Route exact path='posts' element={<Posts />}>
-            <Route path=':postId' element={<Test />}></Route>
+            <Route path=':postId' element={<PostView />}></Route>
           </Route>
           <Route exact path='nippers' element={<Nippers />}></Route>
           <Route exact path='competitors/*' element={<Competitors />}>

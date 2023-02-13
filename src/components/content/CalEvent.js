@@ -1,9 +1,19 @@
 import { Box, Button, DialogActions, DialogContent, DialogContentText, Grid } from '@mui/material';
 import { CalendarMonth, Circle, Description, Place } from '@mui/icons-material';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
+import { useValue } from '../context/ContextProvider';
+import useFirestore from '../context/useFirestore';
 
 const CalEvent = ({ eventInfo }) => {
-  if (eventInfo?.extendedProps.description) {
+  const navigate = useNavigate();
+  const {
+    globalDocs,
+    dispatch,
+    state: { modal },
+  } = useValue();
+
+  if (eventInfo?.extendedProps?.description) {
     var description = [];
     var atag = '<a></a>'; // initialise to something
     if (eventInfo.extendedProps.description.includes('</a>')) {
@@ -38,9 +48,23 @@ const CalEvent = ({ eventInfo }) => {
     } else startEnd = moment(eventInfo.start).format('MMMM Do YYYY, h:mm a');
   } else startEnd = moment(eventInfo.start).format('MMMM Do YYYY,') + ' all-day';
 
+  var location = '';
+  if (eventInfo?.extendedProps?.location && eventInfo.extendedProps?.location.includes('scc-proto.web.app/posts/')) {
+    let postId = eventInfo.extendedProps.location.split('scc-proto.web.app/posts/')[1];
+    console.log(globalDocs.current);
+    var postDoc = globalDocs.current.filter((doc) => doc.id === postId);
+    // location = 'SCC Post: ' + eventInfo.extendedProps.location.split('scc-proto.web.app/posts/')[1].split('_')[0];
+    location = 'SCC Post: ' + postDoc[0].data.title + ' by ' + postDoc[0].data.uName;
+  } else location = eventInfo?.extendedProps?.location;
+
   const handleClickLocation = (event) => {
-    if (eventInfo.extendedProps.location.includes('http')) {
-      //
+    dispatch({ type: 'MODAL', payload: { ...modal, open: false } });
+    // if (eventInfo.extendedProps.location.includes('/posts/')) {
+    if (eventInfo.extendedProps.location.includes('scc-proto.web.app/posts/')) {
+      // let link = `/posts/${eventInfo.extendedProps.location.split('/posts/')[1]}`;
+      let link = `/posts/${eventInfo.extendedProps.location.split('scc-proto.web.app/posts/')[1]}`;
+      navigate(link);
+    } else if (eventInfo.extendedProps.location.includes('http')) {
       window.open(eventInfo.extendedProps.location);
     } else window.open(`https://maps.google.com?q=${eventInfo.extendedProps.location} `, '_system');
   };
@@ -90,7 +114,7 @@ const CalEvent = ({ eventInfo }) => {
                   </DialogContentText>
                 </Grid>
                 <Grid item xs={11}>
-                  <DialogContentText variant='body2'>{eventInfo.extendedProps.location}</DialogContentText>
+                  <DialogContentText variant='body2'>{location}</DialogContentText>
                 </Grid>
               </>
             )}
