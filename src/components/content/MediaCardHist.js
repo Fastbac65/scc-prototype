@@ -7,6 +7,8 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Fade from '@mui/material/Fade';
+import scc1 from '../../static/imgs/header8.jpeg';
+
 // import Skeleton from '@mui/material/Skeleton';
 
 // import { getDownloadURL } from 'firebase/storage';
@@ -38,7 +40,7 @@ export default function MediaCardHist() {
     <>
       <Fade timeout={700} in={true}>
         <Card sx={{ maxWidth: 550 }}>
-          <CardMedia id='gimg' component='img' height='140' image={url} alt='rowing' />
+          <CardMedia id='gimg' component='img' height='140' image={scc1} alt='rowing' />
           <CardContent>
             <Typography gutterBottom variant='h5' component='div'>
               South Curl Curl ~ 100 years!!

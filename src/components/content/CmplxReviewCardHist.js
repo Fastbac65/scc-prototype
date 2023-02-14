@@ -17,6 +17,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import Fade from '@mui/material/Fade';
+import scc1 from '../../static/imgs/header4.jpeg';
 
 import { useValue } from '../context/ContextProvider';
 
@@ -33,16 +34,9 @@ const ExpandMore = styled((props) => {
 
 const CmplxReviewCardHist = () => {
   const [expanded, setExpanded] = useState(false);
-  const { imglib, currentUser } = useValue();
+  const { currentUser } = useValue();
 
   const [like, setLike] = useState();
-
-  const [url, setUrl] = useState('');
-
-  useMemo(() => {
-    const indx = Math.floor(Math.random() * 8);
-    setUrl(imglib[indx]);
-  }, []);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -83,7 +77,7 @@ const CmplxReviewCardHist = () => {
               title='Some SCC History Content'
               subheader='Nov 24th, 2022'
             />
-            <CardMedia component='img' height='150' src={url} alt='scc-ocean' />
+            <CardMedia component='img' height='150' src={scc1} alt='scc-ocean' />
             <CardContent>
               <Typography variant='body2' color='text.secondary'>
                 South Curl Curl has a long and proud history. Our club is 100 years young, with over 1000 members. This

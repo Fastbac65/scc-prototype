@@ -17,6 +17,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 import Fade from '@mui/material/Fade';
+import scc1 from '../../static/imgs/header7.jpeg';
 
 import { useValue } from '../context/ContextProvider';
 
@@ -33,21 +34,9 @@ const ExpandMore = styled((props) => {
 
 export default function CmplxReviewCard() {
   const [expanded, setExpanded] = useState(false);
-  const { imglib, currentUser } = useValue();
+  const { currentUser } = useValue();
 
   const [like, setLike] = useState();
-
-  const [url, setUrl] = useState(
-    'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader7.jpeg?alt=media&token=9ff47599-4360-4649-bf48-a60730cea6c5'
-    // 'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader5.jpeg?alt=media&token=8acd48ec-9c4c-404b-b242-9031eb2c7a0a'
-    // 'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader4.jpeg?alt=media&token=f2ede123-a80e-468a-bff7-ce5c26d094c9'
-    // 'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader3.jpeg?alt=media&token=fac14bdd-3a36-49f7-ad50-07f414230716'
-  );
-
-  // useEffect(() => {
-  //   const indx = Math.floor(Math.random() * 8);
-  //   setUrl(imglib[indx]);
-  // }, [imglib]);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -88,7 +77,7 @@ export default function CmplxReviewCard() {
               title='Profiencies and 2022 Update'
               subheader='September 18, 2022'
             />
-            <CardMedia component='img' height='150' src={url} alt='scc-ocean' />
+            <CardMedia component='img' height='150' src={scc1} alt='scc-ocean' />
             <CardContent>
               <Typography variant='body2' color='text.secondary'>
                 None of that prepared him for the arena, the crowd, the tense hush, the towering puppets of light from a

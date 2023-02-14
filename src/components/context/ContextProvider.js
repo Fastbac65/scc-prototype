@@ -107,16 +107,17 @@ export const ContextProvider = ({ children }) => {
       fontWeightBold: 700,
     },
   });
-
   const imglib = [
-    'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader8.jpeg?alt=media&token=a1f8999d-3a8e-4e92-ac46-40c7298fe80a',
-    'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2FBattleOfTheDitch-1-1-1024x598.jpeg?alt=media&token=e351ddbc-1738-4d2b-a0a7-b16f18f455c0',
-    'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader7.jpeg?alt=media&token=9ff47599-4360-4649-bf48-a60730cea6c5',
-    'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader5.jpeg?alt=media&token=8acd48ec-9c4c-404b-b242-9031eb2c7a0a',
-    'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader4.jpeg?alt=media&token=f2ede123-a80e-468a-bff7-ce5c26d094c9',
-    'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader3.jpeg?alt=media&token=fac14bdd-3a36-49f7-ad50-07f414230716',
-    'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader2.jpeg?alt=media&token=5994312f-ace7-45a9-af74-da5264a184d5',
-    'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fscc-beach-sunrise.jpeg?alt=media&token=9bc45d92-b866-4905-b199-7f751f8b5175',
+    'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader8.jpeg?alt=media&token=77427584-3a3c-4d53-9b20-a40235cf7996',
+    'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2FBattleOfTheDitch-1-1-1024x598.jpeg?alt=media&token=4b70337f-70b1-4ec7-bdc5-b61f3b4b0801',
+    'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader7.jpeg?alt=media&token=a0efaf8b-6c32-45a5-b652-b35234b3e14e',
+    'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader5.jpeg?alt=media&token=a24ea980-dc44-4618-ab89-04b61b827c2b',
+    'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader4.jpeg?alt=media&token=e86582d8-a725-4e8b-80b3-c01920f9c698',
+    'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader3.jpeg?alt=media&token=163ff5b1-e261-438d-ade3-fbb3b144f965',
+    'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fheader2.jpeg?alt=media&token=7d4c1d81-0de5-4e3d-b82b-37e1040aee00',
+    'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2Fscc-beach-sunrise.jpeg?alt=media&token=2ceeadd7-4665-4499-9146-26cca26e0288',
+    'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2FAussies-317-1024x602.jpeg?alt=media&token=f4a74c4e-18df-4f87-8ea9-4973ccf1ba35',
+    'https://firebasestorage.googleapis.com/v0/b/scc-proto.appspot.com/o/images%2FAustralia-Day-7-1024x683.jpeg?alt=media&token=231211b8-93a1-41d1-a533-d395ee0926b4',
   ];
 
   // The user original account creation info and roles are in the User doc
@@ -423,10 +424,10 @@ export const ContextProvider = ({ children }) => {
         reauthenticateInstagram,
         signInInstagram,
         signOutUser,
-        imglib,
         resetPassword,
         instagramLoginServer,
         imageProxyServer,
+        imglib,
         allCalEvents,
         calEvents,
         setCalEvents,

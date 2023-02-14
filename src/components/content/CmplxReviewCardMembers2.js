@@ -34,16 +34,9 @@ const ExpandMore = styled((props) => {
 
 const CmplxReviewCardMembers2 = () => {
   const [expanded, setExpanded] = useState(false);
-  const { imglib, currentUser, theme } = useValue();
+  const { currentUser, theme } = useValue();
 
   const [like, setLike] = useState();
-
-  const [url, setUrl] = useState('');
-
-  useMemo(() => {
-    const indx = Math.floor(Math.random() * 8);
-    setUrl(imglib[indx]);
-  }, []);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);

@@ -3,7 +3,6 @@ import { CalendarMonth, Circle, Description, Place } from '@mui/icons-material';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import { useValue } from '../context/ContextProvider';
-import useFirestore from '../context/useFirestore';
 
 const CalEvent = ({ eventInfo }) => {
   const navigate = useNavigate();
@@ -37,7 +36,7 @@ const CalEvent = ({ eventInfo }) => {
 
     description = newstring.split('<br>');
     console.log(description);
-  } else description = ['..no description provided'];
+  }
   var startEnd;
   if (!eventInfo.allDay) {
     if (eventInfo.end) {
