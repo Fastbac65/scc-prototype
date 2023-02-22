@@ -63,7 +63,7 @@ const HireForm = () => {
             ...alert,
             open: true,
             severity: 'success',
-            message: "Thank you. We'll be back to you in in a tick",
+            message: "Thank you. We'll be back to you in a tick",
             duration: 6000,
           },
         });

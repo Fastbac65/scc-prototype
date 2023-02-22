@@ -9,7 +9,7 @@ import { useState } from 'react';
 import PostsLightBox from '../imagesList/PostsLightBox';
 
 import RecentSocialPosts from './RecentSocialPosts';
-import { Collections, Navigation } from '@mui/icons-material';
+import { Collections } from '@mui/icons-material';
 import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
 
 const RecentPostsList = ({ documents }) => {
@@ -27,7 +27,7 @@ const RecentPostsList = ({ documents }) => {
       script: true,
     },
     { postUrl: 'https://www.instagram.com/p/CoSrZ6pBx-P/', postType: 'instagram', script: true },
-    { postUrl: 'https://www.instagram.com/p/CoQg4OdSzNs/', postType: 'instagram', script: true },
+    { postUrl: 'https://www.instagram.com/p/Col_Bx8veSz/', postType: 'instagram', script: true },
   ];
 
   const recentPosts = documents.slice(0, 6);

@@ -17,7 +17,6 @@ import scc1 from '../static/imgs/scc-fb-grp.jpeg';
 export default function Posts() {
   const {
     currentUser,
-    globalDocs,
     theme,
     login,
     dispatch,
@@ -67,13 +66,18 @@ export default function Posts() {
     <div>
       <Box sx={{ backgroundImage: `url(${scc1}) `, backgroundSize: 'cover' }}>
         <Box sx={{ background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)' }}>
-          <Box sx={{ pb: 3 }}>
+          <Box>
             <Outlet context={[documents]} />
           </Box>
         </Box>
       </Box>
-      <Box sx={{ backgroundImage: `url(${scc1}) `, backgroundSize: 'cover' }}>
-        <Box sx={{ background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.5)' }}>
+      <Box sx={{ backgroundImage: `url(${scc1}) `, backgroundSize: 'cover', minHeight: 800 }}>
+        <Box
+          sx={{
+            background: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.5)',
+            minHeight: 800,
+          }}
+        >
           <Box sx={{ pt: 1 }}>
             {login && (
               <Stack spacing={1} direction='row' sx={{ display: 'flex', justifyContent: 'center' }}>

@@ -7,6 +7,14 @@
     <meta name="theme-color" content="#000000" />
     <meta name="SCC proto" content="SCC Prototype" />
 
+    <script type="text/javascript">
+      var elm = document.getElementsByTagName('html')[0];
+      elm.style.display = 'none';
+      document.addEventListener('DOMContentLoaded', function (event) {
+        elm.style.display = 'block';
+      });
+    </script>
+
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.ico" />
     <!--
       manifest.json provides metadata used when your web app is installed on a

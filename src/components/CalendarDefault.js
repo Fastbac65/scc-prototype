@@ -1,7 +1,5 @@
 import { Box, Checkbox, FormControlLabel, FormGroup, Typography } from '@mui/material';
 import { Container } from '@mui/system';
-import CalendarList from './content/CalendarList';
-
 import { useState } from 'react';
 import CalendarVenueHire from './content/CalendarVenueHire';
 

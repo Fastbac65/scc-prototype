@@ -1,28 +1,27 @@
-import { createContext, useContext, useEffect, useState, useReducer, useMemo, useRef } from 'react';
-import PropTypes from 'prop-types';
+import { createContext, useContext, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 
+import { createTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Fade from '@mui/material/Fade';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
-import { createTheme } from '@mui/material';
 
-import { db, auth, providerGoogle, providerFacebook } from './FireBase';
 import {
-  signInWithPopup,
-  onAuthStateChanged,
-  signOut,
-  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  sendPasswordResetEmail,
   getAdditionalUserInfo,
+  onAuthStateChanged,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
   updateProfile,
 } from 'firebase/auth';
+import { auth, db, providerFacebook, providerGoogle } from './FireBase';
 
-import reducer from './reducer';
-import { addDocument } from './addDocument';
 import { doc, getDoc } from 'firebase/firestore';
-import updateUserRecords from './updateUserRecords';
+import { addDocument } from './addDocument';
 import getGoogleCals from './getGoogleCals';
+import reducer from './reducer';
+import updateUserRecords from './updateUserRecords';
 
 export const GlobalContext = createContext();
 
@@ -31,34 +30,25 @@ export const useValue = () => {
 };
 
 export function ScrollTop(props) {
-  const { children, window, id } = props;
-  // Note that you normally won't need to set the window ref as useScrollTrigger
-  // will default to window.
-  // This is only being set here because the demo is in an iframe.
+  const { children } = props;
   const trigger = useScrollTrigger({
-    target: window ? window() : undefined,
     disableHysteresis: true,
-    threshold: 2200,
+    threshold: 200,
   });
   const handleClick = (event) => {
-    const anchor = (event.target.ownerDocument || document).querySelector(id);
+    const anchor = (event.target.ownerDocument || document).querySelector('body');
 
     if (anchor) {
       anchor.scrollIntoView({
-        block: 'start',
+        // block: 'start',
         behaviour: 'smooth',
       });
     }
   };
-  ScrollTop.propTypes = {
-    children: PropTypes.element.isRequired,
-
-    window: PropTypes.func,
-  };
-
+  // zindex is needed to lift the FAB above images in posts for some reason
   return (
     <Fade in={trigger}>
-      <Box onClick={handleClick} role='presentation' sx={{ position: 'fixed', bottom: 16, right: 16 }}>
+      <Box onClick={handleClick} role='presentation' sx={{ position: 'fixed', bottom: 16, right: 16, zIndex: 11 }}>
         {children}
       </Box>
     </Fade>
@@ -74,7 +64,7 @@ export const ContextProvider = ({ children }) => {
   };
   const [state, dispatch] = useReducer(reducer, initialstate);
 
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState(false);
   const [mode, setMode] = useState('light');
   const [login, setLogin] = useState(false);
   var globalDocs = useRef([]);
@@ -95,6 +85,7 @@ export const ContextProvider = ({ children }) => {
       },
       secondary: {
         // main: '#f44336',
+
         main: '#336fac',
       },
       mode: mode,

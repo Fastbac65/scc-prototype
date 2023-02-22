@@ -2,10 +2,13 @@ import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from './FireBase';
 
 const uploadFileProgress = (file, storageFilePath, setProgress) => {
+  const newMetadata = {
+    cacheControl: 'public,max-age=31536000',
+  };
   return new Promise((resolve, reject) => {
     const storageRef = ref(storage, storageFilePath);
-    // TODO: resize file if needed and compress then upload the new resized Blob.
-    const upload = uploadBytesResumable(storageRef, file);
+    // resized file passed in
+    const upload = uploadBytesResumable(storageRef, file, newMetadata);
     upload.on(
       'state_changed',
       (snapshot) => {
@@ -18,7 +21,6 @@ const uploadFileProgress = (file, storageFilePath, setProgress) => {
       async () => {
         try {
           const url = await getDownloadURL(storageRef);
-
           resolve(url);
         } catch (error) {
           reject(error);

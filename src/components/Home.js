@@ -1,10 +1,7 @@
-import Content2CardsHist from './content/Content2CardsHist';
 import { Box } from '@mui/material';
 import scc1 from '../static/imgs/scc-fb-grp.jpeg';
 import { useValue } from './context/ContextProvider';
 import { ImageCarousel } from './content/ImageCarousel';
-
-import RecentPosts from './RecentPosts';
 
 // const Item = styled(Paper)(({ theme }) => ({
 //   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#f0f0f0',

@@ -6,7 +6,6 @@ import ThreeDRotation from '@mui/icons-material/ThreeDRotation';
 import Api from '@mui/icons-material/Api';
 import IconBloc from '../utils/IconBloc';
 import { Button } from '@mui/material';
-import MediaCardHist from './MediaCardHist';
 import { useValue } from '../context/ContextProvider';
 import CmplxReviewCardNippers from './CmplxReviewCardNippers';
 import MediaCardNippers from './MediaCardNippers';

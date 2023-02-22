@@ -1,4 +1,4 @@
-import { Link as RouterLink, Outlet, Route, Routes } from 'react-router-dom';
+import { Link as RouterLink, Outlet, useLocation } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
@@ -9,16 +9,11 @@ import RowingIcon from '@mui/icons-material/Rowing';
 import PoolIcon from '@mui/icons-material/Pool';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import { FitnessCenter } from '@mui/icons-material';
-import scc1 from '../static/imgs/scc-pool-waves.jpeg';
+// import scc1 from '../static/imgs/scc-pool-waves.jpeg';
 
 export default function Competitors() {
-  const {
-    currentUser,
-    theme,
-    login,
-    dispatch,
-    state: { modal },
-  } = useValue();
+  const { theme } = useValue();
+  const location = useLocation();
 
   return (
     <div>
@@ -31,24 +26,20 @@ export default function Competitors() {
                 <HomeIcon />
               </Fab>
             </Tooltip>
-            <Tooltip arrow placement='top-start' title='boaties' enterDelay={100}>
-              <Fab
-                component={RouterLink}
-                to='/competitors/boaties'
-                size='small'
-                color='secondary'
-                aria-label='rowing team'
-              >
-                <RowingIcon />
-              </Fab>
-            </Tooltip>
+
             <Tooltip arrow placement='top-start' title='swimming club' enterDelay={100}>
               <Fab
                 component={RouterLink}
                 to='/competitors/swimmers'
                 size='small'
-                color='secondary'
                 aria-label='swimming club'
+                color='secondary'
+                sx={{
+                  color: location.pathname.includes('swimmers') ? '#f9de00' : 'secondary',
+                  '&:hover': {
+                    color: '#f9de00',
+                  },
+                }}
               >
                 <PoolIcon />
               </Fab>
@@ -60,12 +51,45 @@ export default function Competitors() {
                 size='small'
                 color='secondary'
                 aria-label='championship life savers'
+                sx={{
+                  color: location.pathname.includes('champs') ? '#f9de00' : 'secondary',
+                  '&:hover': {
+                    color: '#f9de00',
+                  },
+                }}
               >
                 <DirectionsRunIcon />
               </Fab>
             </Tooltip>
+            <Tooltip arrow placement='top-start' title='boaties' enterDelay={100}>
+              <Fab
+                component={RouterLink}
+                to='/competitors/boaties'
+                size='small'
+                color='secondary'
+                aria-label='rowing team'
+                sx={{
+                  color: location.pathname.includes('boaties') ? '#f9de00' : 'secondary',
+                  '&:hover': {
+                    color: '#f9de00',
+                  },
+                }}
+              >
+                <RowingIcon />
+              </Fab>
+            </Tooltip>
             <Tooltip arrow placement='top-start' title='gym' enterDelay={100}>
-              <Fab size='small' color='secondary' aria-label='gym'>
+              <Fab
+                size='small'
+                color='secondary'
+                aria-label='gym'
+                sx={{
+                  color: location.pathname.includes('gym') ? '#f9de00' : 'secondary',
+                  '&:hover': {
+                    color: '#f9de00',
+                  },
+                }}
+              >
                 <FitnessCenter />
               </Fab>
             </Tooltip>
